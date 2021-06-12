@@ -1,18 +1,19 @@
 package Model;
 
 import Interface.CrudInterface;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Paciente extends Pessoa implements CrudInterface<Paciente>{
 
     private Long idPaciente;
     private Endereco endereco;
-    private String dataDeNascimento;
+    private LocalDate dataDeNascimento;
 
     public Paciente() {
     }
 
-    public Paciente(Long idPaciente, Endereco endereco, String dataDeNascimento, String nome, String telefone) {
+    public Paciente(Long idPaciente, Endereco endereco, LocalDate dataDeNascimento, String nome, String telefone) {
         super(nome, telefone);
         this.idPaciente = idPaciente;
         this.endereco = endereco;
@@ -27,11 +28,11 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente>{
         this.endereco = endereco;
     }
 
-    public String getDataDeNascimento() {
+    public LocalDate getDataDeNascimento() {
         return dataDeNascimento;
     }
 
-    public void setDataDeNascimento(String dataDeNascimento) {
+    public void setDataDeNascimento(LocalDate dataDeNascimento) {
         this.dataDeNascimento = dataDeNascimento;
     }
 
@@ -63,4 +64,10 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public String toString() {
+        return "Paciente{" + "idPaciente=" + idPaciente + ", endereco=" + endereco + ", dataDeNascimento=" + dataDeNascimento + '}';
+    }
+
+    
 }
