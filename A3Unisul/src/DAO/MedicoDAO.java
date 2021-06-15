@@ -19,8 +19,8 @@ public class MedicoDAO implements CrudInterface<Medico> {
 
     @Override
     public boolean cadastrar(Medico object) {
-       
-String sql = "INSERT INTO medico(idMedico, crm, especialidade, periodoDeAtendimento, nome, telefone) VALUES(?,?,?,?,?,?)";
+
+        String sql = "INSERT INTO medico(idMedico, crm, especialidade, periodoDeAtendimento, nome, telefone) VALUES(?,?,?,?,?,?)";
 
         try {
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
@@ -40,7 +40,7 @@ String sql = "INSERT INTO medico(idMedico, crm, especialidade, periodoDeAtendime
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
         }
-        
+
     }
 
     @Override
@@ -80,14 +80,13 @@ String sql = "INSERT INTO medico(idMedico, crm, especialidade, periodoDeAtendime
         try {
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
 
-            
             stmt.setString(1, object.getCrm());
             stmt.setString(2, object.getEspecialidade());
             stmt.setString(3, object.getPeriodoDeAtendimento());
             stmt.setString(4, object.getNome());
             stmt.setString(5, object.getTelefone());
             stmt.setLong(6, id);
-            
+
             stmt.execute();
             stmt.close();
 
@@ -97,26 +96,24 @@ String sql = "INSERT INTO medico(idMedico, crm, especialidade, periodoDeAtendime
             throw new RuntimeException(erro);
         }
 
-    
     }
 
     @Override
     public boolean excluir(Long id) {
-        
-         try {
-             String sql = ("DELETE FROM medico WHERE idMedico = ?");
+
+        try {
+            String sql = ("DELETE FROM medico WHERE idMedico = ?");
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
-            stmt.setLong(1,id);
+            stmt.setLong(1, id);
             stmt.execute();
-            stmt.close();            
-            
+            stmt.close();
+
         } catch (SQLException erro) {
         }
-         return true;
+        return true;
     }
-    
-    public Long buscarMaiorId(){
 
+    public Long buscarMaiorId() {
 
         Long idMedico = 0L;
         try {
@@ -132,6 +129,54 @@ String sql = "INSERT INTO medico(idMedico, crm, especialidade, periodoDeAtendime
 
         return idMedico;
     }
-    
+
+    public Medico carregarMedico(Long id) throws SQLException {
+
+        try {
+            String sql = "SELECT * FROM medico WHERE IdMedico = ?";
+            PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
+            stmt.setLong(1, id);
+            ResultSet res = stmt.executeQuery();
+            res.next();
+
+            String nome = res.getString("nome");
+            String telefone = res.getString("telefone");
+            Long idMedico = res.getLong("idMedico");
+            String crm = res.getString("crm");
+            String especialidade = res.getString("especialidade");
+            String periodoDeAtendimento = res.getString("periodoDeAtendimento");
+
+            Medico objeto = new Medico(idMedico, crm, especialidade, periodoDeAtendimento, nome, telefone);
+            stmt.close();
+            return objeto;
+        } catch (SQLException erro) {
+            throw new SQLException(erro.getMessage());
+        }
+    }
+
+    public static Medico buscarMedicoPorCRM(String crm) throws SQLException {
+         Conexao conexao = new Conexao();
+        try {
+            String sql = "SELECT * FROM medico WHERE crm = ?";
+            PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
+            stmt.setString(1, crm);
+            ResultSet res = stmt.executeQuery();
+            res.next();
+
+            String nome = res.getString("nome");
+            String telefone = res.getString("telefone");
+            Long idMedico = res.getLong("idMedico");
+            String especialidade = res.getString("especialidade");
+            String periodoDeAtendimento = res.getString("periodoDeAtendimento");
+
+            Medico objeto = new Medico(idMedico, crm, especialidade, periodoDeAtendimento, nome, telefone);
+            stmt.close();
+            return objeto;
+
+        } catch (SQLException erro) {
+            throw new SQLException(erro.getMessage());
+        }
+
+    }
 
 }

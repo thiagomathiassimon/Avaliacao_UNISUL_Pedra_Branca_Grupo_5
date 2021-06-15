@@ -4,20 +4,30 @@ import Interface.CrudInterface;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Paciente extends Pessoa implements CrudInterface<Paciente>{
+public class Paciente extends Pessoa implements CrudInterface<Paciente> {
 
     private Long idPaciente;
     private Endereco endereco;
     private LocalDate dataDeNascimento;
+    private String cpf;
 
     public Paciente() {
     }
 
-    public Paciente(Long idPaciente, Endereco endereco, LocalDate dataDeNascimento, String nome, String telefone) {
+    public Paciente(Long idPaciente, Endereco endereco, LocalDate dataDeNascimento, String nome, String telefone, String cpf) {
         super(nome, telefone);
         this.idPaciente = idPaciente;
         this.endereco = endereco;
         this.dataDeNascimento = dataDeNascimento;
+        this.cpf = cpf;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public Endereco getEndereco() {
@@ -66,8 +76,9 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente>{
 
     @Override
     public String toString() {
-        return "Paciente{" + "idPaciente=" + idPaciente + ", endereco=" + endereco + ", dataDeNascimento=" + dataDeNascimento + '}';
+        return "Paciente{" + "idPaciente=" + idPaciente + ", endereco=" + endereco + ", dataDeNascimento=" + dataDeNascimento + ", cpf=" + cpf + '}';
     }
 
-    
+
+
 }

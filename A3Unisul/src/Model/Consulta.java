@@ -93,6 +93,11 @@ public class Consulta implements CrudInterface<Consulta>{
     public boolean excluir(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String toString() {
+        return "Consulta{" + "idConsulta=" + idConsulta + ", paciente=" + paciente + ", medico=" + medico + ", dataDoExame=" + dataDoExame + ", horarioDeExame=" + horarioDeExame + ", descricao=" + descricao + '}';
+    }
     
 
 
