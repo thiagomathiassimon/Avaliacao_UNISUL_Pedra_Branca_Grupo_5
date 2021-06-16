@@ -81,7 +81,7 @@ public class Endereco {
 
     @Override
     public String toString() {
-        return "Endereco{" + "estado=" + estado + ", municipio=" + municipio + ", bairro=" + bairro + ", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento + '}';
+        return "Endereco{" + "\nestado=" + estado + ", \nmunicipio=" + municipio + ", \nbairro=" + bairro + ", \nlogradouro=" + logradouro + ", \nnumero=" + numero + ", \ncomplemento=" + complemento + '}';
     }
 
 }

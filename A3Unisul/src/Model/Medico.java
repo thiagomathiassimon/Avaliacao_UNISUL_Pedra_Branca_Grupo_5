@@ -1,5 +1,6 @@
 package Model;
 
+import DAO.MedicoDAO;
 import Interface.CrudInterface;
 import java.util.ArrayList;
 
@@ -9,7 +10,8 @@ public class Medico extends Pessoa implements CrudInterface<Medico>{
     private String crm;
     private String especialidade;
     private String periodoDeAtendimento;
-
+    private static MedicoDAO medicoDAO = new MedicoDAO();
+    
     public Medico() {
     }
 
@@ -63,22 +65,22 @@ public class Medico extends Pessoa implements CrudInterface<Medico>{
     
     @Override
     public boolean cadastrar(Medico object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return medicoDAO.cadastrar(object);
     }
 
     @Override
     public ArrayList<Medico> buscar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return medicoDAO.buscar();
     }
 
     @Override
     public boolean editar(Long id, Medico object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return medicoDAO.editar(id, object);
     }
 
     @Override
     public boolean excluir(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return medicoDAO.excluir(id);
     }
 
 }

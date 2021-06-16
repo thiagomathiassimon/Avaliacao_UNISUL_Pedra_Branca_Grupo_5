@@ -151,4 +151,21 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
     }
 
+    public Long buscarMaiorId() {
+
+        Long idMedico = 0L;
+        try {
+            Statement stmt = this.conexao.getConexao().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT MAX(idConsulta) id FROM consulta");
+            res.next();
+            idMedico = res.getLong("id");
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+        }
+
+        return idMedico;
+    }
+
 }

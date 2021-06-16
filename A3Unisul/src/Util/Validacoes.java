@@ -4,6 +4,11 @@ import java.time.LocalDate;
 
 public class Validacoes {
 
+    private static final int NUMERO_MAXIMO_DE_HORAS_NO_DIA = 24;
+    private static final int NUMERO_MINIMO_DE_HORAS_NO_DIA = 0;
+    private static final int NUMERO_MAXIMO_DE_MINUTOS_NO_DIA = 60;
+    private static final int NUMERO_MINIMO_DE_MINUTOS_NO_DIA = 0;
+
     private Validacoes() {
     }
 
@@ -60,35 +65,75 @@ public class Validacoes {
 
     public static boolean validarDtNascimento(LocalDate dtNascimento) {
 
-        var dataDeNascimento = dtNascimento.toString();
+        if (validarData(dtNascimento)) {
 
-        var hoje = LocalDate.now();
-        var dataAtual = hoje.toString().split("-");
-        var diaAtual = Integer.parseInt(dataAtual[2]);
-        var mesAtual = Integer.parseInt(dataAtual[1]);
-        var anoAtual = Integer.parseInt(dataAtual[0]);
+            int[] dataFormatada = reformatarData(dtNascimento);
 
-        var dataInformada = dataDeNascimento.split("-");
-        var diaInformado = Integer.parseInt(dataInformada[2]);
-        var mesInformado = Integer.parseInt(dataInformada[1]);
-        var anoInformado = Integer.parseInt(dataInformada[0]);
+            var hoje = LocalDate.now();
+            int[] dataAtualFormatada = reformatarData(hoje);
 
-        var localDate = LocalDate.of(anoInformado, 1, 1);
+            return (dataFormatada[0] <= dataAtualFormatada[0]) && (dataFormatada[0] != dataAtualFormatada[0] || dataFormatada[1] <= dataAtualFormatada[1])
+                    && (dataFormatada[0] != dataAtualFormatada[0] || dataFormatada[1] != dataAtualFormatada[1] || dataFormatada[2] <= dataAtualFormatada[2]);
+        }
+
+        return false;
+
+    }
+
+    public static boolean validarAgendamento(LocalDate data, String horario) {
+
+        if(!validarHorario(horario) || !validarData(data)){
+        return false;
+        }
+        
+        
+        
+        return false;
+    }
+
+    private static boolean validarHorario(String horario) {
+
+        if (horario.length() != 5) {
+            return false;
+        }
+
+        var horarioInformado = horario.split(":");
+        var horasInformadas = Integer.parseInt(horarioInformado[0]);
+        var minutosInformados = Integer.parseInt(horarioInformado[1]);
+
+        return ((horasInformadas <= NUMERO_MAXIMO_DE_HORAS_NO_DIA && horasInformadas >= NUMERO_MINIMO_DE_HORAS_NO_DIA)
+                && (minutosInformados <= NUMERO_MAXIMO_DE_MINUTOS_NO_DIA && minutosInformados >= NUMERO_MINIMO_DE_MINUTOS_NO_DIA));
+
+    }
+
+    private static boolean validarData(LocalDate data) {
+
+        int[] dataFormatada = reformatarData(data);
+        var localDate = LocalDate.of(dataFormatada[2], 1, 1);
 
         var diasDeFevereiro = 28;
         if (localDate.isLeapYear()) {
             diasDeFevereiro = 29;
         }
 
-        if (((mesInformado == 1 || mesInformado == 3 || mesInformado == 5 || mesInformado == 7
-                || mesInformado == 8 || mesInformado == 10 || mesInformado == 12) && (diaInformado <= 31))
-                || ((mesInformado == 4 || mesInformado == 6 || mesInformado == 9 || mesInformado == 11) && (diaInformado <= 30))
-                || ((mesInformado == 2) && (diaInformado <= diasDeFevereiro))) {
-            return (anoInformado <= anoAtual) && (anoInformado != anoAtual || mesInformado <= mesAtual)
-                    && (anoInformado != anoAtual || mesInformado != mesAtual || diaInformado <= diaAtual);
-        }
-        return false;
+        return (((dataFormatada[1] == 1 || dataFormatada[1] == 3 || dataFormatada[1] == 5 || dataFormatada[1] == 7
+                || dataFormatada[1] == 8 || dataFormatada[1] == 10 || dataFormatada[1] == 12) && (dataFormatada[2] <= 31))
+                || ((dataFormatada[1] == 4 || dataFormatada[1] == 6 || dataFormatada[1] == 9 || dataFormatada[1] == 11) && (dataFormatada[2] <= 30))
+                || ((dataFormatada[1] == 2) && (dataFormatada[2] <= diasDeFevereiro)));
 
+    }
+
+    private static int[] reformatarData(LocalDate data) {
+
+        var dataASerValidada = data.toString();
+
+        var dataInformada = dataASerValidada.split("-");
+        var diaInformado = Integer.parseInt(dataInformada[2]);
+        var mesInformado = Integer.parseInt(dataInformada[1]);
+        var anoInformado = Integer.parseInt(dataInformada[0]);
+
+        int[] dataFormatada = {anoInformado, mesInformado, diaInformado};
+        return dataFormatada;
     }
 
 }
