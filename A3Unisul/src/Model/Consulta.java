@@ -1,20 +1,23 @@
 package Model;
 
+import DAO.ConsultaDAO;
 import Interface.CrudInterface;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Consulta implements CrudInterface<Consulta>{
-    
-    private Long idConsulta; 
+public class Consulta implements CrudInterface<Consulta> {
+
+    private Long idConsulta;
     private Paciente paciente;
     private Medico medico;
     private LocalDate dataDoExame;
     private String horarioDeExame;
     private String descricao;
 
+    private static final ConsultaDAO CONSULTA_DAO = new ConsultaDAO();
+
     public Consulta() {
-    }    
+    }
 
     public Consulta(Long idConsulta, Paciente paciente, Medico medico, LocalDate dataDoExame, String horarioDeExame, String descricao) {
         this.idConsulta = idConsulta;
@@ -25,7 +28,6 @@ public class Consulta implements CrudInterface<Consulta>{
         this.descricao = descricao;
     }
 
-    
     public Long getIdConsulta() {
         return idConsulta;
     }
@@ -76,31 +78,27 @@ public class Consulta implements CrudInterface<Consulta>{
 
     @Override
     public boolean cadastrar(Consulta object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.CONSULTA_DAO.cadastrar(object);
     }
 
     @Override
     public ArrayList<Consulta> buscar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return this.CONSULTA_DAO.buscar();
     }
 
     @Override
     public boolean editar(Long id, Consulta object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.CONSULTA_DAO.editar(id, object);
     }
 
     @Override
     public boolean excluir(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.CONSULTA_DAO.excluir(id);
     }
 
     @Override
     public String toString() {
         return "Consulta{" + "idConsulta=" + idConsulta + ", paciente=" + paciente + ", medico=" + medico + ", dataDoExame=" + dataDoExame + ", horarioDeExame=" + horarioDeExame + ", descricao=" + descricao + '}';
     }
-    
 
-
-    
-    
 }

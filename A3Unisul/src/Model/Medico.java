@@ -10,7 +10,8 @@ public class Medico extends Pessoa implements CrudInterface<Medico>{
     private String crm;
     private String especialidade;
     private String periodoDeAtendimento;
-    private static MedicoDAO medicoDAO = new MedicoDAO();
+    
+    private static final MedicoDAO MEDICO_DAO = new MedicoDAO();
     
     public Medico() {
     }
@@ -65,22 +66,22 @@ public class Medico extends Pessoa implements CrudInterface<Medico>{
     
     @Override
     public boolean cadastrar(Medico object) {
-        return medicoDAO.cadastrar(object);
+        return MEDICO_DAO.cadastrar(object);
     }
 
     @Override
     public ArrayList<Medico> buscar() {
-       return medicoDAO.buscar();
+       return MEDICO_DAO.buscar();
     }
 
     @Override
     public boolean editar(Long id, Medico object) {
-        return medicoDAO.editar(id, object);
+        return MEDICO_DAO.editar(id, object);
     }
 
     @Override
     public boolean excluir(Long id) {
-        return medicoDAO.excluir(id);
+        return MEDICO_DAO.excluir(id);
     }
 
 }

@@ -2,6 +2,7 @@ package Util;
 
 import java.time.LocalDate;
 
+
 public class Validacoes {
 
     private static final int NUMERO_MAXIMO_DE_HORAS_NO_DIA = 24;
@@ -80,18 +81,9 @@ public class Validacoes {
 
     }
 
-    public static boolean validarAgendamento(LocalDate data, String horario) {
+    
 
-        if(!validarHorario(horario) || !validarData(data)){
-        return false;
-        }
-        
-        
-        
-        return false;
-    }
-
-    private static boolean validarHorario(String horario) {
+    public static boolean validarHorario(String horario) {
 
         if (horario.length() != 5) {
             return false;
@@ -106,7 +98,7 @@ public class Validacoes {
 
     }
 
-    private static boolean validarData(LocalDate data) {
+    public static boolean validarData(LocalDate data) {
 
         int[] dataFormatada = reformatarData(data);
         var localDate = LocalDate.of(dataFormatada[2], 1, 1);
@@ -123,7 +115,7 @@ public class Validacoes {
 
     }
 
-    private static int[] reformatarData(LocalDate data) {
+    public static int[] reformatarData(LocalDate data) {
 
         var dataASerValidada = data.toString();
 

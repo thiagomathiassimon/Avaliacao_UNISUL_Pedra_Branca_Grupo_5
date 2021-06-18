@@ -1,8 +1,12 @@
 package DAO;
 
+import Exception.InvalidBornDateException;
+import Exception.InvalidCPFException;
 import Interface.CrudInterface;
 import Model.Endereco;
 import Model.Paciente;
+import static Util.Validacoes.validarCpf;
+import static Util.Validacoes.validarDtNascimento;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +24,12 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
     @Override
     public boolean cadastrar(Paciente object) {
+
+        if (!validarCpf(object.getCpf())) {
+            throw new InvalidCPFException("CPF informado não é válido.");
+        } else if (!validarDtNascimento(object.getDataDeNascimento())) {
+            throw new InvalidBornDateException("A data de nascimento informada é inválida.");
+        }
 
         String sql = "INSERT INTO endereco (idEndereco, estado, municipio, bairro, logradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -80,7 +90,6 @@ public class PacienteDAO implements CrudInterface<Paciente> {
                 String complemento = res.getString("complemento");
                 Long idEndereco = res.getLong("idEndereco");
                 String cpf = res.getString("cpf");
-                
 
                 Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
 
@@ -99,6 +108,13 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
     @Override
     public boolean editar(Long id, Paciente object) {
+       
+         if (validarCpf(object.getCpf())) {
+            throw new InvalidCPFException("CPF informado não é válido.");
+        } else if (validarDtNascimento(object.getDataDeNascimento())) {
+            throw new InvalidBornDateException("A data de nascimento informada é inválida.");
+        }
+        
         String sql = "UPDATE paciente p INNER JOIN endereco e ON p.endereco=e.idEndereco "
                 + "SET p.nome = ?, p.telefone = ?, p.dataDeNascimento = ?, "
                 + "e.estado = ?, e.municipio = ?, e.bairro = ?, e.logradouro = ?, e.numero = ?, e.complemento = ?  "
@@ -186,7 +202,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
             Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
 
-            Paciente objeto = new Paciente(idPaciente, endereco, dataDeNascimento, nome, telefone,cpf);
+            Paciente objeto = new Paciente(idPaciente, endereco, dataDeNascimento, nome, telefone, cpf);
 
             stmt.close();
             return objeto;
@@ -197,7 +213,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
     }
 
-     public static Paciente buscarPacientePorCPF(String cpf) throws SQLException {
+    public static Paciente buscarPacientePorCPF(String cpf) throws SQLException {
         Conexao conexao = new Conexao();
         try {
             String sql = "SELECT * FROM paciente p INNER JOIN endereco e ON p.endereco=e.idEndereco where cpf = ?";
@@ -218,10 +234,10 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             String numero = res.getString("numero");
             String complemento = res.getString("complemento");
             Long idEndereco = res.getLong("idEndereco");
- 
+
             Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
 
-            Paciente objeto = new Paciente(idPaciente, endereco, dataDeNascimento, nome, telefone,cpf);
+            Paciente objeto = new Paciente(idPaciente, endereco, dataDeNascimento, nome, telefone, cpf);
 
             stmt.close();
             return objeto;
@@ -231,7 +247,5 @@ public class PacienteDAO implements CrudInterface<Paciente> {
         }
 
     }
-    
-    
-    
+
 }
