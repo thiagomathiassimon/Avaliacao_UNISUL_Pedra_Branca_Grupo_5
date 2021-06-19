@@ -2,38 +2,39 @@ package Util;
 
 import java.time.LocalDate;
 
-
 public class Validacoes {
 
     private static final int NUMERO_MAXIMO_DE_HORAS_NO_DIA = 24;
     private static final int NUMERO_MINIMO_DE_HORAS_NO_DIA = 0;
     private static final int NUMERO_MAXIMO_DE_MINUTOS_NO_DIA = 60;
     private static final int NUMERO_MINIMO_DE_MINUTOS_NO_DIA = 0;
+    private static final String[] LETRAS_DO_ALFABETO = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
+        "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" , " "};
 
     private Validacoes() {
     }
 
     public static boolean validarCpf(String cpf) {
-        var validadorDeCpf = new int[11];
-        var primeiroDigitoVerificador = 0;
-        var segundoDigitoVerificador = 0;
-        var variavelDeControle = 0;
+        int[] validadorDeCpf = new int[11];
+        int primeiroDigitoVerificador = 0;
+        int segundoDigitoVerificador = 0;
+        int variavelDeControle = 0;
 
         if (cpf.length() != 11) {
             return false;
         }
 
-        for (var i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             if (cpf.equals(i + "" + i + "" + i + "" + i + "" + i + "" + i + "" + i + "" + i + "" + i + "" + i + "" + i)) {
                 return false;
             }
         }
 
-        for (var i = 0; i < cpf.length(); i++) {
+        for (int i = 0; i < cpf.length(); i++) {
             validadorDeCpf[i] = (cpf.charAt(i) - '0');
         }
 
-        for (var i = 10; i >= 2; i--) {
+        for (int i = 10; i >= 2; i--) {
             primeiroDigitoVerificador += validadorDeCpf[variavelDeControle] * i;
             variavelDeControle++;
         }
@@ -49,7 +50,7 @@ public class Validacoes {
         } else {
             variavelDeControle = 0;
 
-            for (var i = 11; i >= 2; i--) {
+            for (int i = 11; i >= 2; i--) {
                 segundoDigitoVerificador += validadorDeCpf[variavelDeControle] * i;
                 variavelDeControle++;
             }
@@ -70,7 +71,7 @@ public class Validacoes {
 
             int[] dataFormatada = reformatarData(dtNascimento);
 
-            var hoje = LocalDate.now();
+            LocalDate hoje = LocalDate.now();
             int[] dataAtualFormatada = reformatarData(hoje);
 
             return (dataFormatada[0] <= dataAtualFormatada[0]) && (dataFormatada[0] != dataAtualFormatada[0] || dataFormatada[1] <= dataAtualFormatada[1])
@@ -81,17 +82,15 @@ public class Validacoes {
 
     }
 
-    
-
     public static boolean validarHorario(String horario) {
 
         if (horario.length() != 5) {
             return false;
         }
 
-        var horarioInformado = horario.split(":");
-        var horasInformadas = Integer.parseInt(horarioInformado[0]);
-        var minutosInformados = Integer.parseInt(horarioInformado[1]);
+        String[] horarioInformado = horario.split(":");
+        int horasInformadas = Integer.parseInt(horarioInformado[0]);
+        int minutosInformados = Integer.parseInt(horarioInformado[1]);
 
         return ((horasInformadas <= NUMERO_MAXIMO_DE_HORAS_NO_DIA && horasInformadas >= NUMERO_MINIMO_DE_HORAS_NO_DIA)
                 && (minutosInformados <= NUMERO_MAXIMO_DE_MINUTOS_NO_DIA && minutosInformados >= NUMERO_MINIMO_DE_MINUTOS_NO_DIA));
@@ -101,9 +100,9 @@ public class Validacoes {
     public static boolean validarData(LocalDate data) {
 
         int[] dataFormatada = reformatarData(data);
-        var localDate = LocalDate.of(dataFormatada[2], 1, 1);
+        LocalDate localDate = LocalDate.of(dataFormatada[2], 1, 1);
 
-        var diasDeFevereiro = 28;
+        int diasDeFevereiro = 28;
         if (localDate.isLeapYear()) {
             diasDeFevereiro = 29;
         }
@@ -117,15 +116,53 @@ public class Validacoes {
 
     public static int[] reformatarData(LocalDate data) {
 
-        var dataASerValidada = data.toString();
+        String dataASerValidada = data.toString();
 
-        var dataInformada = dataASerValidada.split("-");
-        var diaInformado = Integer.parseInt(dataInformada[2]);
-        var mesInformado = Integer.parseInt(dataInformada[1]);
-        var anoInformado = Integer.parseInt(dataInformada[0]);
+        String[] dataInformada = dataASerValidada.split("-");
+        int diaInformado = Integer.parseInt(dataInformada[2]);
+        int mesInformado = Integer.parseInt(dataInformada[1]);
+        int anoInformado = Integer.parseInt(dataInformada[0]);
 
         int[] dataFormatada = {anoInformado, mesInformado, diaInformado};
         return dataFormatada;
+    }
+
+    public static boolean validarNome(String nome) {
+
+        boolean encontrouLetra = false;
+        int contadorDeEspacosSeguidos = 0;
+
+        if (nome.length() < 2) {
+            return false;
+        }
+
+        for (int i = 0; i < nome.length(); i++) {
+            for (int j = 0; j < LETRAS_DO_ALFABETO.length; j++) {
+
+                if (contadorDeEspacosSeguidos > 1) {
+                    System.out.print(contadorDeEspacosSeguidos);
+                   return false;
+                }
+                if (nome.substring(i).isBlank()) {
+                    contadorDeEspacosSeguidos += 1;
+                }
+                if (nome.substring(i, i + 1).equalsIgnoreCase(LETRAS_DO_ALFABETO[j])) {
+
+                    encontrouLetra = true;
+                
+                    
+                }
+            }
+
+            if (!encontrouLetra) {
+                return false;
+            }
+            contadorDeEspacosSeguidos = 0;
+            encontrouLetra = false;
+        }
+
+        return true;
+
     }
 
 }

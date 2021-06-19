@@ -11,11 +11,21 @@ package View;
  */
 public class TelaInicial extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaInicial
-     */
+    TelaDeCadastroDePaciente telaCadastroPaciente;
+    TelaDeGerenciamentoDePacientes telaDeGerenciamentoDePacientes;
+    TelaDeCadastroDeMedico telaDeCadastroDeMedico;
+    TelaDeGerenciamentoDeMedicos telaDeGerenciamentoDeMedicos;
+    TelaDeCadastroDeConsulta telaDeCadastroDeConsulta;
+    TelaDeGerenciamentoDeConsultas telaDeGerenciamentoDeConsultas;
+
     public TelaInicial() {
-        initComponents();
+        telaCadastroPaciente = new TelaDeCadastroDePaciente();
+        telaDeGerenciamentoDePacientes = new TelaDeGerenciamentoDePacientes();
+        telaDeCadastroDeMedico = new TelaDeCadastroDeMedico();
+        telaDeGerenciamentoDeMedicos = new TelaDeGerenciamentoDeMedicos();
+        telaDeCadastroDeConsulta = new TelaDeCadastroDeConsulta();
+        telaDeGerenciamentoDeConsultas = new TelaDeGerenciamentoDeConsultas();
+        initComponents();       
     }
 
     /**
@@ -29,6 +39,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         cadastrarPaciente = new javax.swing.JMenuItem();
         gerenciarPaciente = new javax.swing.JMenuItem();
@@ -42,14 +53,38 @@ public class TelaInicial extends javax.swing.JFrame {
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Clínica Bonzina");
         setResizable(false);
+
+        jMenu3.setText("Sair");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu3);
 
         jMenu1.setText("Paciente");
 
         cadastrarPaciente.setText("Cadastrar");
+        cadastrarPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarPacienteActionPerformed(evt);
+            }
+        });
         jMenu1.add(cadastrarPaciente);
 
         gerenciarPaciente.setText("Gerenciar");
+        gerenciarPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gerenciarPacienteActionPerformed(evt);
+            }
+        });
         jMenu1.add(gerenciarPaciente);
 
         jMenuBar1.add(jMenu1);
@@ -57,9 +92,19 @@ public class TelaInicial extends javax.swing.JFrame {
         jMenu2.setText("Médico");
 
         cadastrarMedico.setText("Cadastrar");
+        cadastrarMedico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarMedicoActionPerformed(evt);
+            }
+        });
         jMenu2.add(cadastrarMedico);
 
         gerenciarMedico.setText("Gerenciar");
+        gerenciarMedico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gerenciarMedicoActionPerformed(evt);
+            }
+        });
         jMenu2.add(gerenciarMedico);
 
         jMenuBar1.add(jMenu2);
@@ -67,9 +112,19 @@ public class TelaInicial extends javax.swing.JFrame {
         jMenu4.setText("Agendamento");
 
         cadastrarAgendamento.setText("Cadastrar");
+        cadastrarAgendamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarAgendamentoActionPerformed(evt);
+            }
+        });
         jMenu4.add(cadastrarAgendamento);
 
         gerenciarAgendamento.setText("Gerenciar");
+        gerenciarAgendamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gerenciarAgendamentoActionPerformed(evt);
+            }
+        });
         jMenu4.add(gerenciarAgendamento);
 
         jMenuBar1.add(jMenu4);
@@ -84,12 +139,46 @@ public class TelaInicial extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 314, Short.MAX_VALUE)
+            .addGap(0, 316, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cadastrarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarPacienteActionPerformed
+
+        telaCadastroPaciente.setVisible(true);
+
+    }//GEN-LAST:event_cadastrarPacienteActionPerformed
+
+    private void gerenciarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciarPacienteActionPerformed
+        telaDeGerenciamentoDePacientes.setVisible(true);
+    }//GEN-LAST:event_gerenciarPacienteActionPerformed
+
+    private void cadastrarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarMedicoActionPerformed
+        telaDeCadastroDeMedico.setVisible(true);
+    }//GEN-LAST:event_cadastrarMedicoActionPerformed
+
+    private void gerenciarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciarMedicoActionPerformed
+        telaDeGerenciamentoDeMedicos.setVisible(true);
+    }//GEN-LAST:event_gerenciarMedicoActionPerformed
+
+    private void cadastrarAgendamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarAgendamentoActionPerformed
+        telaDeCadastroDeConsulta.setVisible(true);
+    }//GEN-LAST:event_cadastrarAgendamentoActionPerformed
+
+    private void gerenciarAgendamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciarAgendamentoActionPerformed
+        telaDeGerenciamentoDeConsultas.setVisible(true);
+    }//GEN-LAST:event_gerenciarAgendamentoActionPerformed
+
+    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+
+    }//GEN-LAST:event_jMenu3ActionPerformed
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+       System.exit(0);
+    }//GEN-LAST:event_jMenu3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -135,6 +224,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem gerenciarPaciente;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

@@ -155,7 +155,7 @@ public class MedicoDAO implements CrudInterface<Medico> {
     }
 
     public static Medico buscarMedicoPorCRM(String crm) throws SQLException {
-         Conexao conexao = new Conexao();
+        Conexao conexao = new Conexao();
         try {
             String sql = "SELECT * FROM medico WHERE crm = ?";
             PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);

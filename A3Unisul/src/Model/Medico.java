@@ -4,15 +4,15 @@ import DAO.MedicoDAO;
 import Interface.CrudInterface;
 import java.util.ArrayList;
 
-public class Medico extends Pessoa implements CrudInterface<Medico>{
+public class Medico extends Pessoa implements CrudInterface<Medico> {
 
     private Long idMedico;
     private String crm;
     private String especialidade;
     private String periodoDeAtendimento;
-    
+
     private static final MedicoDAO MEDICO_DAO = new MedicoDAO();
-    
+
     public Medico() {
     }
 
@@ -23,7 +23,6 @@ public class Medico extends Pessoa implements CrudInterface<Medico>{
         this.especialidade = especialidade;
         this.periodoDeAtendimento = periodoDeAtendimento;
     }
-
 
     public String getCrm() {
         return crm;
@@ -62,8 +61,10 @@ public class Medico extends Pessoa implements CrudInterface<Medico>{
         return "Medico{" + "idMedico=" + idMedico + ", crm=" + crm + ", especialidade=" + especialidade + ", periodoDeAtendimento=" + periodoDeAtendimento + '}';
     }
 
-    
-    
+    public Long obterMaiorID() {
+        return this.MEDICO_DAO.buscarMaiorId();
+    }
+
     @Override
     public boolean cadastrar(Medico object) {
         return MEDICO_DAO.cadastrar(object);
@@ -71,7 +72,7 @@ public class Medico extends Pessoa implements CrudInterface<Medico>{
 
     @Override
     public ArrayList<Medico> buscar() {
-       return MEDICO_DAO.buscar();
+        return MEDICO_DAO.buscar();
     }
 
     @Override

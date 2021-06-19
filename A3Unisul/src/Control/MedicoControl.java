@@ -5,33 +5,33 @@
  */
 package Control;
 
-import Interface.CrudInterface;
+import Model.Medico;
 import java.util.ArrayList;
 
-/**
- *
- * @author G-fire
- */
-public class MedicoControl implements CrudInterface<MedicoControl>{
+public class MedicoControl {
 
-    @Override
-    public boolean cadastrar(MedicoControl object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private final Medico MEDICO;
+
+    public MedicoControl() {
+        MEDICO = new Medico();
     }
 
-    @Override
+    public boolean cadastrar(String crm, String especialidade, String periodoDeAtendimento, String nome, String telefone) {
+        Long id = this.MEDICO.obterMaiorID() + 1L;
+        MEDICO.cadastrar(new Medico(id,crm,especialidade,periodoDeAtendimento,nome,telefone));
+        return true;       
+    }
+
     public ArrayList<MedicoControl> buscar() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public boolean editar(Long id, MedicoControl object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public boolean excluir(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

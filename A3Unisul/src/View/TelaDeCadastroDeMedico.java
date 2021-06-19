@@ -5,6 +5,9 @@
  */
 package View;
 
+import Control.MedicoControl;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author G-fire
@@ -14,8 +17,12 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
     /**
      * Creates new form TeladeCadastrodeMedico
      */
+    
+    private final MedicoControl MEDICOCONTROL;
+    
     public TelaDeCadastroDeMedico() {
         initComponents();
+        MEDICOCONTROL = new MedicoControl();
     }
 
     /**
@@ -27,22 +34,229 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        inputNome3 = new javax.swing.JTextField();
+        cancelar = new javax.swing.JButton();
+        cadastrar = new javax.swing.JButton();
+        limparDados = new javax.swing.JButton();
+        inputNome = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        inputTelefone = new javax.swing.JTextField();
+        inputEspecialidade = new javax.swing.JTextField();
+        inputCRM = new javax.swing.JTextField();
+        comboBoxPeriodoDeAtendimento = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+
+        inputNome3.setText("jTextField1");
+        inputNome3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputNome3ActionPerformed(evt);
+            }
+        });
+
+        setTitle("Cadastro");
+        setResizable(false);
+
+        cancelar.setText("Cancelar");
+        cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarActionPerformed(evt);
+            }
+        });
+
+        cadastrar.setText("Cadastrar");
+        cadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarActionPerformed(evt);
+            }
+        });
+
+        limparDados.setText("Limpar dados");
+        limparDados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limparDadosActionPerformed(evt);
+            }
+        });
+
+        inputNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputNomeActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Nome*:");
+
+        jLabel2.setText("Telefone*:");
+
+        jLabel3.setText("Especialidade*:");
+
+        jLabel4.setText("CRM*:");
+
+        jLabel5.setText("Periodo de Atendimento*:");
+
+        inputTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputTelefoneActionPerformed(evt);
+            }
+        });
+
+        inputEspecialidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputEspecialidadeActionPerformed(evt);
+            }
+        });
+
+        inputCRM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputCRMActionPerformed(evt);
+            }
+        });
+
+        comboBoxPeriodoDeAtendimento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Horário", "Matutino", "Vespertino" }));
+        comboBoxPeriodoDeAtendimento.setToolTipText("");
+        comboBoxPeriodoDeAtendimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxPeriodoDeAtendimentoActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel6.setText(" Cadastramento de Médico");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(inputEspecialidade, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                                    .addComponent(inputTelefone)
+                                    .addComponent(inputNome)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(limparDados)
+                                .addGap(18, 18, 18)
+                                .addComponent(cancelar)
+                                .addGap(18, 18, 18)
+                                .addComponent(cadastrar))
+                            .addComponent(jLabel6)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(inputCRM, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(comboBoxPeriodoDeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(inputTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(inputEspecialidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inputCRM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxPeriodoDeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cadastrar)
+                    .addComponent(cancelar)
+                    .addComponent(limparDados))
+                .addGap(29, 29, 29))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void inputNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputNomeActionPerformed
+
+    private void inputTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTelefoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputTelefoneActionPerformed
+
+    private void inputEspecialidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputEspecialidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputEspecialidadeActionPerformed
+
+    private void inputNome3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNome3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputNome3ActionPerformed
+
+    private void inputCRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCRMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputCRMActionPerformed
+
+    private void comboBoxPeriodoDeAtendimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPeriodoDeAtendimentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxPeriodoDeAtendimentoActionPerformed
+
+    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
+        this.limparDados();
+        this.setVisible(false);        
+    }//GEN-LAST:event_cancelarActionPerformed
+
+    private void limparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparDadosActionPerformed
+      this.limparDados();
+    }//GEN-LAST:event_limparDadosActionPerformed
+
+    private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+     
+        String crm = this.inputCRM.getText();
+        String especialidade = this.inputEspecialidade.getText();
+        String nome = this.inputNome.getText();
+        String telefone = this.inputTelefone.getText();
+        String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
+        
+        
+        
+        
+        
+       MEDICOCONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
+        JOptionPane.showMessageDialog(null, "Cadastrado!!!");
+       
+    }//GEN-LAST:event_cadastrarActionPerformed
+
+    private void limparDados() {
+        this.inputCRM.setText("");
+        this.inputEspecialidade.setText("");
+        this.inputNome.setText("");
+        this.inputTelefone.setText("");
+        this.comboBoxPeriodoDeAtendimento.setSelectedIndex(0);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -80,5 +294,20 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cadastrar;
+    private javax.swing.JButton cancelar;
+    private javax.swing.JComboBox<String> comboBoxPeriodoDeAtendimento;
+    private javax.swing.JTextField inputCRM;
+    private javax.swing.JTextField inputEspecialidade;
+    private javax.swing.JTextField inputNome;
+    private javax.swing.JTextField inputNome3;
+    private javax.swing.JTextField inputTelefone;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton limparDados;
     // End of variables declaration//GEN-END:variables
 }
