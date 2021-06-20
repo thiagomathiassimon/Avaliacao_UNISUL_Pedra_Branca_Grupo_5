@@ -50,8 +50,8 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="inputEspecialidade" pref="181" max="32767" attributes="0"/>
-                                  <Component id="inputTelefone" alignment="0" max="32767" attributes="0"/>
                                   <Component id="inputNome" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="inputTelefone" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -87,7 +87,7 @@
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="inputNome" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="inputTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -107,7 +107,7 @@
                   <Component id="jLabel5" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
                   <Component id="comboBoxPeriodoDeAtendimento" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="17" max="32767" attributes="0"/>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cancelar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -173,11 +173,6 @@
         <Property name="text" type="java.lang.String" value="Periodo de Atendimento*:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="inputTelefone">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputTelefoneActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JTextField" name="inputEspecialidade">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputEspecialidadeActionPerformed"/>
@@ -213,6 +208,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value=" Cadastramento de M&#xe9;dico"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="inputTelefone">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value=" try {             inputTelefone = new JFormattedTextField(new MaskFormatter(&quot;(##) #####-####&quot;));         } catch (Exception e) {          }"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

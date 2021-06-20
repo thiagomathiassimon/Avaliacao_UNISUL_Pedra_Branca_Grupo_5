@@ -6,7 +6,14 @@
 package View;
 
 import Control.MedicoControl;
+import Util.Validacoes;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -17,11 +24,11 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
     /**
      * Creates new form TeladeCadastrodeMedico
      */
-    
     private final MedicoControl MEDICOCONTROL;
-    
+
     public TelaDeCadastroDeMedico() {
         initComponents();
+
         MEDICOCONTROL = new MedicoControl();
     }
 
@@ -44,11 +51,12 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        inputTelefone = new javax.swing.JTextField();
         inputEspecialidade = new javax.swing.JTextField();
         inputCRM = new javax.swing.JTextField();
         comboBoxPeriodoDeAtendimento = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        inputTelefone = new javax.swing.JFormattedTextField();
+        try {             inputTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));         } catch (Exception e) {          }
 
         inputNome3.setText("jTextField1");
         inputNome3.addActionListener(new java.awt.event.ActionListener() {
@@ -97,12 +105,6 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
 
         jLabel5.setText("Periodo de Atendimento*:");
 
-        inputTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputTelefoneActionPerformed(evt);
-            }
-        });
-
         inputEspecialidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputEspecialidadeActionPerformed(evt);
@@ -145,8 +147,8 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(inputEspecialidade, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-                                    .addComponent(inputTelefone)
-                                    .addComponent(inputNome)))
+                                    .addComponent(inputNome)
+                                    .addComponent(inputTelefone)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(limparDados)
                                 .addGap(18, 18, 18)
@@ -171,7 +173,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(inputTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -187,7 +189,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxPeriodoDeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cadastrar)
                     .addComponent(cancelar)
@@ -202,10 +204,6 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
     private void inputNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputNomeActionPerformed
-
-    private void inputTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTelefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputTelefoneActionPerformed
 
     private void inputEspecialidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputEspecialidadeActionPerformed
         // TODO add your handling code here:
@@ -225,28 +223,29 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         this.limparDados();
-        this.setVisible(false);        
+        this.setVisible(false);
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void limparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparDadosActionPerformed
-      this.limparDados();
+        this.limparDados();
     }//GEN-LAST:event_limparDadosActionPerformed
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
-     
+
         String crm = this.inputCRM.getText();
         String especialidade = this.inputEspecialidade.getText();
         String nome = this.inputNome.getText();
         String telefone = this.inputTelefone.getText();
         String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
-        
-        
-        
-        
-        
-       MEDICOCONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
-        JOptionPane.showMessageDialog(null, "Cadastrado!!!");
-       
+
+        if (Validacoes.validarNome(nome) == true) {
+            MEDICOCONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
+            JOptionPane.showMessageDialog(null, "Cadastrado!!!");
+        }
+
+        JOptionPane.showMessageDialog(null, "Ocorreu um erro");
+
+
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void limparDados() {
@@ -256,7 +255,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         this.inputTelefone.setText("");
         this.comboBoxPeriodoDeAtendimento.setSelectedIndex(0);
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -301,7 +300,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
     private javax.swing.JTextField inputEspecialidade;
     private javax.swing.JTextField inputNome;
     private javax.swing.JTextField inputNome3;
-    private javax.swing.JTextField inputTelefone;
+    private javax.swing.JFormattedTextField inputTelefone;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

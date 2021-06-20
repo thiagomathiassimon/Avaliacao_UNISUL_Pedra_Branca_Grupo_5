@@ -8,8 +8,10 @@ public class Validacoes {
     private static final int NUMERO_MINIMO_DE_HORAS_NO_DIA = 0;
     private static final int NUMERO_MAXIMO_DE_MINUTOS_NO_DIA = 60;
     private static final int NUMERO_MINIMO_DE_MINUTOS_NO_DIA = 0;
-    private static final String[] LETRAS_DO_ALFABETO = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
-        "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" , " "};
+    //private static final String[] LETRAS_DO_ALFABETO = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
+    //    "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " "};
+    private static final String[] CARACTERES_INVALIDOS = {".", ",", "?", "!", "@", "#", "$", "%", "¨", "&", "*", "(", ")",
+        "+", "=", "_", "~", "^", "]", "[", "{", "}", "º", "ª", "°", ";", ":", "<", ">", "/", "|", "´", "`"};
 
     private Validacoes() {
     }
@@ -130,39 +132,67 @@ public class Validacoes {
     public static boolean validarNome(String nome) {
 
         boolean encontrouLetra = false;
+        boolean encontrouCaracterInvalido = false;
         int contadorDeEspacosSeguidos = 0;
+        String caracterDoNome;
 
         if (nome.length() < 2) {
             return false;
         }
 
         for (int i = 0; i < nome.length(); i++) {
-            for (int j = 0; j < LETRAS_DO_ALFABETO.length; j++) {
+            caracterDoNome = nome.substring(i, i + 1);
 
-                if (contadorDeEspacosSeguidos > 1) {
-                    System.out.print(contadorDeEspacosSeguidos);
-                   return false;
-                }
-                if (nome.substring(i).isBlank()) {
-                    contadorDeEspacosSeguidos += 1;
-                }
-                if (nome.substring(i, i + 1).equalsIgnoreCase(LETRAS_DO_ALFABETO[j])) {
+            if (" ".equals(caracterDoNome)) {
+                contadorDeEspacosSeguidos++;
+                encontrouLetra = true;
+            } else {
 
-                    encontrouLetra = true;
-                
-                    
+                for (int j = 0; j < 10; j++) {
+                    if (caracterDoNome.equalsIgnoreCase(j + "")) {
+                        contadorDeEspacosSeguidos = 0;
+                        encontrouCaracterInvalido = true;
+                    }
                 }
+
+                if (!encontrouCaracterInvalido) {
+                    for (String caracter : CARACTERES_INVALIDOS) {
+                        if (caracterDoNome.equalsIgnoreCase(caracter)) {
+                            contadorDeEspacosSeguidos = 0;
+                            encontrouCaracterInvalido = true;
+                        } else {
+                            contadorDeEspacosSeguidos = 0;
+                            encontrouLetra = true;
+                        }
+
+                    }
+
+                }
+
             }
 
-            if (!encontrouLetra) {
+            if (!encontrouLetra || contadorDeEspacosSeguidos > 1 || encontrouCaracterInvalido == true) {
                 return false;
             }
-            contadorDeEspacosSeguidos = 0;
+
             encontrouLetra = false;
         }
 
         return true;
+    }
 
+    public static boolean validarTelefone(String telefone) {
+
+        try {
+
+            int telefoneNumerico = Integer.parseInt(telefone);
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
 }

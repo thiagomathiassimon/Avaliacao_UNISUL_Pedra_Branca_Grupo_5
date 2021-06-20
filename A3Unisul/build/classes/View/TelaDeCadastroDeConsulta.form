@@ -52,6 +52,19 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="limparDados" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="cancelar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                              <Component id="cadastrar" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -70,10 +83,10 @@
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="inputData" min="-2" pref="95" max="-2" attributes="0"/>
                                           <Component id="comboBoxSelecionarMedico" min="-2" pref="175" max="-2" attributes="0"/>
                                           <Component id="inputPaciente" min="-2" pref="175" max="-2" attributes="0"/>
-                                          <Component id="inputHorario" min="-2" pref="95" max="-2" attributes="0"/>
+                                          <Component id="inputData" min="-2" pref="133" max="-2" attributes="0"/>
+                                          <Component id="inputHorario" min="-2" pref="133" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -84,20 +97,7 @@
                               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="36" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="limparDados" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="cancelar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                              <Component id="cadastrar" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <EmptySpace pref="42" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -121,8 +121,8 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="inputData" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+                  <Component id="inputData" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -139,7 +139,7 @@
                   <Component id="limparDados" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -186,11 +186,6 @@
         <Property name="text" type="java.lang.String" value="Data:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="inputData">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputDataActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -223,11 +218,6 @@
         <Property name="text" type="java.lang.String" value="Horarios:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="inputHorario">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputHorarioActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
         <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o da consulta:"/>
@@ -249,5 +239,15 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JFormattedTextField" name="inputData">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try {&#xa;            inputData = new JFormattedTextField(new MaskFormatter(&quot;##/##/####&quot;));&#xa;        } catch (ParseException ex) {&#xa;            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);&#xa;        }"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="inputHorario">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try {&#xd;&#xa;            inputHorario = new JFormattedTextField(new MaskFormatter(&quot;##:##&quot;));&#xd;&#xa;        } catch (ParseException ex) {&#xd;&#xa;            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);&#xd;&#xa;        }"/>
+      </AuxValues>
+    </Component>
   </SubComponents>
 </Form>

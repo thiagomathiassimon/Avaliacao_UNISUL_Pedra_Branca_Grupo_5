@@ -5,6 +5,12 @@
  */
 package View;
 
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
+import javax.swing.text.MaskFormatter;
+
 /**
  *
  * @author G-fire
@@ -16,6 +22,8 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
      */
     public TelaDeCadastroDePaciente() {
         initComponents();
+
+        
        telaDeEndereco = new TelaDeEndereco();
     }
 
@@ -37,12 +45,23 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        inputTelefone = new javax.swing.JTextField();
-        inputDataDeNascimento = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         buttonEndereco = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        inputCPF = new javax.swing.JTextField();
+        inputTelefone = new javax.swing.JFormattedTextField();
+        try {             inputTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));         } catch (Exception e) {          }
+        inputDataDeNascimento = new javax.swing.JFormattedTextField();
+        try {
+            inputDataDeNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        inputCPF = new javax.swing.JFormattedTextField();
+        try {
+            inputCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         inputNome3.setText("jTextField1");
         inputNome3.addActionListener(new java.awt.event.ActionListener() {
@@ -84,18 +103,6 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
 
         jLabel4.setText("Data de Nascimento*:");
 
-        inputTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputTelefoneActionPerformed(evt);
-            }
-        });
-
-        inputDataDeNascimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputDataDeNascimentoActionPerformed(evt);
-            }
-        });
-
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel6.setText(" Cadastramento de Paciente");
 
@@ -121,26 +128,6 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(inputTelefone)
-                            .addComponent(inputNome)
-                            .addComponent(buttonEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addGap(18, 18, 18)
-                            .addComponent(inputCPF))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(inputDataDeNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(limparDados)
@@ -148,8 +135,28 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
                             .addComponent(cancelar)
                             .addGap(18, 18, 18)
                             .addComponent(cadastrar))
-                        .addComponent(jLabel6)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(inputCPF))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(inputDataDeNascimento))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(17, 17, 17)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(inputNome)
+                                .addComponent(buttonEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                .addComponent(inputTelefone)))))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +167,7 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(inputTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -172,16 +179,16 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputDataDeNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(limparDados)
                     .addComponent(cancelar)
                     .addComponent(cadastrar))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,21 +199,9 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputNomeActionPerformed
 
-    private void inputTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTelefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputTelefoneActionPerformed
-
     private void inputNome3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNome3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputNome3ActionPerformed
-
-    private void inputDataDeNascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputDataDeNascimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputDataDeNascimentoActionPerformed
-
-    private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputCPFActionPerformed
 
     private void limparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparDadosActionPerformed
        this.limparDados();
@@ -222,6 +217,10 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
      
         telaDeEndereco.setVisible(true);
     }//GEN-LAST:event_buttonEnderecoActionPerformed
+
+    private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputCPFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,11 +273,11 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
     private javax.swing.JButton buttonEndereco;
     private javax.swing.JButton cadastrar;
     private javax.swing.JButton cancelar;
-    private javax.swing.JTextField inputCPF;
-    private javax.swing.JTextField inputDataDeNascimento;
+    private javax.swing.JFormattedTextField inputCPF;
+    private javax.swing.JFormattedTextField inputDataDeNascimento;
     private javax.swing.JTextField inputNome;
     private javax.swing.JTextField inputNome3;
-    private javax.swing.JTextField inputTelefone;
+    private javax.swing.JFormattedTextField inputTelefone;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

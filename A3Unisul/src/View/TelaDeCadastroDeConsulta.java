@@ -5,6 +5,11 @@
  */
 package View;
 
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -12,12 +17,17 @@ package View;
  */
 public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
-
     /**
      * Creates new form TeladeCadastrodeMedico
      */
     public TelaDeCadastroDeConsulta() {
         initComponents();
+        try {
+            inputHorario = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -38,14 +48,24 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        inputData = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         comboBoxSelecionarMedico = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        inputHorario = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         InputDescricao = new javax.swing.JTextArea();
+        inputData = new javax.swing.JFormattedTextField();
+        try {
+            inputData = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        inputHorario = new javax.swing.JFormattedTextField();
+        try {
+            inputHorario = new JFormattedTextField(new MaskFormatter("##:##"));
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         inputNome3.setText("jTextField1");
         inputNome3.addActionListener(new java.awt.event.ActionListener() {
@@ -87,12 +107,6 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
         jLabel4.setText("Data:");
 
-        inputData.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputDataActionPerformed(evt);
-            }
-        });
-
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel6.setText(" Cadastramento de Consulta");
 
@@ -104,12 +118,6 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         });
 
         jLabel5.setText("Horarios:");
-
-        inputHorario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputHorarioActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("Descrição da consulta:");
 
@@ -124,6 +132,16 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(limparDados)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cancelar)
+                                .addGap(61, 61, 61)
+                                .addComponent(cadastrar))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -140,25 +158,15 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
                                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(comboBoxSelecionarMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel6)))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel7)))
-                        .addGap(0, 36, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(limparDados)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cancelar)
-                                .addGap(61, 61, 61)
-                                .addComponent(cadastrar)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -176,8 +184,8 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
                     .addComponent(comboBoxSelecionarMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -191,7 +199,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
                     .addComponent(cancelar)
                     .addComponent(limparDados)
                     .addComponent(cadastrar))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,22 +214,14 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputNome3ActionPerformed
 
-    private void inputDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputDataActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputDataActionPerformed
-
-    private void inputHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputHorarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputHorarioActionPerformed
-
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-       this.limparDados();
-       this.setVisible(false);
-        
+        this.limparDados();
+        this.setVisible(false);
+
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void limparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparDadosActionPerformed
-       this.limparDados();
+        this.limparDados();
     }//GEN-LAST:event_limparDadosActionPerformed
 
     private void comboBoxSelecionarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSelecionarMedicoActionPerformed
@@ -269,8 +269,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
             }
         });
     }
-    
-    
+
     private void limparDados() {
         this.inputPaciente.setText("");
         this.inputHorario.setText("");
@@ -279,15 +278,15 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         this.comboBoxSelecionarMedico.setSelectedIndex(0);
 
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea InputDescricao;
     private javax.swing.JButton cadastrar;
     private javax.swing.JButton cancelar;
     private javax.swing.JComboBox<String> comboBoxSelecionarMedico;
-    private javax.swing.JTextField inputData;
-    private javax.swing.JTextField inputHorario;
+    private javax.swing.JFormattedTextField inputData;
+    private javax.swing.JFormattedTextField inputHorario;
     private javax.swing.JTextField inputNome3;
     private javax.swing.JTextField inputPaciente;
     private javax.swing.JComboBox<String> jComboBox2;
