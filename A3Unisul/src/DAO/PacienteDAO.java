@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.locks.StampedLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PacienteDAO implements CrudInterface<Paciente> {
 
@@ -24,7 +27,6 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
     @Override
     public boolean cadastrar(Paciente object) {
-
         if (!validarCpf(object.getCpf())) {
             throw new InvalidCPFException("CPF informado não é válido.");
         } else if (!validarDtNascimento(object.getDataDeNascimento())) {
@@ -40,7 +42,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             stmt.setLong(1, object.getEndereco().getIdEndereco());
             stmt.setString(2, object.getEndereco().getEstado());
             stmt.setString(3, object.getEndereco().getMunicipio());
-            stmt.setString(4, object.getEndereco().getNumero());
+            stmt.setString(4, object.getEndereco().getBairro());
             stmt.setString(5, object.getEndereco().getLogradouro());
             stmt.setString(6, object.getEndereco().getNumero());
             stmt.setString(7, object.getEndereco().getComplemento());
@@ -65,6 +67,30 @@ public class PacienteDAO implements CrudInterface<Paciente> {
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
         }
+    }
+
+    public boolean cadastrar(Endereco object) {
+
+        String sql = "INSERT INTO endereco (idEndereco, estado, municipio, bairro, logradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+
+            PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
+
+            stmt.setLong(1, object.getIdEndereco());
+            stmt.setString(2, object.getEstado());
+            stmt.setString(3, object.getMunicipio());
+            stmt.setString(4, object.getNumero());
+            stmt.setString(5, object.getLogradouro());
+            stmt.setString(6, object.getNumero());
+            stmt.setString(7, object.getComplemento());
+
+            stmt.execute();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -108,13 +134,13 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
     @Override
     public boolean editar(Long id, Paciente object) {
-       
-         if (validarCpf(object.getCpf())) {
+
+        if (validarCpf(object.getCpf())) {
             throw new InvalidCPFException("CPF informado não é válido.");
         } else if (validarDtNascimento(object.getDataDeNascimento())) {
             throw new InvalidBornDateException("A data de nascimento informada é inválida.");
         }
-        
+
         String sql = "UPDATE paciente p INNER JOIN endereco e ON p.endereco=e.idEndereco "
                 + "SET p.nome = ?, p.telefone = ?, p.dataDeNascimento = ?, "
                 + "e.estado = ?, e.municipio = ?, e.bairro = ?, e.logradouro = ?, e.numero = ?, e.complemento = ?  "
@@ -161,20 +187,35 @@ public class PacienteDAO implements CrudInterface<Paciente> {
     }
 
     public Long buscarMaiorId() {
-
-        Long idMedico = 0L;
+        Long id = 0L;
         try {
             Statement stmt = this.conexao.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT MAX(idMedico) id FROM medico");
+            ResultSet res = stmt.executeQuery("SELECT MAX(idPaciente) id FROM paciente");
             res.next();
-            idMedico = res.getLong("id");
+            id = res.getLong("id");
 
             stmt.close();
 
         } catch (SQLException ex) {
         }
 
-        return idMedico;
+        return id;
+    }
+
+    public Long buscarMaiorIdDeEndereco() {
+        Long id = 0L;
+        try {
+            Statement stmt = this.conexao.getConexao().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT MAX(idEndereco) id FROM endereco");
+            res.next();
+            id = res.getLong("id");
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+        }
+
+        return id;
     }
 
     public Paciente carregarPaciente(Long id) throws SQLException {
@@ -211,6 +252,32 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             throw new SQLException(erro.getMessage());
         }
 
+    }
+
+    public Endereco carregarEndereco(Long id) throws SQLException {
+        String sql = "SELECT * FROM endereco e where idEndereco = ?";
+        PreparedStatement stmt;
+        try {
+            stmt = this.conexao.getConexao().prepareStatement(sql);
+            stmt.setLong(1, id);
+            ResultSet res = stmt.executeQuery();
+            res.next();
+
+            String estado = res.getString("estado");
+            String municipio = res.getString("municipio");
+            String bairro = res.getString("bairro");
+            String logradouro = res.getString("logradouro");
+            String numero = res.getString("numero");
+            String complemento = res.getString("complemento");
+
+            Endereco endereco = new Endereco(id, estado, municipio, bairro, logradouro, numero, complemento);
+
+            stmt.close();
+            return endereco;
+
+        } catch (SQLException erro) {
+            throw new SQLException(erro.getMessage());
+        }
     }
 
     public static Paciente buscarPacientePorCPF(String cpf) throws SQLException {

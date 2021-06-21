@@ -6,32 +6,35 @@
 package Control;
 
 import Interface.CrudInterface;
+import Model.Endereco;
+import Model.Paciente;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
  *
  * @author G-fire
  */
-public class PacienteControl implements CrudInterface<PacienteControl>{
+public class PacienteControl {
 
-    @Override
-    public boolean cadastrar(PacienteControl object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static final Paciente PACIENTE = new Paciente();
+
+    public boolean cadastrar(String nome, String telefone, LocalDate dataDeNascimento, String cpf, String estado,
+            String municipio, String bairro, String logradouro, String numero, String complemento) throws SQLException {
+        return PACIENTE.cadastrar(new Paciente(PACIENTE.obterMaiorId() + 1,
+                new Endereco(PACIENTE.obterMaiorIdDeEndereco() + 1, estado, municipio, bairro, logradouro, numero, complemento), dataDeNascimento, nome, telefone, cpf));
     }
 
-    @Override
     public ArrayList<PacienteControl> buscar() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public boolean editar(Long id, PacienteControl object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public boolean excluir(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

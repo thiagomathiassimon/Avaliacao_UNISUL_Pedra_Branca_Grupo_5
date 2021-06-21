@@ -2,6 +2,7 @@ package Model;
 
 import DAO.PacienteDAO;
 import Interface.CrudInterface;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
     private Endereco endereco;
     private LocalDate dataDeNascimento;
     private String cpf;
-    
+
     private static final PacienteDAO PACIENTE_DAO = new PacienteDAO();
 
     public Paciente() {
@@ -62,6 +63,10 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
         return PACIENTE_DAO.cadastrar(object);
     }
 
+    public boolean cadastrar(Endereco object) {
+        return PACIENTE_DAO.cadastrar(object);
+    }
+
     @Override
     public ArrayList<Paciente> buscar() {
         return PACIENTE_DAO.buscar();
@@ -80,6 +85,18 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
     @Override
     public String toString() {
         return "Paciente{" + "idPaciente=" + idPaciente + ", \nendereco=" + endereco + ", \ndataDeNascimento=" + dataDeNascimento + ", cpf=" + cpf + "}\n";
+    }
+
+    public Long obterMaiorId() {
+        return PACIENTE_DAO.buscarMaiorId();
+    }
+
+    public Long obterMaiorIdDeEndereco() {
+        return PACIENTE_DAO.buscarMaiorIdDeEndereco();
+    }
+
+    public Endereco carregarEndereco(Long id) throws SQLException {
+        return PACIENTE_DAO.carregarEndereco(id);
     }
 
 }

@@ -1,18 +1,30 @@
 package Principal;
 
+import DAO.PacienteDAO;
+import Model.Endereco;
+import Model.Paciente;
 import Util.Validacoes;
 import View.TelaInicial;
 
-public class principal {
+public class Principal {
 
     public static void main(String[] args) {
 
        TelaInicial objeto = new TelaInicial();
         objeto.setVisible(true);
-     //   System.err.println(Validacoes.validarNome("k  auê"));
-     //   System.out.println(Validacoes.validarTelefone("3333333s"));
-        
-    //    System.out.println("oi");
+//        PacienteDAO pdao = new PacienteDAO();
+//        Paciente p = new Paciente();
+//
+//        System.err.println(pdao.cadastrar(new Endereco(
+//                p.obterMaiorId(),
+//                "SC",
+//                "Águas Mornas",
+//                "Santa Isabel",
+//                "Estarda Geral Santa Isabel",
+//                "Sem número",
+//                "Sem número"
+//        )));
+
     }
 
 }

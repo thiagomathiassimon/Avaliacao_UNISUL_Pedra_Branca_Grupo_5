@@ -146,9 +146,10 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(inputEspecialidade, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                                    .addComponent(inputEspecialidade)
                                     .addComponent(inputNome)
-                                    .addComponent(inputTelefone)))
+                                    .addComponent(inputTelefone)
+                                    .addComponent(inputCRM, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(limparDados)
                                 .addGap(18, 18, 18)
@@ -156,12 +157,10 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(cadastrar))
                             .addComponent(jLabel6)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(inputCRM, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(comboBoxPeriodoDeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBoxPeriodoDeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -238,14 +237,13 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         String telefone = this.inputTelefone.getText();
         String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
 
-        if (Validacoes.validarNome(nome) == true) {
+        if ((Validacoes.validarNome(nome)) && (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() != 0)) {
             MEDICOCONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
-            JOptionPane.showMessageDialog(null, "Cadastrado!!!");
+            JOptionPane.showMessageDialog(null, "Médico cadastrado com sucesso!");
+            this.limparDados();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro. \nVerifique os valores informados e tente novamente!");
         }
-
-        JOptionPane.showMessageDialog(null, "Ocorreu um erro");
-
-
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void limparDados() {
