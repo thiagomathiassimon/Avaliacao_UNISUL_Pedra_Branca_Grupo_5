@@ -33,24 +33,12 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             throw new InvalidBornDateException("A data de nascimento informada é inválida.");
         }
 
-        String sql = "INSERT INTO endereco (idEndereco, estado, municipio, bairro, logradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO paciente(idPaciente, nome, telefone, dataDeNascimento, endereco, cpf) VALUES(?,?,?,?,?,?)";
 
         try {
 
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
 
-            stmt.setLong(1, object.getEndereco().getIdEndereco());
-            stmt.setString(2, object.getEndereco().getEstado());
-            stmt.setString(3, object.getEndereco().getMunicipio());
-            stmt.setString(4, object.getEndereco().getBairro());
-            stmt.setString(5, object.getEndereco().getLogradouro());
-            stmt.setString(6, object.getEndereco().getNumero());
-            stmt.setString(7, object.getEndereco().getComplemento());
-
-            stmt.execute();
-            stmt.close();
-
-            sql = "INSERT INTO paciente(idPaciente, nome, telefone, dataDeNascimento, endereco, cpf) VALUES(?,?,?,?,?,?)";
             stmt = this.conexao.getConexao().prepareStatement(sql);
             stmt.setLong(1, object.getIdPaciente());
             stmt.setString(2, object.getNome());
@@ -69,29 +57,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
         }
     }
 
-    public boolean cadastrar(Endereco object) {
 
-        String sql = "INSERT INTO endereco (idEndereco, estado, municipio, bairro, logradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try {
-
-            PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
-
-            stmt.setLong(1, object.getIdEndereco());
-            stmt.setString(2, object.getEstado());
-            stmt.setString(3, object.getMunicipio());
-            stmt.setString(4, object.getNumero());
-            stmt.setString(5, object.getLogradouro());
-            stmt.setString(6, object.getNumero());
-            stmt.setString(7, object.getComplemento());
-
-            stmt.execute();
-            stmt.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public ArrayList<Paciente> buscar() {

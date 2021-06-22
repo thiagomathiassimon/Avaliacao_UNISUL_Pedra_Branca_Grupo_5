@@ -5,6 +5,12 @@
  */
 package View;
 
+import Control.MedicoControl;
+import Model.Medico;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author G-fire
@@ -14,8 +20,11 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
     /**
      * Creates new form TelaDeGerenciarMedicos
      */
+    private static final MedicoControl MEDICO_CONTROL = new MedicoControl();
+
     public TelaDeGerenciamentoDeMedicos() {
         initComponents();
+        this.carregarMedicos();
     }
 
     /**
@@ -28,7 +37,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaMedico = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         inputTelefone = new javax.swing.JTextField();
         inputEspecialidade = new javax.swing.JTextField();
@@ -47,7 +56,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         setTitle("Gerenciamento");
         setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaMedico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -55,22 +64,34 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
                 "ID", "Nome", "Telefone", "Especialidade", "CRM", "Período de Atendimento"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        tabelaMedico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMedicoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabelaMedico);
+        if (tabelaMedico.getColumnModel().getColumnCount() > 0) {
+            tabelaMedico.getColumnModel().getColumn(0).setResizable(false);
+            tabelaMedico.getColumnModel().getColumn(1).setResizable(false);
+            tabelaMedico.getColumnModel().getColumn(2).setResizable(false);
+            tabelaMedico.getColumnModel().getColumn(3).setResizable(false);
+            tabelaMedico.getColumnModel().getColumn(4).setResizable(false);
+            tabelaMedico.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -102,10 +123,14 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         });
 
         atualizar.setText("Atualizar");
+        atualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                atualizarActionPerformed(evt);
+            }
+        });
 
         comboBoxPeriodoDeAtendimento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o período", "Matutino", "Vespertino" }));
-        comboBoxPeriodoDeAtendimento.setSelectedItem("Matutino");
-        comboBoxPeriodoDeAtendimento.setToolTipText(" Vespertino ");
+        comboBoxPeriodoDeAtendimento.setToolTipText("");
         comboBoxPeriodoDeAtendimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxPeriodoDeAtendimentoActionPerformed(evt);
@@ -248,6 +273,54 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_cancelarActionPerformed
 
+    private void tabelaMedicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMedicoMouseClicked
+        int selectedRow = this.tabelaMedico.getSelectedRow();
+        if (selectedRow != -1) {
+
+            this.inputNome.setText(this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 1).toString());
+            this.inputTelefone.setText(this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 2).toString());
+            this.inputEspecialidade.setText(this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 3).toString());
+            this.inputCRM.setText(this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 4).toString());
+            this.comboBoxPeriodoDeAtendimento.setSelectedItem(this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 5));
+
+        }
+
+
+    }//GEN-LAST:event_tabelaMedicoMouseClicked
+
+    private void atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarActionPerformed
+        try {
+
+            Long id = obterIdMedico();
+            String nome = this.inputNome.getText();
+            String telefone = this.inputTelefone.getText();
+            String especialidade = this.inputEspecialidade.getText();
+            String crm = this.inputCRM.getText();
+            String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
+
+            this.MEDICO_CONTROL.editar(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
+
+            JOptionPane.showMessageDialog(null, "Medico atualizado com sucesso!");
+
+            this.limparDados();
+            this.carregarMedicos();
+
+        } catch (RuntimeException e) {
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_atualizarActionPerformed
+
+    private Long obterIdMedico() {
+
+        int selectedRow = this.tabelaMedico.getSelectedRow();
+        if (selectedRow != -1) {
+
+            return Long.parseLong(this.tabelaMedico.getValueAt(selectedRow, 0).toString());
+        } else {
+            throw new RuntimeException("Nenhuma linha selecionada. Selecione uma linha para alterar seus dados");
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -292,6 +365,29 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         this.comboBoxPeriodoDeAtendimento.setSelectedIndex(0);
     }
 
+    public void carregarMedicos() {
+        DefaultTableModel tabela = (DefaultTableModel) this.tabelaMedico.getModel();
+        tabela.setNumRows(0);
+
+        ArrayList<Medico> lista = MEDICO_CONTROL.buscar();
+
+        if (lista != null) {
+
+            lista.forEach(medico -> {
+                tabela.addRow(new Object[]{
+                    medico.getIdMedico(),
+                    medico.getNome(),
+                    medico.getTelefone(),
+                    medico.getEspecialidade(),
+                    medico.getCrm(),
+                    medico.getPeriodoDeAtendimento()
+                });
+            });
+        }
+
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton atualizar;
     private javax.swing.JButton cancelar;
@@ -307,7 +403,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton limparDados;
+    private javax.swing.JTable tabelaMedico;
     // End of variables declaration//GEN-END:variables
 }

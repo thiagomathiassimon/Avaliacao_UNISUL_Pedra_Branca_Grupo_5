@@ -18,16 +18,19 @@ public class MedicoControl {
 
     public boolean cadastrar(String crm, String especialidade, String periodoDeAtendimento, String nome, String telefone) {
         Long id = this.MEDICO.obterMaiorID() + 1L;
-        MEDICO.cadastrar(new Medico(id,crm,especialidade,periodoDeAtendimento,nome,telefone));
-        return true;       
+        MEDICO.cadastrar(new Medico(id, crm, especialidade, periodoDeAtendimento, nome, telefone));
+        return true;
     }
 
-    public ArrayList<MedicoControl> buscar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Medico> buscar() {
+
+        return MEDICO.buscar();
     }
 
-    public boolean editar(Long id, MedicoControl object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean editar(Long id, String nome, String telefone, String especialidade, String crm, String periodoDeAtendimento) {
+
+        MEDICO.editar(id,new Medico(id, crm, especialidade, periodoDeAtendimento, nome, telefone));
+        return true;
     }
 
     public boolean excluir(Long id) {

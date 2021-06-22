@@ -5,7 +5,10 @@
  */
 package View;
 
+import Control.ConsultaControl;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
@@ -20,13 +23,10 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     /**
      * Creates new form TeladeCadastrodeMedico
      */
+    private static final ConsultaControl CONSULTA_CONTROL = new ConsultaControl();
+
     public TelaDeCadastroDeConsulta() {
         initComponents();
-        try {
-            inputHorario = new JFormattedTextField(new MaskFormatter("##/##/####"));
-        } catch (ParseException ex) {
-            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
 
@@ -50,6 +50,11 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         comboBoxSelecionarMedico = new javax.swing.JComboBox<>();
+        try{
+            comboBoxSelecionarMedico.setModel(new javax.swing.DefaultComboBoxModel<>(this.buscarMedicos()));
+        }catch(Exception e){
+
+        }
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -110,7 +115,6 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel6.setText(" Cadastramento de Consulta");
 
-        comboBoxSelecionarMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Médico", "Medico 1", "Medico 2", "Medico 3", "Medico 4" }));
         comboBoxSelecionarMedico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxSelecionarMedicoActionPerformed(evt);
@@ -143,30 +147,27 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
                                 .addGap(61, 61, 61)
                                 .addComponent(cadastrar))))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(10, 10, 10)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel1)
-                                                    .addComponent(jLabel2)))
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(comboBoxSelecionarMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jLabel6)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel7)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addGap(10, 10, 10)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel2)))
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboBoxSelecionarMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel6)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -276,6 +277,22 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         this.inputData.setText("");
         this.InputDescricao.setText("");
         this.comboBoxSelecionarMedico.setSelectedIndex(0);
+
+    }
+
+    public String[] buscarMedicos() throws SQLException {
+
+        ArrayList<String[]> list = CONSULTA_CONTROL.buscarMedicos();
+        String[] converterLista = new String[7];
+        converterLista[0] = "Selecione o Médico";
+        for (int i = 0; i < 6; i++) {
+
+            converterLista[i+1] = list.get(i)[0];
+            System.out.println(converterLista[i]);
+
+        }
+
+        return converterLista;
 
     }
 

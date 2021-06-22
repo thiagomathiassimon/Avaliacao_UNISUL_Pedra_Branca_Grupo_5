@@ -63,9 +63,7 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
         return PACIENTE_DAO.cadastrar(object);
     }
 
-    public boolean cadastrar(Endereco object) {
-        return PACIENTE_DAO.cadastrar(object);
-    }
+    
 
     @Override
     public ArrayList<Paciente> buscar() {

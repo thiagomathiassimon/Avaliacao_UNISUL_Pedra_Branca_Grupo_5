@@ -20,10 +20,8 @@ public class PacienteControl {
 
     private static final Paciente PACIENTE = new Paciente();
 
-    public boolean cadastrar(String nome, String telefone, LocalDate dataDeNascimento, String cpf, String estado,
-            String municipio, String bairro, String logradouro, String numero, String complemento) throws SQLException {
-        return PACIENTE.cadastrar(new Paciente(PACIENTE.obterMaiorId() + 1,
-                new Endereco(PACIENTE.obterMaiorIdDeEndereco() + 1, estado, municipio, bairro, logradouro, numero, complemento), dataDeNascimento, nome, telefone, cpf));
+    public boolean cadastrar(String nome, String telefone, LocalDate dataDeNascimento, String cpf) throws SQLException {
+        return PACIENTE.cadastrar(new Paciente(PACIENTE.obterMaiorId() + 1,PACIENTE.carregarEndereco(PACIENTE.obterMaiorIdDeEndereco()), dataDeNascimento, nome, telefone, cpf));
     }
 
     public ArrayList<PacienteControl> buscar() {

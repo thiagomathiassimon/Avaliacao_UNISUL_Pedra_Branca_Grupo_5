@@ -303,4 +303,26 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
     }
 
+    public ArrayList<String[]> buscarMedicos() throws SQLException {
+
+        Statement stmt = this.conexao.getConexao().createStatement();
+        ArrayList<String[]> list = new ArrayList<>();
+        try {
+            ResultSet res = stmt.executeQuery("Select m.nome, m.idMedico from medico m");
+
+            while (res.next()) {
+
+                String[] dadosDoMedico = new String[2];
+                dadosDoMedico[0] = res.getString("nome");
+                dadosDoMedico[1] = res.getLong("idMedico")+"";
+                list.add(dadosDoMedico);
+                
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
 }

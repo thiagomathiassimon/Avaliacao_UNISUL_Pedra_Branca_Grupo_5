@@ -236,7 +236,9 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         String nome = this.inputNome.getText();
         String telefone = this.inputTelefone.getText();
         String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
-
+        
+        
+        
         if ((Validacoes.validarNome(nome)) && (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() != 0)) {
             MEDICOCONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
             JOptionPane.showMessageDialog(null, "Médico cadastrado com sucesso!");

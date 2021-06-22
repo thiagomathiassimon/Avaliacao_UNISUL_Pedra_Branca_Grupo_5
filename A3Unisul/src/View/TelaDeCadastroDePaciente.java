@@ -5,6 +5,7 @@
  */
 package View;
 
+import Control.EnderecoControl;
 import Control.PacienteControl;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -24,6 +25,7 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
     /**
      * Creates new form TeladeCadastrodeMedico
      */
+    private static final EnderecoControl ENDERECO_CONTROL = new EnderecoControl();
     private static final PacienteControl PACIENTE_CONTROL = new PacienteControl();
 
     public TelaDeCadastroDePaciente() {
@@ -351,7 +353,9 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Os campos possuem preenchimento obrigatório!");
         } else {
             try {
-                PACIENTE_CONTROL.cadastrar(nome, telefone, dataDeNascimento, cpf, estado, municipio, bairro, logradouro, numero, complemento);
+                ENDERECO_CONTROL.cadastrar(estado, municipio, bairro, logradouro, numero, complemento);
+                
+                PACIENTE_CONTROL.cadastrar(nome, telefone, dataDeNascimento, cpf);
                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
                 this.limparDados();
             } catch (SQLException ex) {

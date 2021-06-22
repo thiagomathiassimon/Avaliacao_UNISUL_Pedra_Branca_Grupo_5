@@ -109,7 +109,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Agendamento");
+        jMenu4.setText("Consulta");
 
         cadastrarAgendamento.setText("Cadastrar");
         cadastrarAgendamento.addActionListener(new java.awt.event.ActionListener() {

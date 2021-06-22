@@ -1,5 +1,7 @@
 package Model;
 
+import DAO.EnderecoDAO;
+
 public class Endereco {
 
     private Long idEndereco;
@@ -9,7 +11,9 @@ public class Endereco {
     private String logradouro;
     private String numero;
     private String complemento;
-
+    
+    private static final EnderecoDAO ENDERECO_DAO = new EnderecoDAO();
+    
     public Endereco() {
     }
 
@@ -78,7 +82,16 @@ public class Endereco {
     public void setIdEndereco(Long idEndereco) {
         this.idEndereco = idEndereco;
     }
+    
+    
+    public boolean cadastrar(Endereco object) {
+        return ENDERECO_DAO.cadastrar(object);
+    }
 
+    
+     public Long obterMaiorId() {
+        return ENDERECO_DAO.buscarMaiorId();
+    }
     @Override
     public String toString() {
         return "Endereco{" + "\nestado=" + estado + ", \nmunicipio=" + municipio + ", \nbairro=" + bairro + ", \nlogradouro=" + logradouro + ", \nnumero=" + numero + ", \ncomplemento=" + complemento + '}';

@@ -2,6 +2,7 @@ package Model;
 
 import DAO.ConsultaDAO;
 import Interface.CrudInterface;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -83,7 +84,7 @@ public class Consulta implements CrudInterface<Consulta> {
 
     @Override
     public ArrayList<Consulta> buscar() {
-       return this.CONSULTA_DAO.buscar();
+        return this.CONSULTA_DAO.buscar();
     }
 
     @Override
@@ -99,6 +100,11 @@ public class Consulta implements CrudInterface<Consulta> {
     @Override
     public String toString() {
         return "Consulta{" + "idConsulta=" + idConsulta + ", paciente=" + paciente + ", medico=" + medico + ", dataDoExame=" + dataDoExame + ", horarioDeExame=" + horarioDeExame + ", descricao=" + descricao + '}';
+    }
+
+    public ArrayList<String[]> buscarMedicos() throws SQLException {
+        return CONSULTA_DAO.buscarMedicos();
+
     }
 
 }
