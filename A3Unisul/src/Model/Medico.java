@@ -2,7 +2,10 @@ package Model;
 
 import DAO.MedicoDAO;
 import Interface.CrudInterface;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Medico extends Pessoa implements CrudInterface<Medico> {
 
@@ -83,6 +86,14 @@ public class Medico extends Pessoa implements CrudInterface<Medico> {
     @Override
     public boolean excluir(Long id) {
         return MEDICO_DAO.excluir(id);
+    }
+
+    public Medico carregarMedicoEspecificadoPeloId(Long id) {
+        try {
+            return MEDICO_DAO.carregarMedico(id);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro na consulta no Banco Dados!");
+        }
     }
 
 }

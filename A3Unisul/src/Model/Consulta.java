@@ -106,5 +106,9 @@ public class Consulta implements CrudInterface<Consulta> {
         return CONSULTA_DAO.buscarMedicos();
 
     }
+    
+    public Long obterMaiorIdDeConsultaDisponivel(){
+        return CONSULTA_DAO.buscarMaiorId();
+    }
 
 }

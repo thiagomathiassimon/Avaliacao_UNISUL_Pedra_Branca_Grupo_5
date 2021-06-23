@@ -6,12 +6,16 @@
 package View;
 
 import Control.ConsultaControl;
+import Control.MedicoControl;
+import Control.PacienteControl;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
 /**
@@ -24,6 +28,10 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
      * Creates new form TeladeCadastrodeMedico
      */
     private static final ConsultaControl CONSULTA_CONTROL = new ConsultaControl();
+    private static final PacienteControl PACIENTE_CONTROL = new PacienteControl();
+    private static final MedicoControl MEDICO_CONTROL = new MedicoControl();
+
+    private String[] idDosMedicosRelacionadosAoSeuIndiceNoComboBox;
 
     public TelaDeCadastroDeConsulta() {
         initComponents();
@@ -39,12 +47,10 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        inputNome3 = new javax.swing.JTextField();
         jComboBox2 = new javax.swing.JComboBox<>();
         cancelar = new javax.swing.JButton();
         cadastrar = new javax.swing.JButton();
         limparDados = new javax.swing.JButton();
-        inputPaciente = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -53,7 +59,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         try{
             comboBoxSelecionarMedico.setModel(new javax.swing.DefaultComboBoxModel<>(this.buscarMedicos()));
         }catch(Exception e){
-
+            e.printStackTrace();
         }
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -71,13 +77,12 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        inputNome3.setText("jTextField1");
-        inputNome3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputNome3ActionPerformed(evt);
-            }
-        });
+        inputCPF = new javax.swing.JFormattedTextField();
+        try {
+            inputCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Medico 1", "Medico 2", "Medico 3", "Medico 4" }));
 
@@ -92,6 +97,11 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         });
 
         cadastrar.setText("Cadastrar");
+        cadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarActionPerformed(evt);
+            }
+        });
 
         limparDados.setText("Limpar dados");
         limparDados.addActionListener(new java.awt.event.ActionListener() {
@@ -100,13 +110,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
             }
         });
 
-        inputPaciente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputPacienteActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Paciente*:");
+        jLabel1.setText("CPF do paciente*:");
 
         jLabel2.setText("Medico*:");
 
@@ -130,45 +134,51 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         InputDescricao.setAutoscrolls(false);
         jScrollPane1.setViewportView(InputDescricao);
 
+        inputCPF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputCPFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(258, 258, 258))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(limparDados)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(59, 59, 59)
                                 .addComponent(cancelar)
-                                .addGap(61, 61, 61)
-                                .addComponent(cadastrar))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cadastrar)
+                                .addGap(9, 9, 9))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)))
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboBoxSelecionarMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboBoxSelecionarMedico, 0, 175, Short.MAX_VALUE)
                                     .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel6)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)))
-                .addContainerGap())
+                                    .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputCPF)))
+                            .addComponent(jLabel6))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,7 +188,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -207,14 +217,6 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void inputPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputPacienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputPacienteActionPerformed
-
-    private void inputNome3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNome3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputNome3ActionPerformed
-
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         this.limparDados();
         this.setVisible(false);
@@ -228,6 +230,45 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     private void comboBoxSelecionarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSelecionarMedicoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxSelecionarMedicoActionPerformed
+
+    private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+
+        int i = 0;
+        for (String string : idDosMedicosRelacionadosAoSeuIndiceNoComboBox) {
+            System.err.println(i + " - " + string);
+            i++;
+        }
+      //  System.err.println(this.idDosMedicosRelacionadosAoSeuIndiceNoComboBox[6]);
+
+        String cpfDoPaciente = this.inputCPF.getText().substring(0, 3) + this.inputCPF.getText().substring(4, 7)
+                + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
+        Long idMedico = this.obterIdDoMedico();
+        String[] dataInformada = this.inputData.getText().split("/");
+        LocalDate dataDaConsulta = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
+        String horarioDoExame = this.inputHorario.getText();
+        String descricao = this.InputDescricao.getText();
+        System.out.println("idMedico: " + idMedico);
+        if (cpfDoPaciente.isEmpty() || idMedico == null || dataInformada.length != 3 || horarioDoExame.isEmpty() || descricao.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os");
+        } else {
+            try {
+                CONSULTA_CONTROL.cadastrar(PACIENTE_CONTROL.buscarPacientePorCPF(cpfDoPaciente),
+                        MEDICO_CONTROL.obterMedicoEspecificadoPeloId(idMedico),
+                        //                        MEDICO_CONTROL.obterMedicoEspecificadoPeloId(4L),
+                        dataDaConsulta, horarioDoExame, descricao);
+
+//CONSULTA_CONTROL.cadastrar(dataDaConsulta, horarioDoExame, descricao);
+                JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro!");
+            }
+        }
+    }//GEN-LAST:event_cadastrarActionPerformed
+
+    private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputCPFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,7 +313,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     }
 
     private void limparDados() {
-        this.inputPaciente.setText("");
+        this.inputCPF.setText("");
         this.inputHorario.setText("");
         this.inputData.setText("");
         this.InputDescricao.setText("");
@@ -284,16 +325,28 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
         ArrayList<String[]> list = CONSULTA_CONTROL.buscarMedicos();
         String[] converterLista = new String[7];
+        idDosMedicosRelacionadosAoSeuIndiceNoComboBox = new String[7];
         converterLista[0] = "Selecione o Médico";
         for (int i = 0; i < 6; i++) {
-
-            converterLista[i+1] = list.get(i)[0];
-            System.out.println(converterLista[i]);
-
+            converterLista[i + 1] = list.get(i)[0];
+            idDosMedicosRelacionadosAoSeuIndiceNoComboBox[i+1] = list.get(i)[1];
+            System.out.println(converterLista[i + 1]);
         }
 
         return converterLista;
+    }
 
+    private Long obterIdDoMedico() {
+        String indexDoMedico = this.comboBoxSelecionarMedico.getSelectedIndex() + "";
+            System.out.println(indexDoMedico);
+        for (int i = 0; i < idDosMedicosRelacionadosAoSeuIndiceNoComboBox.length -1; i++) {
+            System.out.println(idDosMedicosRelacionadosAoSeuIndiceNoComboBox[i+1]);
+            if (((i+1) +"").equals(indexDoMedico)) {
+                System.out.println("==> id retornado: " + idDosMedicosRelacionadosAoSeuIndiceNoComboBox[i+1]);
+                return Long.parseLong(idDosMedicosRelacionadosAoSeuIndiceNoComboBox[i+1]);
+            }
+        }
+        return null;
     }
 
 
@@ -302,10 +355,9 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JButton cadastrar;
     private javax.swing.JButton cancelar;
     private javax.swing.JComboBox<String> comboBoxSelecionarMedico;
+    private javax.swing.JFormattedTextField inputCPF;
     private javax.swing.JFormattedTextField inputData;
     private javax.swing.JFormattedTextField inputHorario;
-    private javax.swing.JTextField inputNome3;
-    private javax.swing.JTextField inputPaciente;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

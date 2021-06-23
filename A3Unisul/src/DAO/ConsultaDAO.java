@@ -211,7 +211,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
             stmt.setString(2, horarioDoExame);
             stmt.setLong(3, objeto.getMedico().getIdMedico());
             ResultSet res = stmt.executeQuery();
-
+            
             if (res.next()) {
                 return false;
             }

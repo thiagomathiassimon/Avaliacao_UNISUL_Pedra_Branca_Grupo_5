@@ -52,6 +52,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        exdcluir = new javax.swing.JButton();
 
         setTitle("Gerenciamento");
         setResizable(false);
@@ -165,44 +166,52 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel6.setText("Gerenciamento de Médicos");
 
+        exdcluir.setText("Excluir");
+        exdcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exdcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(limparDados)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(cancelar)
-                            .addGap(48, 48, 48))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(inputTelefone)
-                            .addComponent(inputNome)
-                            .addComponent(inputEspecialidade)
-                            .addComponent(inputCRM, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)))
-                    .addComponent(comboBoxPeriodoDeAtendimento, 0, 175, Short.MAX_VALUE))
-                .addGap(193, 193, 193)
-                .addComponent(atualizar)
-                .addGap(54, 54, 54))
             .addGroup(layout.createSequentialGroup()
                 .addGap(194, 194, 194)
                 .addComponent(jLabel6)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(90, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(502, 502, 502))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(limparDados))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(inputTelefone)
+                                    .addComponent(inputNome)
+                                    .addComponent(inputEspecialidade)
+                                    .addComponent(inputCRM, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                    .addComponent(comboBoxPeriodoDeAtendimento, 0, 175, Short.MAX_VALUE))
+                                .addGap(321, 321, 321))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cancelar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(exdcluir)
+                                .addGap(121, 121, 121)
+                                .addComponent(atualizar)
+                                .addGap(35, 35, 35))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,13 +240,13 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxPeriodoDeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cancelar)
-                        .addComponent(atualizar))
-                    .addComponent(limparDados))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(limparDados)
+                    .addComponent(cancelar)
+                    .addComponent(exdcluir)
+                    .addComponent(atualizar))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -309,6 +318,21 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
 
         }        // TODO add your handling code here:
     }//GEN-LAST:event_atualizarActionPerformed
+
+    private void exdcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exdcluirActionPerformed
+        try {
+            int escolhaDoUsuario = JOptionPane.showConfirmDialog(null, "Deseja, realmente, excluir esse médico? \nEssa ação não poderá ser desfeita!");
+            if (escolhaDoUsuario == 0) {
+                MEDICO_CONTROL.excluir(this.obterIdMedico());
+                JOptionPane.showMessageDialog(null, "O médico foi removido com sucesso!");
+                this.carregarMedicos();
+            } else {
+                JOptionPane.showMessageDialog(null, "O médico será mantido!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_exdcluirActionPerformed
 
     private Long obterIdMedico() {
 
@@ -392,6 +416,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
     private javax.swing.JButton atualizar;
     private javax.swing.JButton cancelar;
     private javax.swing.JComboBox<String> comboBoxPeriodoDeAtendimento;
+    private javax.swing.JButton exdcluir;
     private javax.swing.JTextField inputCRM;
     private javax.swing.JTextField inputEspecialidade;
     private javax.swing.JTextField inputNome;
