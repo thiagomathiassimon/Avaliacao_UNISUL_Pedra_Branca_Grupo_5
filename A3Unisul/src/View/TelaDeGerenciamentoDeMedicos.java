@@ -56,6 +56,11 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
 
         setTitle("Gerenciamento");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         tabelaMedico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,6 +88,16 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         tabelaMedico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelaMedicoMouseClicked(evt);
+            }
+        });
+        tabelaMedico.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabelaMedicoPropertyChange(evt);
+            }
+        });
+        tabelaMedico.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
+            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
+                tabelaMedicoVetoableChange(evt);
             }
         });
         jScrollPane1.setViewportView(tabelaMedico);
@@ -183,7 +198,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+                .addContainerGap(81, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,6 +348,19 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_exdcluirActionPerformed
+
+    private void tabelaMedicoVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_tabelaMedicoVetoableChange
+
+    }//GEN-LAST:event_tabelaMedicoVetoableChange
+
+    private void tabelaMedicoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabelaMedicoPropertyChange
+
+    }//GEN-LAST:event_tabelaMedicoPropertyChange
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
+     this.carregarMedicos();
+    }//GEN-LAST:event_formWindowActivated
 
     private Long obterIdMedico() {
 

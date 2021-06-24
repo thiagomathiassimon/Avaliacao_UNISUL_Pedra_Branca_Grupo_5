@@ -96,4 +96,11 @@ public class Medico extends Pessoa implements CrudInterface<Medico> {
         }
     }
 
+    public int buscarQuantidadeDeMedicosNoPeriodoMatutino() {
+        return MEDICO_DAO.buscarQuantidadeDeMedicosNoPeriodoMatutino();
+    }
+
+    public int buscarQuantidadeDeMedicosNoPeriodoVespertino() {
+        return MEDICO_DAO.buscarQuantidadeDeMedicosNoPeriodoVespertino();
+    }
 }

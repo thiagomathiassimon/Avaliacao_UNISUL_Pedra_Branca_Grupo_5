@@ -24,12 +24,13 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
     /**
      * Creates new form TeladeCadastrodeMedico
      */
-    private final MedicoControl MEDICOCONTROL;
+    private final MedicoControl MEDICO_CONTROL;
+    private final int NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO = 2;
 
     public TelaDeCadastroDeMedico() {
         initComponents();
 
-        MEDICOCONTROL = new MedicoControl();
+        MEDICO_CONTROL = new MedicoControl();
     }
 
     /**
@@ -238,9 +239,11 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
         
         
-        
-        if ((Validacoes.validarNome(nome)) && (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() != 0)) {
-            MEDICOCONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
+        if ((Validacoes.validarNome(nome)) && (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() != 0)
+                && ((periodoDeAtendimento.equalsIgnoreCase("matutino"))
+                ? (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoMatutino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO)
+                : (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoVespertino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO))) {
+            MEDICO_CONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
             JOptionPane.showMessageDialog(null, "Médico cadastrado com sucesso!");
             this.limparDados();
         } else {

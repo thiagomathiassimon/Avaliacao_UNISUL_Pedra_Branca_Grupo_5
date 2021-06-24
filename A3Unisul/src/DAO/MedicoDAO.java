@@ -179,4 +179,37 @@ public class MedicoDAO implements CrudInterface<Medico> {
 
     }
 
+    public int buscarQuantidadeDeMedicosNoPeriodoMatutino() {
+        try {
+            Statement stmt = this.conexao.getConexao().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT COUNT(m.idMedico) FROM medico m WHERE m.periodoDeAtendimento=\"matutino\"");
+            if (res.next()) {
+
+                int quantidade = res.getInt("COUNT(m.idMedico)");
+                System.out.println(quantidade);
+                return quantidade;
+
+            }
+            return 0;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Ocorreu um erro!");
+        }
+    }
+
+    public int buscarQuantidadeDeMedicosNoPeriodoVespertino() {
+        try {
+            Statement stmt = this.conexao.getConexao().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT COUNT(m.idMedico) FROM medico m WHERE m.periodoDeAtendimento=\"vespertino\" group by(m.periodoDeAtendimento)");
+            if (res.next()) {
+
+                int quantidade = res.getInt("COUNT(m.idMedico)");
+                System.out.println(quantidade);
+                return quantidade;
+
+            }
+            return 0;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Ocorreu um erro!");
+        }
+    }
 }

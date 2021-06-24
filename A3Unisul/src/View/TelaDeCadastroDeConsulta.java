@@ -31,7 +31,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     private static final PacienteControl PACIENTE_CONTROL = new PacienteControl();
     private static final MedicoControl MEDICO_CONTROL = new MedicoControl();
 
-    private String[] idDosMedicosRelacionadosAoSeuIndiceNoComboBox;
+    private ArrayList<String> idDosMedicosRelacionadosAoSeuIndiceNoComboBox;
 
     public TelaDeCadastroDeConsulta() {
         initComponents();
@@ -88,6 +88,11 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
         setTitle("Cadastro");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         cancelar.setText("Cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -238,7 +243,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
             System.err.println(i + " - " + string);
             i++;
         }
-      //  System.err.println(this.idDosMedicosRelacionadosAoSeuIndiceNoComboBox[6]);
+        //  System.err.println(this.idDosMedicosRelacionadosAoSeuIndiceNoComboBox[6]);
 
         String cpfDoPaciente = this.inputCPF.getText().substring(0, 3) + this.inputCPF.getText().substring(4, 7)
                 + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
@@ -269,6 +274,14 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputCPFActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        try {
+            comboBoxSelecionarMedico.setModel(new javax.swing.DefaultComboBoxModel<>(this.buscarMedicos()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -324,26 +337,37 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     public String[] buscarMedicos() throws SQLException {
 
         ArrayList<String[]> list = CONSULTA_CONTROL.buscarMedicos();
-        String[] converterLista = new String[7];
-        idDosMedicosRelacionadosAoSeuIndiceNoComboBox = new String[7];
-        converterLista[0] = "Selecione o Médico";
-        for (int i = 0; i < 6; i++) {
-            converterLista[i + 1] = list.get(i)[0];
-            idDosMedicosRelacionadosAoSeuIndiceNoComboBox[i+1] = list.get(i)[1];
-            System.out.println(converterLista[i + 1]);
-        }
+//        JOptionPane.showMessageDialog(null, list.size());
+        String[] converterLista = {"Não há médicos."};
+        if (!list.isEmpty()) {
+            converterLista = new String[list.size() + 1];
+            idDosMedicosRelacionadosAoSeuIndiceNoComboBox = new ArrayList<>();
+            converterLista[0] = "Selecione o Médico";
+            idDosMedicosRelacionadosAoSeuIndiceNoComboBox.add(null);
+            for (int i = 0; i < list.size(); i++) {
+                converterLista[i + 1] = list.get(i)[0];
+                idDosMedicosRelacionadosAoSeuIndiceNoComboBox.add(list.get(i)[1]);
+                System.out.println(converterLista[i + 1]);
+            }
 
+            System.out.println(converterLista.length);
+            if (converterLista[1] == null) {
+                converterLista = new String[1];
+                converterLista[0] = "Não há médicos.";
+            }
+
+        }
         return converterLista;
     }
 
     private Long obterIdDoMedico() {
         String indexDoMedico = this.comboBoxSelecionarMedico.getSelectedIndex() + "";
-            System.out.println(indexDoMedico);
-        for (int i = 0; i < idDosMedicosRelacionadosAoSeuIndiceNoComboBox.length -1; i++) {
-            System.out.println(idDosMedicosRelacionadosAoSeuIndiceNoComboBox[i+1]);
-            if (((i+1) +"").equals(indexDoMedico)) {
-                System.out.println("==> id retornado: " + idDosMedicosRelacionadosAoSeuIndiceNoComboBox[i+1]);
-                return Long.parseLong(idDosMedicosRelacionadosAoSeuIndiceNoComboBox[i+1]);
+        System.out.println(indexDoMedico);
+        for (int i = 0; i < idDosMedicosRelacionadosAoSeuIndiceNoComboBox.size() - 1; i++) {
+            System.out.println(idDosMedicosRelacionadosAoSeuIndiceNoComboBox.get(i + 1));
+            if (((i + 1) + "").equals(indexDoMedico)) {
+                System.out.println("==> id retornado: " + idDosMedicosRelacionadosAoSeuIndiceNoComboBox.get(i + 1));
+                return Long.parseLong(idDosMedicosRelacionadosAoSeuIndiceNoComboBox.get(i + 1));
             }
         }
         return null;
