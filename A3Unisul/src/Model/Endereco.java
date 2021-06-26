@@ -11,9 +11,9 @@ public class Endereco {
     private String logradouro;
     private String numero;
     private String complemento;
-    
+
     private static final EnderecoDAO ENDERECO_DAO = new EnderecoDAO();
-    
+
     public Endereco() {
     }
 
@@ -82,19 +82,23 @@ public class Endereco {
     public void setIdEndereco(Long idEndereco) {
         this.idEndereco = idEndereco;
     }
-    
-    
+
     public boolean cadastrar(Endereco object) {
         return ENDERECO_DAO.cadastrar(object);
     }
 
-    
-     public Long obterMaiorId() {
+    public Long obterMaiorId() {
         return ENDERECO_DAO.buscarMaiorId();
     }
+
     @Override
     public String toString() {
         return "Endereco{" + "\nestado=" + estado + ", \nmunicipio=" + municipio + ", \nbairro=" + bairro + ", \nlogradouro=" + logradouro + ", \nnumero=" + numero + ", \ncomplemento=" + complemento + '}';
+    }
+
+    public String obterEnderecoEscritoPorExtenso() {
+        return String.format("Logradouro: %s%nNúmero: %s%nBairro: %s%nMunicípio: %s%nEstado: %s",
+                this.logradouro, this.numero, this.bairro, this.municipio, this.estado);
     }
 
 }

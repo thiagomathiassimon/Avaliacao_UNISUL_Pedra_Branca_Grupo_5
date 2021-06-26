@@ -11,14 +11,20 @@ import Model.Paciente;
 import Util.Validacoes;
 import View.TelaDeCadastroDeConsulta;
 import View.TelaInicial;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Principal {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IOException {
 
-       TelaInicial objeto = new TelaInicial();
-        objeto.setVisible(true);
+        //       TelaInicial objeto = new TelaInicial();
+//        objeto.setVisible(true);
 //        PacienteDAO pdao = new PacienteDAO();
 //        Paciente p = new Paciente();
 //
@@ -42,6 +48,22 @@ public class Principal {
 //        Long idConsulta = c.buscarMaiorId() + 1;
 //
 //        System.out.println(idConsulta);
-    }
+        String[] cepes = {"88150000", "88113300", "88095560"};
 
+        for (String cep : cepes) {
+            try {
+                HttpResponse<String> response = Unirest.get("http://viacep.com.br/ws/"+cep+"/json/")
+                        .header("Content-Type", "application/x-www-form-urlencoded")
+                        .asString();
+
+                System.out.println(response.getBody());
+                System.err.println("######################################################");
+
+            } catch (UnirestException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+
+        }
+    }
 }

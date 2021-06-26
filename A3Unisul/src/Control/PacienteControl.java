@@ -24,8 +24,8 @@ public class PacienteControl {
         return PACIENTE.cadastrar(new Paciente(PACIENTE.obterMaiorId() + 1, PACIENTE.carregarEndereco(PACIENTE.obterMaiorIdDeEndereco()), dataDeNascimento, nome, telefone, cpf));
     }
     
-    public ArrayList<PacienteControl> buscar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Paciente> buscar() {
+        return PACIENTE.buscar();
     }
     
     public boolean editar(Long id, PacienteControl object) {

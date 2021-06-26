@@ -331,7 +331,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
 
         } catch (RuntimeException e) {
 
-        }        // TODO add your handling code here:
+        }
     }//GEN-LAST:event_atualizarActionPerformed
 
     private void exdcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exdcluirActionPerformed
@@ -341,6 +341,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
                 MEDICO_CONTROL.excluir(this.obterIdMedico());
                 JOptionPane.showMessageDialog(null, "O médico foi removido com sucesso!");
                 this.carregarMedicos();
+                this.limparDados();
             } else {
                 JOptionPane.showMessageDialog(null, "O médico será mantido!");
             }
@@ -359,17 +360,18 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
 
-     this.carregarMedicos();
+        this.carregarMedicos();
     }//GEN-LAST:event_formWindowActivated
 
     private Long obterIdMedico() {
 
         int selectedRow = this.tabelaMedico.getSelectedRow();
         if (selectedRow != -1) {
-
             return Long.parseLong(this.tabelaMedico.getValueAt(selectedRow, 0).toString());
         } else {
-            throw new RuntimeException("Nenhuma linha selecionada. Selecione uma linha para alterar seus dados");
+            String mensagem = "Nenhuma linha selecionada. Selecione uma linha para alterar seus dados";
+            JOptionPane.showMessageDialog(null, mensagem);
+            throw new RuntimeException(mensagem);
         }
     }
 
