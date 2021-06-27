@@ -1,5 +1,6 @@
 package Principal;
 
+import Control.EnderecoControl;
 import Control.MedicoControl;
 import DAO.ConsultaDAO;
 import DAO.MedicoDAO;
@@ -20,11 +21,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Principal {
-
+    
     public static void main(String[] args) throws SQLException, IOException {
-
-        //       TelaInicial objeto = new TelaInicial();
-//        objeto.setVisible(true);
+        
+        TelaInicial objeto = new TelaInicial();
+        objeto.setVisible(true);
 //        PacienteDAO pdao = new PacienteDAO();
 //        Paciente p = new Paciente();
 //
@@ -48,22 +49,16 @@ public class Principal {
 //        Long idConsulta = c.buscarMaiorId() + 1;
 //
 //        System.out.println(idConsulta);
-        String[] cepes = {"88150000", "88113300", "88095560"};
+//        String[] cepes = {"88150000", "88113300", "88095560"};
+//
+//        for (String cep : cepes) {
+//   
+//        }
+////    }
+//
+//        EnderecoControl e = new EnderecoControl();
+//        
+//        e.bucarEnderecoPeloCEP(88113300);
 
-        for (String cep : cepes) {
-            try {
-                HttpResponse<String> response = Unirest.get("http://viacep.com.br/ws/"+cep+"/json/")
-                        .header("Content-Type", "application/x-www-form-urlencoded")
-                        .asString();
-
-                System.out.println(response.getBody());
-                System.err.println("######################################################");
-
-            } catch (UnirestException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-
-            }
-
-        }
     }
 }

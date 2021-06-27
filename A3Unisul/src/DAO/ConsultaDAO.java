@@ -58,6 +58,8 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            
         }
     }
 

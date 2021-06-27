@@ -252,7 +252,6 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         LocalDate dataDaConsulta = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
         String horarioDoExame = this.inputHorario.getText();
         String descricao = this.InputDescricao.getText();
-        System.out.println("idMedico: " + idMedico);
         if (cpfDoPaciente.isEmpty() || idMedico == null || dataInformada.length != 3 || horarioDoExame.isEmpty() || descricao.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os");
         } else {
@@ -347,10 +346,8 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
             for (int i = 0; i < list.size(); i++) {
                 converterLista[i + 1] = list.get(i)[0];
                 idDosMedicosRelacionadosAoSeuIndiceNoComboBox.add(list.get(i)[1]);
-                System.out.println(converterLista[i + 1]);
             }
 
-            System.out.println(converterLista.length);
             if (converterLista[1] == null) {
                 converterLista = new String[1];
                 converterLista[0] = "Não há médicos.";
@@ -362,11 +359,8 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
     private Long obterIdDoMedico() {
         String indexDoMedico = this.comboBoxSelecionarMedico.getSelectedIndex() + "";
-        System.out.println(indexDoMedico);
         for (int i = 0; i < idDosMedicosRelacionadosAoSeuIndiceNoComboBox.size() - 1; i++) {
-            System.out.println(idDosMedicosRelacionadosAoSeuIndiceNoComboBox.get(i + 1));
             if (((i + 1) + "").equals(indexDoMedico)) {
-                System.out.println("==> id retornado: " + idDosMedicosRelacionadosAoSeuIndiceNoComboBox.get(i + 1));
                 return Long.parseLong(idDosMedicosRelacionadosAoSeuIndiceNoComboBox.get(i + 1));
             }
         }
