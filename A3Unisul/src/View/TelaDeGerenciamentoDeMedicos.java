@@ -322,7 +322,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
             String crm = this.inputCRM.getText();
             String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
 
-            this.MEDICO_CONTROL.editar(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
+            MEDICO_CONTROL.editar(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
 
             JOptionPane.showMessageDialog(null, "Medico atualizado com sucesso!");
 

@@ -14,6 +14,7 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
     private Endereco endereco;
     private LocalDate dataDeNascimento;
     private String cpf;
+    private String cep;
 
     private static final PacienteDAO PACIENTE_DAO = new PacienteDAO();
 
@@ -26,6 +27,7 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
         this.endereco = endereco;
         this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
+
     }
 
     public String getCpf() {
@@ -60,6 +62,14 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
         this.idPaciente = idPaciente;
     }
 
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
     @Override
     public boolean cadastrar(Paciente object) {
         return PACIENTE_DAO.cadastrar(object);
@@ -91,7 +101,7 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
 
     public Paciente buscarPacientePorCPF(String cpf) {
         try {
-            return PacienteDAO.buscarPacientePorCPF(cpf);
+            return PACIENTE_DAO.buscarPacientePorCPF(cpf);
         } catch (SQLException ex) {
             throw new RuntimeException("Erro na consulta no Banco de Dados!");
         }
@@ -101,8 +111,11 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
         return PACIENTE_DAO.buscarMaiorIdDeEndereco();
     }
 
-    public Endereco carregarEndereco(Long id) throws SQLException {
-        return PACIENTE_DAO.carregarEndereco(id);
+    public Paciente carregarPaciente(Long id) {
+        try {
+            return PACIENTE_DAO.carregarPaciente(id);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro na consulta no Banco de Dados!");
+        }
     }
-
 }

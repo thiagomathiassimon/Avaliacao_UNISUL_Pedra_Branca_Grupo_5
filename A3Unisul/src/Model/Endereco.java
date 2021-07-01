@@ -1,6 +1,7 @@
 package Model;
 
 import DAO.EnderecoDAO;
+import java.sql.SQLException;
 
 public class Endereco {
 
@@ -11,13 +12,14 @@ public class Endereco {
     private String logradouro;
     private String numero;
     private String complemento;
+    private String cep;
 
     private static final EnderecoDAO ENDERECO_DAO = new EnderecoDAO();
 
     public Endereco() {
     }
 
-    public Endereco(Long idEndereco, String estado, String municipio, String bairro, String logradouro, String numero, String complemento) {
+    public Endereco(Long idEndereco, String estado, String municipio, String bairro, String logradouro, String numero, String complemento, String cep) {
         this.idEndereco = idEndereco;
         this.estado = estado;
         this.municipio = municipio;
@@ -25,6 +27,7 @@ public class Endereco {
         this.logradouro = logradouro;
         this.numero = numero;
         this.complemento = complemento;
+        this.cep = cep;
     }
 
     public String getEstado() {
@@ -83,6 +86,15 @@ public class Endereco {
         this.idEndereco = idEndereco;
     }
 
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    
     public boolean cadastrar(Endereco object) {
         return ENDERECO_DAO.cadastrar(object);
     }
@@ -96,9 +108,9 @@ public class Endereco {
         return "Endereco{" + "\nestado=" + estado + ", \nmunicipio=" + municipio + ", \nbairro=" + bairro + ", \nlogradouro=" + logradouro + ", \nnumero=" + numero + ", \ncomplemento=" + complemento + '}';
     }
 
-    public String obterEnderecoEscritoPorExtenso() {
-        return String.format("Logradouro: %s%nNúmero: %s%nBairro: %s%nMunicípio: %s%nEstado: %s",
-                this.logradouro, this.numero, this.bairro, this.municipio, this.estado);
+        public Endereco carregarEndereco(Long id) throws SQLException {
+        return ENDERECO_DAO.carregarEndereco(id);
     }
 
+    
 }

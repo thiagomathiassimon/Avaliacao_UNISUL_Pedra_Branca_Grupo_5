@@ -1,7 +1,6 @@
 package DAO;
 
 import static DAO.MedicoDAO.buscarMedicoPorCRM;
-import static DAO.PacienteDAO.buscarPacientePorCPF;
 import DTO.ConsultaDTO;
 import Interface.CrudInterface;
 import Model.Consulta;
@@ -30,7 +29,9 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
     public Conexao getConexao() {
         return conexao;
     }
-
+    
+    
+    
     @Override
     public boolean cadastrar(Consulta object) {
 
@@ -59,7 +60,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
         } finally {
-            
+
         }
     }
 
@@ -79,37 +80,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
                     + " INNER JOIN endereco e ON p.endereco=e.idEndereco");
             while (res.next()) {
 
-                String nomeMedico = res.getString("nomeMedico");
-                String telefoneMedico = res.getString("telefoneMedico");
-                Long idMedico = res.getLong("idMedico");
-                String crm = res.getString("crm");
-                String especialidade = res.getString("especialidade");
-                String periodoDeAtendimento = res.getString("periodoDeAtendimento");
-
-                String nomePaciente = res.getString("nomePaciente");
-                String telefonePaciente = res.getString("telefonePaciente");
-                Long idPaciente = res.getLong("idPaciente");
-                String data = res.getString("dataDeNascimento");
-                String cpf = res.getString("cpf");
-                LocalDate dataDeNascimento = LocalDate.parse(data);
-
-                String estado = res.getString("estado");
-                String municipio = res.getString("municipio");
-                String bairro = res.getString("bairro");
-                String logradouro = res.getString("logradouro");
-                String numero = res.getString("numero");
-                String complemento = res.getString("complemento");
-                Long idEndereco = res.getLong("idEndereco");
-
-                Long idConsulta = res.getLong("idConsulta");
-                LocalDate dataDoExame = LocalDate.parse(res.getString("dataDoExame"));
-                String horarioDeExame = res.getString("horarioDoExame");
-                String descricao = res.getString("descricao");
-
-                Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
-                Medico medico = new Medico(idMedico, crm, especialidade, periodoDeAtendimento, nomeMedico, telefoneMedico);
-                Paciente paciente = new Paciente(idPaciente, endereco, dataDeNascimento, nomePaciente, telefonePaciente, cpf);
-                Consulta consulta = new Consulta(idConsulta, paciente, medico, dataDoExame, horarioDeExame, descricao);
+                Consulta consulta = obterDadosDoSQL(res);
 
                 list.add(consulta);
 
@@ -213,7 +184,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
             stmt.setString(2, horarioDoExame);
             stmt.setLong(3, objeto.getMedico().getIdMedico());
             ResultSet res = stmt.executeQuery();
-            
+
             if (res.next()) {
                 return false;
             }
@@ -242,37 +213,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
             ResultSet res = stmt.executeQuery();
             res.next();
 
-            String nomeMedico = res.getString("nomeMedico");
-            String telefoneMedico = res.getString("telefoneMedico");
-            Long idMedico = res.getLong("idMedico");
-            String crm = res.getString("crm");
-            String especialidade = res.getString("especialidade");
-            String periodoDeAtendimento = res.getString("periodoDeAtendimento");
-
-            String nomePaciente = res.getString("nomePaciente");
-            String telefonePaciente = res.getString("telefonePaciente");
-            Long idPaciente = res.getLong("idPaciente");
-            String data = res.getString("dataDeNascimento");
-            String cpf = res.getString("cpf");
-            LocalDate dataDeNascimento = LocalDate.parse(data);
-
-            String estado = res.getString("estado");
-            String municipio = res.getString("municipio");
-            String bairro = res.getString("bairro");
-            String logradouro = res.getString("logradouro");
-            String numero = res.getString("numero");
-            String complemento = res.getString("complemento");
-            Long idEndereco = res.getLong("idEndereco");
-
-            Long idConsulta = res.getLong("idConsulta");
-            LocalDate dataDoExame = LocalDate.parse(res.getString("dataDoExame"));
-            String horarioDeExame = res.getString("horarioDoExame");
-            String descricao = res.getString("descricao");
-
-            Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
-            Medico medico = new Medico(idMedico, crm, especialidade, periodoDeAtendimento, nomeMedico, telefoneMedico);
-            Paciente paciente = new Paciente(idPaciente, endereco, dataDeNascimento, nomePaciente, telefonePaciente, cpf);
-            Consulta consulta = new Consulta(idConsulta, paciente, medico, dataDoExame, horarioDeExame, descricao);
+           Consulta consulta = obterDadosDoSQL(res);
 
             stmt.close();
             return consulta;
@@ -294,9 +235,10 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
     }
 
     public static Consulta toConsulta(ConsultaDTO consultaDTO) throws SQLException {
+        Paciente paciente = new Paciente();
         return (new Consulta(
                 consultaDTO.getIdConsulta(),
-                buscarPacientePorCPF(consultaDTO.getCpf()),
+                paciente.buscarPacientePorCPF(consultaDTO.getCpf()),
                 buscarMedicoPorCRM(consultaDTO.getCrm()),
                 consultaDTO.getDataDoExame(),
                 consultaDTO.getHorarioDeExame(),
@@ -316,15 +258,50 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
                 String[] dadosDoMedico = new String[2];
                 dadosDoMedico[0] = res.getString("nome");
-                dadosDoMedico[1] = res.getLong("idMedico")+"";
+                dadosDoMedico[1] = res.getLong("idMedico") + "";
                 list.add(dadosDoMedico);
-                
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    private Consulta obterDadosDoSQL(ResultSet res) throws SQLException {
+        String nomeMedico = res.getString("nomeMedico");
+        String telefoneMedico = res.getString("telefoneMedico");
+        Long idMedico = res.getLong("idMedico");
+        String crm = res.getString("crm");        
+        String especialidade = res.getString("especialidade");
+        String periodoDeAtendimento = res.getString("periodoDeAtendimento");
+        
+        String nomePaciente = res.getString("nomePaciente");
+        String telefonePaciente = res.getString("telefonePaciente");
+        Long idPaciente = res.getLong("idPaciente");
+        String data = res.getString("dataDeNascimento");
+        String cpf = res.getString("cpf");
+        LocalDate dataDeNascimento = LocalDate.parse(data);
+        
+        String estado = res.getString("estado");
+        String municipio = res.getString("municipio");
+        String bairro = res.getString("bairro");
+        String logradouro = res.getString("logradouro");
+        String numero = res.getString("numero");
+        String complemento = res.getString("complemento");
+        Long idEndereco = res.getLong("idEndereco");
+        String cep = res.getString("cep");
+        
+        Long idConsulta = res.getLong("idConsulta");
+        LocalDate dataDoExame = LocalDate.parse(res.getString("dataDoExame"));
+        String horarioDeExame = res.getString("horarioDoExame");
+        String descricao = res.getString("descricao");
+        
+        Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento, cep);
+        Medico medico = new Medico(idMedico, crm, especialidade, periodoDeAtendimento, nomeMedico, telefoneMedico);
+        Paciente paciente = new Paciente(idPaciente, endereco, dataDeNascimento, nomePaciente, telefonePaciente, cpf);
+        Consulta consulta = new Consulta(idConsulta, paciente, medico, dataDoExame, horarioDeExame, descricao);
+        return consulta;
     }
 
 }

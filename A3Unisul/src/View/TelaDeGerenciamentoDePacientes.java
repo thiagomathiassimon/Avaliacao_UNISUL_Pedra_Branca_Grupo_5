@@ -8,9 +8,18 @@ package View;
 import Control.EnderecoControl;
 import Control.PacienteControl;
 import Model.Paciente;
+import static Util.Validacoes.validarDtNascimento;
+import static Util.Validacoes.validarCpf;
+
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
@@ -24,6 +33,8 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
 
     private static final PacienteControl PACIENTE_CONTROL = new PacienteControl();
     private static final EnderecoControl ENDERECO_CONTROL = new EnderecoControl();
+    private static final Integer RETORNO_DE_CONFIRMACAO_DO_JOPTIONPANE_SHOW_CONFIRM_DIALOG = 0;
+    private static final Integer VALOR_DE_RETORNO_QUANDO_NAO_HOUVER_LINHA_SELECIONADA_NA_JTABLE = -1;
 
     /**
      * Creates new form TelaDeGerenciarMedicos
@@ -45,17 +56,14 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaPacientes = new javax.swing.JTable();
-        inputDataDeNascimento = new javax.swing.JTextField();
         excluir = new javax.swing.JButton();
         atualizar = new javax.swing.JButton();
         limparDados = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         inputNome = new javax.swing.JTextField();
-        inputCPF = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        inputTelefone = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -82,6 +90,20 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             e.printStackTrace();
         }
         buscarCEP = new javax.swing.JButton();
+        inputCPF = new javax.swing.JFormattedTextField();
+        try {
+            inputCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        inputDataDeNascimento = new javax.swing.JFormattedTextField();
+        try {
+            inputDataDeNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        inputTelefone = new javax.swing.JFormattedTextField();
+        try {             inputTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));         } catch (Exception e) {          }
 
         setTitle("Gerenciamento");
         setResizable(false);
@@ -95,7 +117,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nome", "Telefone", "Data de Nascimento", "CPF", "Endereço"
+                "ID", "Nome", "Telefone", "Data de Nascimento", "CPF", "CEP"
             }
         ) {
             Class[] types = new Class [] {
@@ -114,6 +136,11 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             }
         });
         tabelaPacientes.getTableHeader().setReorderingAllowed(false);
+        tabelaPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaPacientesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabelaPacientes);
         if (tabelaPacientes.getColumnModel().getColumnCount() > 0) {
             tabelaPacientes.getColumnModel().getColumn(0).setResizable(false);
@@ -124,12 +151,6 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             tabelaPacientes.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        inputDataDeNascimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputDataDeNascimentoActionPerformed(evt);
-            }
-        });
-
         excluir.setText("Excluir");
         excluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,6 +159,11 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         });
 
         atualizar.setText("Atualizar");
+        atualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                atualizarActionPerformed(evt);
+            }
+        });
 
         limparDados.setText("Limpar dados");
         limparDados.addActionListener(new java.awt.event.ActionListener() {
@@ -155,12 +181,6 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             }
         });
 
-        inputCPF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputCPFActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("Nome*:");
 
@@ -169,12 +189,6 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setText("Data de Nascimento*:");
-
-        inputTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputTelefoneActionPerformed(evt);
-            }
-        });
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setText("Sigla do Estado*:");
@@ -241,6 +255,12 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             }
         });
 
+        inputCPF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputCPFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -250,35 +270,38 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(limparDados)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(excluir))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(inputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                                    .addComponent(inputTelefone)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(inputDataDeNascimento, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel13))
-                                .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(limparDados)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                                    .addComponent(excluir))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(inputTelefone)
+                                        .addComponent(inputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(4, 4, 4)
+                                    .addComponent(inputDataDeNascimento)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(inputCEP)
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(inputCEP, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(buscarCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(inputCPF))))
-                        .addGap(18, 18, 18)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(inputCPF)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -293,7 +316,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cancelar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
                                         .addComponent(atualizar))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -324,21 +347,8 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(inputTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(inputDataDeNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(inputCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13)
-                            .addComponent(buscarCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel2)
+                            .addComponent(inputTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(inputEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -350,15 +360,25 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(inputBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(inputBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(inputDataDeNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(inputLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5)))
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(inputNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(inputNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel13)
+                                .addComponent(inputCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(buscarCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -370,16 +390,12 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                         .addComponent(limparDados)
                         .addComponent(cancelar))
                     .addComponent(atualizar))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void inputDataDeNascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputDataDeNascimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputDataDeNascimentoActionPerformed
 
     private void limparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparDadosActionPerformed
         this.limparDados();
@@ -389,17 +405,20 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputNomeActionPerformed
 
-    private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputCPFActionPerformed
-
-    private void inputTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTelefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputTelefoneActionPerformed
-
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
-        this.limparDados();
-        this.setVisible(false);
+        try {
+            int escolhaDoUsuario = JOptionPane.showConfirmDialog(null, "Deseja, realmente, excluir esse paciente? \nEssa ação não poderá ser desfeita!");
+            if (escolhaDoUsuario == RETORNO_DE_CONFIRMACAO_DO_JOPTIONPANE_SHOW_CONFIRM_DIALOG) {
+                PACIENTE_CONTROL.excluir(this.obterIdPaciente());
+                JOptionPane.showMessageDialog(null, "O paciente foi removido com sucesso!");
+                this.carregarPacientes();
+                this.limparDados();
+            } else {
+                JOptionPane.showMessageDialog(null, "O paciente será mantido!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_excluirActionPerformed
 
     private void inputBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputBairroActionPerformed
@@ -423,10 +442,94 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
     }//GEN-LAST:event_inputLogradouroActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-        // TODO add your handling code here:
+        this.limparDados();
+        this.setVisible(false);
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void buscarCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarCEPActionPerformed
+        this.buscarCEP();
+    }//GEN-LAST:event_buscarCEPActionPerformed
+
+    private void atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarActionPerformed
+
+        try {
+
+            Long id = obterIdPaciente();
+            String nome = this.inputNome.getText();
+            String telefone = this.inputTelefone.getText();
+            String[] dataInformada = this.inputDataDeNascimento.getText().split("/");
+            LocalDate dataDeNascimento = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
+
+            String cpf = this.inputCPF.getText();
+            String cep = this.inputCEP.getText();
+// && validarCpf(cpf)
+            if (!validarDtNascimento(dataDeNascimento)) {
+                 JOptionPane.showMessageDialog(null, "Data de Nascimento Inválida");
+            }
+            else if (!validarCpf(cpf)) {
+                JOptionPane.showMessageDialog(null, "CPF Inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+               //  JOptionPane.showMessageDialog(null, "CPF Inválido");
+            } else {
+                PACIENTE_CONTROL.editar(id, nome, telefone, dataDeNascimento, cpf, cep);
+
+                JOptionPane.showMessageDialog(null, "Paciente atualizado com sucesso!");
+
+                this.limparDados();
+                this.carregarPacientes();
+            }
+        } catch (RuntimeException e) {
+
+        }
+
+
+    }//GEN-LAST:event_atualizarActionPerformed
+
+    private void tabelaPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPacientesMouseClicked
+        int selectedRow = this.tabelaPacientes.getSelectedRow();
+
+        if (selectedRow != -1) {
+            Paciente paciente = PACIENTE_CONTROL.carregarPaciente(this.obterIdPaciente());
+            JTextField nome = this.inputNome;
+            JTextField telefone = this.inputTelefone;
+            JTextField dataDeNascimento = this.inputDataDeNascimento;
+            JTextField cpf = this.inputCPF;
+
+            JTextField cep = this.inputCEP;
+            JTextField estado = this.inputEstado;
+            JTextField bairro = this.inputBairro;
+            JTextField municipio = this.inputMunicipio;
+            JTextField logradouro = this.inputLogradouro;
+            JTextField numero = this.inputNumero;
+            JTextField complemento = this.inputComplemento;
+            JTable tabelaPacientes = this.tabelaPacientes;
+
+            nome.setText(tabelaPacientes.getValueAt(tabelaPacientes.getSelectedRow(), 1).toString());
+            telefone.setText(tabelaPacientes.getValueAt(tabelaPacientes.getSelectedRow(), 2).toString());
+            String[] dataInformada = tabelaPacientes.getValueAt(tabelaPacientes.getSelectedRow(), 3).toString().split("-");
+            String dtNascimento = dataInformada[2] + dataInformada[1] + dataInformada[0];
+            dataDeNascimento.setText(dtNascimento);
+            cpf.setText(tabelaPacientes.getValueAt(tabelaPacientes.getSelectedRow(), 4).toString());
+
+            cep.setText(tabelaPacientes.getValueAt(tabelaPacientes.getSelectedRow(), 5).toString());
+
+            this.buscarCEP();
+
+            estado.setText(paciente.getEndereco().getEstado());
+            bairro.setText(paciente.getEndereco().getBairro());
+            municipio.setText(paciente.getEndereco().getMunicipio());
+            logradouro.setText(paciente.getEndereco().getLogradouro());
+            numero.setText(paciente.getEndereco().getNumero());
+            complemento.setText(paciente.getEndereco().getComplemento());
+
+        }
+
+    }//GEN-LAST:event_tabelaPacientesMouseClicked
+
+    private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputCPFActionPerformed
+
+    private void buscarCEP() {
         String cepInformado = this.inputCEP.getText();
 
         if (cepInformado.trim().length() == 9) {
@@ -448,12 +551,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                 bairro.setText(endereco.get("bairro").toString());
                 logradouro.setText(endereco.get("logradouro").toString());
                 complemento.setText(endereco.get("complemento").toString());
-
-                estado.setEditable(estado.getText().isEmpty());
-                municipio.setEditable(municipio.getText().isEmpty());
-                bairro.setEditable(bairro.getText().isEmpty());
-                logradouro.setEditable(logradouro.getText().isEmpty());
-                complemento.setEditable(complemento.getText().isEmpty());
+                this.verificarPermissaoDosCampos();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -461,7 +559,8 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Informe um CEP completo!");
         }
-    }//GEN-LAST:event_buscarCEPActionPerformed
+
+    }
 
     /**
      * @param args the command line arguments
@@ -506,6 +605,24 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         this.inputDataDeNascimento.setText("");
         this.inputNome.setText("");
         this.inputTelefone.setText("");
+        this.inputCPF.setText("");
+        this.inputCEP.setText("");
+        this.inputEstado.setText("");
+        this.inputBairro.setText("");
+        this.inputMunicipio.setText("");
+        this.inputLogradouro.setText("");
+        this.inputNumero.setText("");
+        this.inputComplemento.setText("");
+        this.verificarPermissaoDosCampos();
+    }
+
+    private void verificarPermissaoDosCampos() {
+
+        this.inputEstado.setEditable(this.inputEstado.getText().trim().isEmpty());
+        this.inputMunicipio.setEditable(this.inputMunicipio.getText().isEmpty());
+        this.inputBairro.setEditable(this.inputBairro.getText().isEmpty());
+        this.inputLogradouro.setEditable(this.inputLogradouro.getText().isEmpty());
+        this.inputComplemento.setEditable(this.inputComplemento.getText().isEmpty());
     }
 
     public void carregarPacientes() {
@@ -523,11 +640,24 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                     paciente.getTelefone(),
                     paciente.getDataDeNascimento(),
                     paciente.getCpf(),
-                    paciente.getEndereco().obterEnderecoEscritoPorExtenso()
+                    paciente.getEndereco().getCep()
                 });
             });
         }
     }
+
+    private Long obterIdPaciente() {
+
+        int selectedRow = this.tabelaPacientes.getSelectedRow();
+        if (selectedRow != VALOR_DE_RETORNO_QUANDO_NAO_HOUVER_LINHA_SELECIONADA_NA_JTABLE) {
+            return Long.parseLong(this.tabelaPacientes.getValueAt(selectedRow, 0).toString());
+        } else {
+            String mensagem = "Nenhuma linha selecionada. Selecione uma linha para alterar seus dados";
+            JOptionPane.showMessageDialog(null, mensagem);
+            throw new RuntimeException(mensagem);
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton atualizar;
     private javax.swing.JButton buscarCEP;
@@ -535,15 +665,15 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
     private javax.swing.JButton excluir;
     private javax.swing.JTextField inputBairro;
     private javax.swing.JFormattedTextField inputCEP;
-    private javax.swing.JTextField inputCPF;
+    private javax.swing.JFormattedTextField inputCPF;
     private javax.swing.JTextField inputComplemento;
-    private javax.swing.JTextField inputDataDeNascimento;
+    private javax.swing.JFormattedTextField inputDataDeNascimento;
     private javax.swing.JFormattedTextField inputEstado;
     private javax.swing.JTextField inputLogradouro;
     private javax.swing.JTextField inputMunicipio;
     private javax.swing.JTextField inputNome;
     private javax.swing.JTextField inputNumero;
-    private javax.swing.JTextField inputTelefone;
+    private javax.swing.JFormattedTextField inputTelefone;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

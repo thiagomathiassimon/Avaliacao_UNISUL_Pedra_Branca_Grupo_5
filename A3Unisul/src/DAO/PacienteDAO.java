@@ -57,8 +57,6 @@ public class PacienteDAO implements CrudInterface<Paciente> {
         }
     }
 
-
-
     @Override
     public ArrayList<Paciente> buscar() {
 
@@ -69,23 +67,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             ResultSet res = stmt.executeQuery("SELECT * FROM paciente p INNER JOIN endereco e ON p.endereco=e.idEndereco");
             while (res.next()) {
 
-                String nome = res.getString("nome");
-                String telefone = res.getString("telefone");
-                Long idPaciente = res.getLong("idPaciente");
-                String data = res.getString("dataDeNascimento");
-                LocalDate dataDeNascimento = LocalDate.parse(data);
-                String estado = res.getString("estado");
-                String municipio = res.getString("municipio");
-                String bairro = res.getString("bairro");
-                String logradouro = res.getString("logradouro");
-                String numero = res.getString("numero");
-                String complemento = res.getString("complemento");
-                Long idEndereco = res.getLong("idEndereco");
-                String cpf = res.getString("cpf");
-
-                Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
-
-                Paciente paciente = new Paciente(idPaciente, endereco, dataDeNascimento, nome, telefone, cpf);
+                Paciente paciente = obterDadosDoSQL(res);
 
                 list.add(paciente);
 
@@ -193,23 +175,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             ResultSet res = stmt.executeQuery();
             res.next();
 
-            String nome = res.getString("nome");
-            String telefone = res.getString("telefone");
-            Long idPaciente = res.getLong("idPaciente");
-            String data = res.getString("dataDeNascimento");
-            LocalDate dataDeNascimento = LocalDate.parse(data);
-            String estado = res.getString("estado");
-            String municipio = res.getString("municipio");
-            String bairro = res.getString("bairro");
-            String logradouro = res.getString("logradouro");
-            String numero = res.getString("numero");
-            String complemento = res.getString("complemento");
-            Long idEndereco = res.getLong("idEndereco");
-            String cpf = res.getString("cpf");
-
-            Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
-
-            Paciente objeto = new Paciente(idPaciente, endereco, dataDeNascimento, nome, telefone, cpf);
+            Paciente objeto = this.obterDadosDoSQL(res);
 
             stmt.close();
             return objeto;
@@ -220,33 +186,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
     }
 
-    public Endereco carregarEndereco(Long id) throws SQLException {
-        String sql = "SELECT * FROM endereco e where idEndereco = ?";
-        PreparedStatement stmt;
-        try {
-            stmt = this.conexao.getConexao().prepareStatement(sql);
-            stmt.setLong(1, id);
-            ResultSet res = stmt.executeQuery();
-            res.next();
-
-            String estado = res.getString("estado");
-            String municipio = res.getString("municipio");
-            String bairro = res.getString("bairro");
-            String logradouro = res.getString("logradouro");
-            String numero = res.getString("numero");
-            String complemento = res.getString("complemento");
-
-            Endereco endereco = new Endereco(id, estado, municipio, bairro, logradouro, numero, complemento);
-
-            stmt.close();
-            return endereco;
-
-        } catch (SQLException erro) {
-            throw new SQLException(erro.getMessage());
-        }
-    }
-
-    public static Paciente buscarPacientePorCPF(String cpf) throws SQLException {
+    public Paciente buscarPacientePorCPF(String cpf) throws SQLException {
         Conexao conexao = new Conexao();
         try {
             String sql = "SELECT * FROM paciente p INNER JOIN endereco e ON p.endereco=e.idEndereco where cpf = ?";
@@ -255,22 +195,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             ResultSet res = stmt.executeQuery();
             res.next();
 
-            String nome = res.getString("nome");
-            String telefone = res.getString("telefone");
-            Long idPaciente = res.getLong("idPaciente");
-            String data = res.getString("dataDeNascimento");
-            LocalDate dataDeNascimento = LocalDate.parse(data);
-            String estado = res.getString("estado");
-            String municipio = res.getString("municipio");
-            String bairro = res.getString("bairro");
-            String logradouro = res.getString("logradouro");
-            String numero = res.getString("numero");
-            String complemento = res.getString("complemento");
-            Long idEndereco = res.getLong("idEndereco");
-
-            Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
-
-            Paciente objeto = new Paciente(idPaciente, endereco, dataDeNascimento, nome, telefone, cpf);
+            Paciente objeto = this.obterDadosDoSQL(res);
 
             stmt.close();
             return objeto;
@@ -279,6 +204,26 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             throw new SQLException(erro.getMessage());
         }
 
+    }
+
+    private Paciente obterDadosDoSQL(ResultSet res) throws SQLException {
+        String nome = res.getString("nome");
+        String telefone = res.getString("telefone");
+        Long idPaciente = res.getLong("idPaciente");
+        String data = res.getString("dataDeNascimento");
+        LocalDate dataDeNascimento = LocalDate.parse(data);
+        String cpf = res.getString("cpf");
+        String estado = res.getString("estado");
+        String municipio = res.getString("municipio");
+        String bairro = res.getString("bairro");
+        String logradouro = res.getString("logradouro");
+        String numero = res.getString("numero");
+        String complemento = res.getString("complemento");
+        Long idEndereco = res.getLong("idEndereco");
+        String cep = res.getString("cep");
+        Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento, cep);
+        Paciente paciente = new Paciente(idPaciente, endereco, dataDeNascimento, nome, telefone, cpf);
+        return paciente;
     }
 
 }

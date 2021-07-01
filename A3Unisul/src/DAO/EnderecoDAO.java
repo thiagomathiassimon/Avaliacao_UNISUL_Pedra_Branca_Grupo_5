@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -25,7 +24,7 @@ public class EnderecoDAO implements CrudInterface<Endereco> {
     @Override
     public boolean cadastrar(Endereco object) {
 
-        String sql = "INSERT INTO endereco (idEndereco, estado, municipio, bairro, logradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO endereco (idEndereco, estado, municipio, bairro, logradouro, numero, complemento, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
 
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
@@ -37,6 +36,7 @@ public class EnderecoDAO implements CrudInterface<Endereco> {
             stmt.setString(5, object.getLogradouro());
             stmt.setString(6, object.getNumero());
             stmt.setString(7, object.getComplemento());
+            stmt.setString(8, object.getCep());
 
             stmt.execute();
             stmt.close();
@@ -64,8 +64,9 @@ public class EnderecoDAO implements CrudInterface<Endereco> {
                 String numero = res.getString("numero");
                 String complemento = res.getString("complemento");
                 Long idEndereco = res.getLong("idEndereco");
+                String cep = res.getString("cep");
 
-                Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento);
+                Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento, cep);
 
                 list.add(endereco);
 
@@ -81,7 +82,7 @@ public class EnderecoDAO implements CrudInterface<Endereco> {
     @Override
     public boolean editar(Long id, Endereco object) {
 
-        String sql = "update endereco set estado = ?,municipio = ?,bairro = ?,logradouro = ?,numero = ?,complemento = ?"
+        String sql = "update endereco set estado = ?,municipio = ?,bairro = ?,logradouro = ?,numero = ?,complemento = ?, cep = ?"
                 + " where idendereco = ?";
         try {
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
@@ -92,8 +93,9 @@ public class EnderecoDAO implements CrudInterface<Endereco> {
             stmt.setString(4, object.getLogradouro());
             stmt.setString(5, object.getNumero());
             stmt.setString(6, object.getComplemento());
-
-            stmt.setLong(7, id);
+            stmt.setString(7, object.getCep());
+            
+            stmt.setLong(8, id);
 
             stmt.execute();
             stmt.close();
@@ -133,4 +135,32 @@ public class EnderecoDAO implements CrudInterface<Endereco> {
         }
         return id;
     }
+    
+        public Endereco carregarEndereco(Long id) throws SQLException {
+        String sql = "SELECT * FROM endereco e where idEndereco = ?";
+        PreparedStatement stmt;
+        try {
+            stmt = this.conexao.getConexao().prepareStatement(sql);
+            stmt.setLong(1, id);
+            ResultSet res = stmt.executeQuery();
+            res.next();
+
+            String estado = res.getString("estado");
+            String municipio = res.getString("municipio");
+            String bairro = res.getString("bairro");
+            String logradouro = res.getString("logradouro");
+            String numero = res.getString("numero");
+            String complemento = res.getString("complemento");
+            String cep = res.getString("cep");
+
+            Endereco endereco = new Endereco(id, estado, municipio, bairro, logradouro, numero, complemento, cep);
+
+            stmt.close();
+            return endereco;
+
+        } catch (SQLException erro) {
+            throw new SQLException(erro.getMessage());
+        }
+    }
+    
 }

@@ -267,6 +267,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro!");
             }
+           this.limparDados();
         }
     }//GEN-LAST:event_cadastrarActionPerformed
 
