@@ -31,9 +31,9 @@ public class PacienteControl {
         return PACIENTE.buscar();
     }
 
-    public boolean editar(Long id, String nome, String telefone, LocalDate dataDeNascimento, String cpf, String cep)  {
+    public boolean editar(Long id, String nome, String telefone, LocalDate dataDeNascimento, String cpf)  {
         try {
-            return PACIENTE.editar(id, new Paciente(PACIENTE.obterMaiorId() + 1, ENDERECO.carregarEndereco(PACIENTE.obterMaiorIdDeEndereco()), dataDeNascimento, nome, telefone, cpf));
+            return PACIENTE.editar(id, new Paciente(id, ENDERECO.carregarEndereco(id), dataDeNascimento, nome, telefone, cpf));
         } catch (SQLException ex) {
           throw new RuntimeException("Erro na linha 40 do paciente control");
         }

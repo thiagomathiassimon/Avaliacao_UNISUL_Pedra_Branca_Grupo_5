@@ -164,7 +164,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Medico*:"/>
+        <Property name="text" type="java.lang.String" value="M&#xe9;dico*:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -191,7 +191,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Horarios:"/>
+        <Property name="text" type="java.lang.String" value="Hor&#xe1;rios:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">

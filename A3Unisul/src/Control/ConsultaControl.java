@@ -26,8 +26,8 @@ public class ConsultaControl {
     }
     //     public Consulta(Long idConsulta, Paciente paciente, Medico medico, LocalDate dataDoExame, String horarioDeExame, String descricao) {
 
-    public ArrayList<ConsultaControl> buscar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Consulta> buscar() {
+        return CONSULTA.buscar();
     }
 
     public boolean editar(Long id, ConsultaControl object) {
@@ -35,7 +35,7 @@ public class ConsultaControl {
     }
 
     public boolean excluir(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return CONSULTA.excluir(id);
     }
 
     public ArrayList<String[]> buscarMedicos() throws SQLException {

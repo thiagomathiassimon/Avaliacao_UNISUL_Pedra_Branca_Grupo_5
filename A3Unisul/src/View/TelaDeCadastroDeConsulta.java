@@ -117,7 +117,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
         jLabel1.setText("CPF do paciente*:");
 
-        jLabel2.setText("Medico*:");
+        jLabel2.setText("Médico*:");
 
         jLabel4.setText("Data:");
 
@@ -130,7 +130,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Horarios:");
+        jLabel5.setText("Horários:");
 
         jLabel7.setText("Descrição da consulta:");
 

@@ -21,6 +21,8 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
      * Creates new form TelaDeGerenciarMedicos
      */
     private static final MedicoControl MEDICO_CONTROL = new MedicoControl();
+    private static final Integer NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO = 2;
+    private static final Integer VALOR_DE_RETORNO_QUANDO_NAO_HOUVER_LINHA_SELECIONADA_NA_JTABLE = -1;
 
     public TelaDeGerenciamentoDeMedicos() {
         initComponents();
@@ -224,9 +226,9 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
                                 .addComponent(cancelar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(exdcluir)
-                                .addGap(121, 121, 121)
+                                .addGap(110, 110, 110)
                                 .addComponent(atualizar)
-                                .addGap(35, 35, 35))))))
+                                .addGap(61, 61, 61))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,13 +324,19 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
             String crm = this.inputCRM.getText();
             String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
 
-            MEDICO_CONTROL.editar(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
+            if (((periodoDeAtendimento.equalsIgnoreCase("matutino"))
+                    ? (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoMatutino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO)
+                    : (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoVespertino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO))) {
 
-            JOptionPane.showMessageDialog(null, "Medico atualizado com sucesso!");
+                MEDICO_CONTROL.editar(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
 
-            this.limparDados();
-            this.carregarMedicos();
+                JOptionPane.showMessageDialog(null, "Medico atualizado com sucesso!");
 
+                this.limparDados();
+                this.carregarMedicos();
+            } else {
+                JOptionPane.showMessageDialog(null, "Número máximo de médicos neste turno atingido.", "Ocorreu um problema", JOptionPane.WARNING_MESSAGE);
+            }
         } catch (RuntimeException e) {
 
         }
@@ -366,7 +374,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
     private Long obterIdMedico() {
 
         int selectedRow = this.tabelaMedico.getSelectedRow();
-        if (selectedRow != -1) {
+        if (selectedRow != VALOR_DE_RETORNO_QUANDO_NAO_HOUVER_LINHA_SELECIONADA_NA_JTABLE) {
             return Long.parseLong(this.tabelaMedico.getValueAt(selectedRow, 0).toString());
         } else {
             String mensagem = "Nenhuma linha selecionada. Selecione uma linha para alterar seus dados";

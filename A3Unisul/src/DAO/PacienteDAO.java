@@ -82,16 +82,16 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
     @Override
     public boolean editar(Long id, Paciente object) {
-
-        if (validarCpf(object.getCpf())) {
+        System.out.println(object.getCpf());
+        if (!validarCpf(object.getCpf())) {
             throw new InvalidCPFException("CPF informado não é válido.");
-        } else if (validarDtNascimento(object.getDataDeNascimento())) {
+        } else if (!validarDtNascimento(object.getDataDeNascimento())) {
             throw new InvalidBornDateException("A data de nascimento informada é inválida.");
         }
 
         String sql = "UPDATE paciente p INNER JOIN endereco e ON p.endereco=e.idEndereco "
-                + "SET p.nome = ?, p.telefone = ?, p.dataDeNascimento = ?, "
-                + "e.estado = ?, e.municipio = ?, e.bairro = ?, e.logradouro = ?, e.numero = ?, e.complemento = ?  "
+                + "SET p.nome = ?, p.telefone = ?, p.dataDeNascimento = ?, p.cpf = ?, "
+                + "e.estado = ?, e.municipio = ?, e.bairro = ?, e.logradouro = ?, e.numero = ?, e.complemento = ?, e.cep = ?  "
                 + "WHERE p.idPaciente= ?";
 
         try {
@@ -100,14 +100,16 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             stmt.setString(1, object.getNome());
             stmt.setString(2, object.getTelefone());
             stmt.setString(3, object.getDataDeNascimento().toString());
-            stmt.setString(4, object.getEndereco().getEstado());
-            stmt.setString(5, object.getEndereco().getMunicipio());
-            stmt.setString(6, object.getEndereco().getBairro());
-            stmt.setString(7, object.getEndereco().getLogradouro());
-            stmt.setString(8, object.getEndereco().getNumero());
-            stmt.setString(9, object.getEndereco().getComplemento());
+            stmt.setString(4, object.getCpf());
+            stmt.setString(5, object.getEndereco().getEstado());
+            stmt.setString(6, object.getEndereco().getMunicipio());
+            stmt.setString(7, object.getEndereco().getBairro());
+            stmt.setString(8, object.getEndereco().getLogradouro());
+            stmt.setString(9, object.getEndereco().getNumero());
+            stmt.setString(10, object.getEndereco().getComplemento());
+            stmt.setString(11, object.getEndereco().getCep());
 
-            stmt.setLong(10, id);
+            stmt.setLong(12, id);
 
             stmt.execute();
             stmt.close();

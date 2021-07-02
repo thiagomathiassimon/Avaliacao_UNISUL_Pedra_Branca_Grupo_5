@@ -74,7 +74,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
                     + " c.idConsulta,c.dataDoExame,c.horarioDoExame,c.descricao,c.paciente,c.medico,"
                     + " m.idMedico,m.nome nomeMedico, m.crm, m.especialidade, m.periodoDeAtendimento, m.telefone telefoneMedico,"
                     + " p.idPaciente,p.nome nomePaciente, p.telefone telefonePaciente, p.dataDeNascimento, p.endereco, p.cpf,"
-                    + " e.idendereco, e.estado, e.municipio, e.bairro, e.logradouro, e.numero, e.complemento "
+                    + " e.idendereco, e.estado, e.municipio, e.bairro, e.logradouro, e.numero, e.complemento, e.cep "
                     + " FROM consulta c inner join medico m on c.medico = m.idMedico "
                     + " Inner join paciente p on c.paciente = p.idPaciente "
                     + " INNER JOIN endereco e ON p.endereco=e.idEndereco");

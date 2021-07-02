@@ -14,7 +14,6 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
     private Endereco endereco;
     private LocalDate dataDeNascimento;
     private String cpf;
-    private String cep;
 
     private static final PacienteDAO PACIENTE_DAO = new PacienteDAO();
 
@@ -60,14 +59,6 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
 
     public void setIdPaciente(Long idPaciente) {
         this.idPaciente = idPaciente;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
     }
 
     @Override
