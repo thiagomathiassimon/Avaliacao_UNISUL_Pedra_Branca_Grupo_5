@@ -29,9 +29,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
     public Conexao getConexao() {
         return conexao;
     }
-    
-    
-    
+
     @Override
     public boolean cadastrar(Consulta object) {
 
@@ -77,7 +75,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
                     + " e.idendereco, e.estado, e.municipio, e.bairro, e.logradouro, e.numero, e.complemento, e.cep "
                     + " FROM consulta c inner join medico m on c.medico = m.idMedico "
                     + " Inner join paciente p on c.paciente = p.idPaciente "
-                    + " INNER JOIN endereco e ON p.endereco=e.idEndereco");
+                    + " INNER JOIN endereco e ON p.endereco=e.idEndereco ORDER BY(c.idConsulta) ASC ");
             while (res.next()) {
 
                 Consulta consulta = obterDadosDoSQL(res);
@@ -171,8 +169,10 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
         LocalDate dataDoExame = objeto.getDataDoExame();
         String horarioDoExame = objeto.getHorarioDeExame();
-
+        System.out.println("validarHorario(horarioDoExame): " + validarHorario(horarioDoExame));
+        System.out.println("validarData(dataDoExame):" + validarData(dataDoExame));
         if (!validarHorario(horarioDoExame) || !validarData(dataDoExame)) {
+            System.out.println("entrei no IF");
             return false;
         }
 
@@ -203,7 +203,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
                     + " c.idConsulta,c.dataDoExame,c.horarioDoExame,c.descricao,c.paciente,c.medico,"
                     + " m.idMedico,m.nome nomeMedico, m.crm, m.especialidade, m.periodoDeAtendimento, m.telefone telefoneMedico,"
                     + " p.idPaciente,p.nome nomePaciente, p.telefone telefonePaciente, p.dataDeNascimento, p.endereco, p.cpf,"
-                    + " e.idendereco, e.estado, e.municipio, e.bairro, e.logradouro, e.numero, e.complemento "
+                    + " e.idendereco, e.estado, e.municipio, e.bairro, e.logradouro, e.numero, e.complemento, e.cep "
                     + " FROM consulta c inner join medico m on c.medico = m.idMedico "
                     + " Inner join paciente p on c.paciente = p.idPaciente"
                     + " INNER JOIN endereco e ON p.endereco=e.idEndereco"
@@ -213,7 +213,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
             ResultSet res = stmt.executeQuery();
             res.next();
 
-           Consulta consulta = obterDadosDoSQL(res);
+            Consulta consulta = obterDadosDoSQL(res);
 
             stmt.close();
             return consulta;
@@ -272,17 +272,17 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
         String nomeMedico = res.getString("nomeMedico");
         String telefoneMedico = res.getString("telefoneMedico");
         Long idMedico = res.getLong("idMedico");
-        String crm = res.getString("crm");        
+        String crm = res.getString("crm");
         String especialidade = res.getString("especialidade");
         String periodoDeAtendimento = res.getString("periodoDeAtendimento");
-        
+
         String nomePaciente = res.getString("nomePaciente");
         String telefonePaciente = res.getString("telefonePaciente");
         Long idPaciente = res.getLong("idPaciente");
         String data = res.getString("dataDeNascimento");
         String cpf = res.getString("cpf");
         LocalDate dataDeNascimento = LocalDate.parse(data);
-        
+
         String estado = res.getString("estado");
         String municipio = res.getString("municipio");
         String bairro = res.getString("bairro");
@@ -291,12 +291,12 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
         String complemento = res.getString("complemento");
         Long idEndereco = res.getLong("idEndereco");
         String cep = res.getString("cep");
-        
+
         Long idConsulta = res.getLong("idConsulta");
         LocalDate dataDoExame = LocalDate.parse(res.getString("dataDoExame"));
         String horarioDeExame = res.getString("horarioDoExame");
         String descricao = res.getString("descricao");
-        
+
         Endereco endereco = new Endereco(idEndereco, estado, municipio, bairro, logradouro, numero, complemento, cep);
         Medico medico = new Medico(idMedico, crm, especialidade, periodoDeAtendimento, nomeMedico, telefoneMedico);
         Paciente paciente = new Paciente(idPaciente, endereco, dataDeNascimento, nomePaciente, telefonePaciente, cpf);

@@ -373,7 +373,6 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         } else {
             try {
                 ENDERECO_CONTROL.cadastrar(estado, municipio, bairro, logradouro, numero, complemento, cep);
-
                 PACIENTE_CONTROL.cadastrar(nome, telefone, dataDeNascimento, cpf);
                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
                 this.limparDados();
@@ -508,8 +507,17 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         this.inputNumero.setText("");
         this.inputComplemento.setText("");
         this.inputCEP.setText("");
+        this.verificarPermissaoDosCampos();
     }
 
+        private void verificarPermissaoDosCampos() {
+
+        this.inputEstado.setEditable(this.inputEstado.getText().trim().isEmpty());
+        this.inputMunicipio.setEditable(this.inputMunicipio.getText().isEmpty());
+        this.inputBairro.setEditable(this.inputBairro.getText().isEmpty());
+        this.inputLogradouro.setEditable(this.inputLogradouro.getText().isEmpty());
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscarCEP;

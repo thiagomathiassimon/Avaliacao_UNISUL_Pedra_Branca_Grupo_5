@@ -7,8 +7,11 @@ package View;
 
 import Control.ConsultaControl;
 import Model.Consulta;
+import static Util.Validacoes.validarDataDeConsulta;
+import static Util.Validacoes.validarHorario;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,120 +56,143 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
         }
         jLabel5 = new javax.swing.JLabel();
         cancelar = new javax.swing.JButton();
-        inputHorario = new javax.swing.JTextField();
-        atualizar = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        limparDados = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        InputDescricao = new javax.swing.JTextArea();
-        inputPaciente = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        inputData = new javax.swing.JFormattedTextField();
-        try {
-            inputData = new JFormattedTextField(new MaskFormatter("##/##/####"));
-        } catch (ParseException ex) {
-            Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        excluir = new javax.swing.JButton();
-
-        setTitle("Gerenciamento");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+        try{
+            inputHorario = new javax.swing.JFormattedTextField(new MaskFormatter("##:##"));
+            atualizar = new javax.swing.JButton();
+            jLabel7 = new javax.swing.JLabel();
+            limparDados = new javax.swing.JButton();
+            jScrollPane1 = new javax.swing.JScrollPane();
+            InputDescricao = new javax.swing.JTextArea();
+            inputPaciente = new javax.swing.JTextField();
+            jLabel1 = new javax.swing.JLabel();
+            jLabel2 = new javax.swing.JLabel();
+            jLabel4 = new javax.swing.JLabel();
+            inputData = new javax.swing.JFormattedTextField();
+            try {
+                inputData = new JFormattedTextField(new MaskFormatter("##/##/####"));
+            } catch (ParseException ex) {
+                Logger.getLogger(TelaDeCadastroDeMedico.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
+            excluir = new javax.swing.JButton();
+            label97 = new javax.swing.JLabel();
+            try{
+                inputCPF = new javax.swing.JFormattedTextField(new MaskFormatter("###.###.###-##"));
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabel6.setText("Gerenciamento de Consultas");
+                setTitle("Gerenciamento");
+                addWindowListener(new java.awt.event.WindowAdapter() {
+                    public void windowActivated(java.awt.event.WindowEvent evt) {
+                        formWindowActivated(evt);
+                    }
+                });
 
-        tabelaConsulta.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                jLabel6.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+                jLabel6.setText("Gerenciamento de Consultas");
 
-            },
-            new String [] {
-                "ID", "Paciente", "Médico", "Data", "Horários", "Descrição"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
+                tabelaConsulta.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object [][] {
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabelaConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelaConsultaMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tabelaConsulta);
+                    },
+                    new String [] {
+                        "ID", "Paciente", "CPF", "Médico", "Data", "Horários", "Descrição"
+                    }
+                ) {
+                    boolean[] canEdit = new boolean [] {
+                        false, false, false, false, false, false, false
+                    };
 
-        comboBoxSelecionarMedico.addActionListener(new java.awt.event.ActionListener() {
+                    public boolean isCellEditable(int rowIndex, int columnIndex) {
+                        return canEdit [columnIndex];
+                    }
+                });
+                tabelaConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        tabelaConsultaMouseClicked(evt);
+                    }
+                });
+                jScrollPane2.setViewportView(tabelaConsulta);
+                if (tabelaConsulta.getColumnModel().getColumnCount() > 0) {
+                    tabelaConsulta.getColumnModel().getColumn(0).setPreferredWidth(20);
+                }
+
+                comboBoxSelecionarMedico.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        comboBoxSelecionarMedicoActionPerformed(evt);
+                    }
+                });
+
+                jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+                jLabel5.setText("Horário:");
+
+                cancelar.setText("Cancelar");
+                cancelar.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        cancelarActionPerformed(evt);
+                    }
+                });
+
+            }catch(Exception e){e.printStackTrace();}
+            inputHorario.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    inputHorarioActionPerformed(evt);
+                }
+            });
+
+            atualizar.setText("Atualizar");
+            atualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    atualizarMouseClicked(evt);
+                }
+            });
+            atualizar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    atualizarActionPerformed(evt);
+                }
+            });
+
+            jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+            jLabel7.setText("Descrição da consulta:");
+
+            limparDados.setText("Limpar dados");
+            limparDados.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    limparDadosActionPerformed(evt);
+                }
+            });
+
+            InputDescricao.setColumns(20);
+            InputDescricao.setRows(5);
+            InputDescricao.setAutoscrolls(false);
+            jScrollPane1.setViewportView(InputDescricao);
+
+            inputPaciente.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    inputPacienteActionPerformed(evt);
+                }
+            });
+
+            jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+            jLabel1.setText("Paciente:");
+
+            jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+            jLabel2.setText("Médico:");
+
+            jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+            jLabel4.setText("Data:");
+
+            excluir.setText("Excluir");
+            excluir.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    excluirActionPerformed(evt);
+                }
+            });
+
+            label97.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+            label97.setText("CPF:");
+
+        }catch(Exception e){e.printStackTrace();}
+        inputCPF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxSelecionarMedicoActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel5.setText("Horários:");
-
-        cancelar.setText("Cancelar");
-        cancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarActionPerformed(evt);
-            }
-        });
-
-        inputHorario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputHorarioActionPerformed(evt);
-            }
-        });
-
-        atualizar.setText("Atualizar");
-        atualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atualizarActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel7.setText("Descrição da consulta:");
-
-        limparDados.setText("Limpar dados");
-        limparDados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                limparDadosActionPerformed(evt);
-            }
-        });
-
-        InputDescricao.setColumns(20);
-        InputDescricao.setRows(5);
-        InputDescricao.setAutoscrolls(false);
-        jScrollPane1.setViewportView(InputDescricao);
-
-        inputPaciente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputPacienteActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("Paciente:");
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setText("Médico:");
-
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Data:");
-
-        excluir.setText("Excluir");
-        excluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                excluirActionPerformed(evt);
+                inputCPFActionPerformed(evt);
             }
         });
 
@@ -174,30 +200,14 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(73, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(54, 54, 54))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)))
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(inputPaciente)
-                                    .addComponent(comboBoxSelecionarMedico, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(inputHorario)
-                                    .addComponent(inputData, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)))
-                            .addComponent(jLabel7))
-                        .addGap(49, 49, 49))
-                    .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(limparDados)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -205,13 +215,34 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                         .addGap(83, 83, 83)
                         .addComponent(cancelar)
                         .addGap(100, 100, 100)
-                        .addComponent(atualizar)))
+                        .addComponent(atualizar))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(inputData, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(inputHorario)
+                                    .addComponent(comboBoxSelecionarMedico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(34, 34, 34)
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(label97)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel7)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addGap(54, 54, 54))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,8 +254,10 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
+                    .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label97, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(comboBoxSelecionarMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -234,9 +267,9 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                     .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,7 +279,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                     .addComponent(limparDados)
                     .addComponent(atualizar)
                     .addComponent(excluir))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -282,10 +315,11 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
         int selectedRow = this.tabelaConsulta.getSelectedRow();
         if (selectedRow != VALOR_DE_RETORNO_QUANDO_NAO_HOUVER_LINHA_SELECIONADA_NA_JTABLE) {
             this.inputPaciente.setText(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 1).toString());
-            this.comboBoxSelecionarMedico.setSelectedItem(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 2));
-            this.inputData.setText(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 3).toString());
-            this.inputHorario.setText(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 4).toString());
-            this.InputDescricao.setText(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 5).toString());
+            this.inputCPF.setText(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 2).toString());
+            this.comboBoxSelecionarMedico.setSelectedItem(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 3));
+            this.inputData.setText(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 4).toString());
+            this.inputHorario.setText(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 5).toString());
+            this.InputDescricao.setText(this.tabelaConsulta.getValueAt(this.tabelaConsulta.getSelectedRow(), 6).toString());
         }
     }//GEN-LAST:event_tabelaConsultaMouseClicked
 
@@ -306,8 +340,41 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
     }//GEN-LAST:event_excluirActionPerformed
 
     private void atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            Long id = obterIdConsulta();
+            Long idMedico = this.obterIdDoMedico();
+
+            String cpf = this.inputCPF.getText().substring(0, 3) + this.inputCPF.getText().substring(4, 7)
+                    + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
+
+            String[] dataInformada = this.inputData.getText().split("/");
+            LocalDate data = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
+            String horario = this.inputHorario.getText();
+            String descricao = this.InputDescricao.getText();
+
+            if (cpf.isEmpty() || idMedico == null || descricao.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
+            } else if (validarDataDeConsulta(data) || !validarHorario(horario)) {
+                JOptionPane.showMessageDialog(null, "Alguns dados estão inválidos, por favor, verifique os campos.");
+            } else {
+                CONSULTA_CONTROL.editar(id, cpf, idMedico, data, horario, descricao);
+                JOptionPane.showMessageDialog(null, "Consulta atualizado com sucesso!");
+                this.limparDados();
+                this.carregarConsultas();
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_atualizarActionPerformed
+
+    private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputCPFActionPerformed
+
+    private void atualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_atualizarMouseClicked
+
+    }//GEN-LAST:event_atualizarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -365,7 +432,8 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
         this.inputData.setText("");
         this.InputDescricao.setText("");
         this.comboBoxSelecionarMedico.setSelectedIndex(0);
-
+        this.tabelaConsulta.removeRowSelectionInterval(0, this.tabelaConsulta.getRowCount() - 1);
+        this.inputCPF.setText("");
     }
 
     private void carregarConsultas() {
@@ -381,6 +449,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                 tabela.addRow(new Object[]{
                     consulta.getIdConsulta(),
                     consulta.getPaciente().getNome(),
+                    consulta.getPaciente().getCpf(),
                     consulta.getMedico().getNome(),
                     String.format("%s/%s/%s", dataDaConsulta[2], dataDaConsulta[1], dataDaConsulta[0]),
                     consulta.getHorarioDeExame(),
@@ -414,7 +483,6 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
         return converterLista;
     }
 
-
     private Long obterIdDoMedico() {
         String indexDoMedico = this.comboBoxSelecionarMedico.getSelectedIndex() + "";
         for (int i = 0; i < idDosMedicosRelacionadosAoSeuIndiceNoComboBox.size() - 1; i++) {
@@ -436,13 +504,14 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
             throw new RuntimeException(mensagem);
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea InputDescricao;
     private javax.swing.JButton atualizar;
     private javax.swing.JButton cancelar;
     private javax.swing.JComboBox<String> comboBoxSelecionarMedico;
     private javax.swing.JButton excluir;
+    private javax.swing.JTextField inputCPF;
     private javax.swing.JFormattedTextField inputData;
     private javax.swing.JTextField inputHorario;
     private javax.swing.JTextField inputPaciente;
@@ -454,6 +523,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel label97;
     private javax.swing.JButton limparDados;
     private javax.swing.JTable tabelaConsulta;
     // End of variables declaration//GEN-END:variables

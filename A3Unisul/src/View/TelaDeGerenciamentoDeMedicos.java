@@ -425,6 +425,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         this.inputNome.setText("");
         this.inputTelefone.setText("");
         this.comboBoxPeriodoDeAtendimento.setSelectedIndex(0);
+        this.tabelaMedico.removeRowSelectionInterval(0, this.tabelaMedico.getRowCount() - 1);
     }
 
     public void carregarMedicos() {

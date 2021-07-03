@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.concurrent.locks.StampedLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class PacienteDAO implements CrudInterface<Paciente> {
 
@@ -86,6 +87,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
         if (!validarCpf(object.getCpf())) {
             throw new InvalidCPFException("CPF informado não é válido.");
         } else if (!validarDtNascimento(object.getDataDeNascimento())) {
+            JOptionPane.showMessageDialog(null, "A data de nascimento informada é inválida.");
             throw new InvalidBornDateException("A data de nascimento informada é inválida.");
         }
 

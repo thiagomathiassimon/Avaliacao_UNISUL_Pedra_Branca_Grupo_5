@@ -8,6 +8,8 @@ package View;
 import Control.ConsultaControl;
 import Control.MedicoControl;
 import Control.PacienteControl;
+import static Util.Validacoes.validarDataDeConsulta;
+import static Util.Validacoes.validarHorario;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -237,37 +239,33 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     }//GEN-LAST:event_comboBoxSelecionarMedicoActionPerformed
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+        try {
+            String cpfDoPaciente = this.inputCPF.getText().substring(0, 3) + this.inputCPF.getText().substring(4, 7)
+                    + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
+            Long idMedico = this.obterIdDoMedico();
+            String[] dataInformada = this.inputData.getText().split("/");
+            LocalDate dataDaConsulta = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
+            String horarioDoExame = this.inputHorario.getText();
+            String descricao = this.InputDescricao.getText();
 
-        int i = 0;
-        for (String string : idDosMedicosRelacionadosAoSeuIndiceNoComboBox) {
-            System.err.println(i + " - " + string);
-            i++;
-        }
-        //  System.err.println(this.idDosMedicosRelacionadosAoSeuIndiceNoComboBox[6]);
+            if (cpfDoPaciente.isEmpty() || idMedico == null || descricao.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
+            } else if (validarDataDeConsulta(dataDaConsulta) || !validarHorario(horarioDoExame)) {
+                JOptionPane.showMessageDialog(null, "Alguns dados estão inválidos, por favor, verifique os campos.");
+            } else {
 
-        String cpfDoPaciente = this.inputCPF.getText().substring(0, 3) + this.inputCPF.getText().substring(4, 7)
-                + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
-        Long idMedico = this.obterIdDoMedico();
-        String[] dataInformada = this.inputData.getText().split("/");
-        LocalDate dataDaConsulta = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
-        String horarioDoExame = this.inputHorario.getText();
-        String descricao = this.InputDescricao.getText();
-        if (cpfDoPaciente.isEmpty() || idMedico == null || dataInformada.length != 3 || horarioDoExame.isEmpty() || descricao.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os");
-        } else {
-            try {
-                CONSULTA_CONTROL.cadastrar(PACIENTE_CONTROL.buscarPacientePorCPF(cpfDoPaciente),
+                if (CONSULTA_CONTROL.cadastrar(PACIENTE_CONTROL.buscarPacientePorCPF(cpfDoPaciente),
                         MEDICO_CONTROL.obterMedicoEspecificadoPeloId(idMedico),
-                        //                        MEDICO_CONTROL.obterMedicoEspecificadoPeloId(4L),
-                        dataDaConsulta, horarioDoExame, descricao);
+                        dataDaConsulta, horarioDoExame, descricao)) {
+                    JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!");
+                    this.limparDados();
+                }
 
-//CONSULTA_CONTROL.cadastrar(dataDaConsulta, horarioDoExame, descricao);
-                JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro!");
             }
-           this.limparDados();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro!");
         }
     }//GEN-LAST:event_cadastrarActionPerformed
 
@@ -337,7 +335,6 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     public String[] buscarMedicos() throws SQLException {
 
         ArrayList<String[]> list = CONSULTA_CONTROL.buscarMedicos();
-//        JOptionPane.showMessageDialog(null, list.size());
         String[] converterLista = {"Não há médicos."};
         if (!list.isEmpty()) {
             converterLista = new String[list.size() + 1];

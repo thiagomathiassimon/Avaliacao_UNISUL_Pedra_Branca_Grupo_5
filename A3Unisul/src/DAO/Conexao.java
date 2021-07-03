@@ -19,7 +19,7 @@ public class Conexao {
             String database = "clinicabonzina";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "1234";
+            String password = "dede2905";
 
             connection = DriverManager.getConnection(url, user, password);
 

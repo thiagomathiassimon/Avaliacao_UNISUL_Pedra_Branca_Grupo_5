@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 public class ConsultaControl {
 
     private static final Consulta CONSULTA = new Consulta();
+    private static final Paciente PACIENTE = new Paciente();
+    private static final Medico MEDICO = new Medico();
 
     public boolean cadastrar(Paciente paciente, Medico medico, LocalDate dataDaConsulta, String horarioDaConsulta, String descricao) {
         return CONSULTA.cadastrar(
@@ -30,8 +32,8 @@ public class ConsultaControl {
         return CONSULTA.buscar();
     }
 
-    public boolean editar(Long id, ConsultaControl object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean editar(Long id, String cpf, Long idMedico, LocalDate data, String horario, String descricao) {
+        return CONSULTA.editar(id, new Consulta(id, PACIENTE.buscarPacientePorCPF(cpf), MEDICO.carregarMedicoEspecificadoPeloId(idMedico), data, horario, descricao));
     }
 
     public boolean excluir(Long id) {

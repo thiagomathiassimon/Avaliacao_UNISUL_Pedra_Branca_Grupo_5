@@ -12,6 +12,18 @@ public class Validacoes {
     //    "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " "};
     private static final String[] CARACTERES_INVALIDOS = {".", ",", "?", "!", "@", "#", "$", "%", "¨", "&", "*", "(", ")",
         "+", "=", "_", "~", "^", "]", "[", "{", "}", "º", "ª", "°", ";", ":", "<", ">", "/", "|", "´", "`"};
+    private static final Integer JANEIRO = 1;
+    private static final Integer FEVEREIRO = 2;
+    private static final Integer MARCO = 3;
+    private static final Integer ABRIL = 4;
+    private static final Integer MAIO = 5;
+    private static final Integer JUNHO = 6;
+    private static final Integer JULHO = 7;
+    private static final Integer AGOSTO = 8;
+    private static final Integer SETEMBRO = 9;
+    private static final Integer OUTUBRO = 10;
+    private static final Integer NOVERMBRO = 11;
+    private static final Integer DEZEMBRO = 12;
 
     private Validacoes() {
     }
@@ -72,12 +84,17 @@ public class Validacoes {
         if (validarData(dtNascimento)) {
 
             int[] dataFormatada = reformatarData(dtNascimento);
+            int diaInformado = dataFormatada[2];
+            int mesInformado = dataFormatada[1];
+            int anoInformado = dataFormatada[0];
 
-            LocalDate hoje = LocalDate.now();
-            int[] dataAtualFormatada = reformatarData(hoje);
+            LocalDate dataAtual = LocalDate.now();
+            int anoAtual = dataAtual.getYear();
+            int mesAtual = dataAtual.getMonthValue();
+            int diaAtual = dataAtual.getDayOfMonth();
 
-            return (dataFormatada[0] <= dataAtualFormatada[0]) && (dataFormatada[0] != dataAtualFormatada[0] || dataFormatada[1] <= dataAtualFormatada[1])
-                    && (dataFormatada[0] != dataAtualFormatada[0] || dataFormatada[1] != dataAtualFormatada[1] || dataFormatada[2] <= dataAtualFormatada[2]);
+            return (anoInformado <= anoAtual) && (anoInformado != anoAtual || mesInformado <= mesAtual)
+                    && (anoInformado != anoAtual || mesInformado != mesAtual || diaInformado <= diaAtual);
         }
 
         return false;
@@ -93,7 +110,6 @@ public class Validacoes {
         String[] horarioInformado = horario.split(":");
         int horasInformadas = Integer.parseInt(horarioInformado[0]);
         int minutosInformados = Integer.parseInt(horarioInformado[1]);
-
         return ((horasInformadas <= NUMERO_MAXIMO_DE_HORAS_NO_DIA && horasInformadas >= NUMERO_MINIMO_DE_HORAS_NO_DIA)
                 && (minutosInformados <= NUMERO_MAXIMO_DE_MINUTOS_NO_DIA && minutosInformados >= NUMERO_MINIMO_DE_MINUTOS_NO_DIA));
 
@@ -102,18 +118,40 @@ public class Validacoes {
     public static boolean validarData(LocalDate data) {
 
         int[] dataFormatada = reformatarData(data);
-        LocalDate localDate = LocalDate.of(dataFormatada[2], 1, 1);
+        LocalDate localDate = LocalDate.of(dataFormatada[0], 1, 1);
 
         int diasDeFevereiro = 28;
         if (localDate.isLeapYear()) {
             diasDeFevereiro = 29;
         }
 
-        return (((dataFormatada[1] == 1 || dataFormatada[1] == 3 || dataFormatada[1] == 5 || dataFormatada[1] == 7
-                || dataFormatada[1] == 8 || dataFormatada[1] == 10 || dataFormatada[1] == 12) && (dataFormatada[2] <= 31))
-                || ((dataFormatada[1] == 4 || dataFormatada[1] == 6 || dataFormatada[1] == 9 || dataFormatada[1] == 11) && (dataFormatada[2] <= 30))
-                || ((dataFormatada[1] == 2) && (dataFormatada[2] <= diasDeFevereiro)));
+        int diaInformado = dataFormatada[2];
+        int mesInformado = dataFormatada[1];
 
+        return (((mesInformado == JANEIRO || mesInformado == MARCO || mesInformado == MAIO || mesInformado == JULHO
+                || mesInformado == AGOSTO || mesInformado == OUTUBRO || mesInformado == DEZEMBRO) && (diaInformado <= 31))
+                || ((mesInformado == ABRIL || mesInformado == JUNHO || mesInformado == SETEMBRO || mesInformado == NOVERMBRO) && (diaInformado <= 30))
+                || ((mesInformado == 2) && (diaInformado <= diasDeFevereiro)));
+    }
+
+    public static boolean validarDataDeConsulta(LocalDate data) {
+
+        if (validarData(data)) {
+
+            int[] dataFormatada = reformatarData(data);
+            int diaInformado = dataFormatada[2];
+            int mesInformado = dataFormatada[1];
+            int anoInformado = dataFormatada[0];
+
+            LocalDate dataAtual = LocalDate.now();
+            int anoAtual = dataAtual.getYear();
+            int mesAtual = dataAtual.getMonthValue();
+            int diaAtual = dataAtual.getDayOfMonth();
+
+            return ((anoAtual > anoInformado) || (anoAtual == anoInformado && mesAtual > mesInformado)
+                    || (anoAtual == anoInformado && mesAtual == mesInformado && diaAtual > diaInformado));
+        }
+        return false;
     }
 
     public static int[] reformatarData(LocalDate data) {
@@ -176,20 +214,6 @@ public class Validacoes {
             }
 
             encontrouLetra = false;
-        }
-
-        return true;
-    }
-
-    public static boolean validarTelefone(String telefone) {
-
-        try {
-
-            int telefoneNumerico = Integer.parseInt(telefone);
-
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return false;
         }
 
         return true;

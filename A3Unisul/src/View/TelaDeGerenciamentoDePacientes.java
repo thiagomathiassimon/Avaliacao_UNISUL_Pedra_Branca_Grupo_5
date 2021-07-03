@@ -107,6 +107,11 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
 
         setTitle("Gerenciamento");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -406,6 +411,8 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
 
     private void limparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparDadosActionPerformed
         this.limparDados();
+        this.tabelaPacientes.removeRowSelectionInterval(0, this.tabelaPacientes.getRowCount()-1);
+    //    this.tabelaPacientes.set
     }//GEN-LAST:event_limparDadosActionPerformed
 
     private void inputNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNomeActionPerformed
@@ -472,14 +479,13 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             LocalDate dataDeNascimento = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
 
             String cpf = this.inputCPF.getText().substring(0, 3) + this.inputCPF.getText().substring(4, 7)
-            + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
+                    + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
 
             String cep = this.inputCEP.getText();
             // && validarCpf(cpf)
             if (!validarDtNascimento(dataDeNascimento)) {
                 JOptionPane.showMessageDialog(null, "Data de Nascimento Inválida");
-            }
-            else if (!validarCpf(cpf)) {
+            } else if (!validarCpf(cpf)) {
                 JOptionPane.showMessageDialog(null, "CPF Inválido", "Erro", JOptionPane.ERROR_MESSAGE);
                 //  JOptionPane.showMessageDialog(null, "CPF Inválido");
             } else {
@@ -536,6 +542,10 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_tabelaPacientesMouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        this.carregarPacientes();
+    }//GEN-LAST:event_formWindowActivated
 
     private void buscarCEP() {
         String cepInformado = this.inputCEP.getText();
@@ -654,6 +664,8 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         }
     }
 
+    
+    
     private Long obterIdPaciente() {
 
         int selectedRow = this.tabelaPacientes.getSelectedRow();
