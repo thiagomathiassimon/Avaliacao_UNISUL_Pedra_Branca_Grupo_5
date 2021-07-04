@@ -4,8 +4,6 @@ import DAO.MedicoDAO;
 import Interface.CrudInterface;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Medico extends Pessoa implements CrudInterface<Medico> {
 
@@ -103,4 +101,13 @@ public class Medico extends Pessoa implements CrudInterface<Medico> {
     public int buscarQuantidadeDeMedicosNoPeriodoVespertino() {
         return MEDICO_DAO.buscarQuantidadeDeMedicosNoPeriodoVespertino();
     }
+
+    public String obterOHorarioDeAtendimentoDeUmMedico(Long id) {
+        try {
+            return MEDICO_DAO.obterOHorarioDeAtendimentoDeUmMedico(id);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Ocorreu um erro na consulta ao banco de dados!");
+        }
+    }
+
 }

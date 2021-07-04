@@ -8,7 +8,6 @@ import Model.Endereco;
 import Model.Medico;
 import Model.Paciente;
 
-import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +15,6 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static Util.Validacoes.reformatarData;
 import static Util.Validacoes.validarHorario;
 import static Util.Validacoes.validarData;
 import java.util.logging.Level;
@@ -169,10 +167,8 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
         LocalDate dataDoExame = objeto.getDataDoExame();
         String horarioDoExame = objeto.getHorarioDeExame();
-        System.out.println("validarHorario(horarioDoExame): " + validarHorario(horarioDoExame));
-        System.out.println("validarData(dataDoExame):" + validarData(dataDoExame));
-        if (!validarHorario(horarioDoExame) || !validarData(dataDoExame)) {
-            System.out.println("entrei no IF");
+        String periodoDeAtendimento = objeto.getMedico().getPeriodoDeAtendimento();
+        if (!validarHorario(horarioDoExame, periodoDeAtendimento) || !validarData(dataDoExame)) {
             return false;
         }
 

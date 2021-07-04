@@ -1,5 +1,7 @@
 package Principal;
 
+import DAO.EnderecoDAO;
+import Model.Endereco;
 import View.TelaInicial;
 
 import java.io.IOException;

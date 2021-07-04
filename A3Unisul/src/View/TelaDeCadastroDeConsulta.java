@@ -250,7 +250,8 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
             if (cpfDoPaciente.isEmpty() || idMedico == null || descricao.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
-            } else if (validarDataDeConsulta(dataDaConsulta) || !validarHorario(horarioDoExame)) {
+            } else if (validarDataDeConsulta(dataDaConsulta)
+                    || !validarHorario(horarioDoExame, MEDICO_CONTROL.obterOHorarioDeAtendimentoDeUmMedico(idMedico))) {
                 JOptionPane.showMessageDialog(null, "Alguns dados estão inválidos, por favor, verifique os campos.");
             } else {
 

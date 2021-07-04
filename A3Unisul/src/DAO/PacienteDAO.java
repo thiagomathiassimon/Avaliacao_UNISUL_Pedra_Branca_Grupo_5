@@ -132,8 +132,8 @@ public class PacienteDAO implements CrudInterface<Paciente> {
             stmt.setLong(1, id);
             stmt.execute();
             stmt.close();
-
-        } catch (SQLException erro) {
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return true;
     }

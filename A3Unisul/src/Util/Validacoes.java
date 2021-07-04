@@ -4,12 +4,11 @@ import java.time.LocalDate;
 
 public class Validacoes {
 
-    private static final int NUMERO_MAXIMO_DE_HORAS_NO_DIA = 24;
-    private static final int NUMERO_MINIMO_DE_HORAS_NO_DIA = 0;
-    private static final int NUMERO_MAXIMO_DE_MINUTOS_NO_DIA = 60;
-    private static final int NUMERO_MINIMO_DE_MINUTOS_NO_DIA = 0;
-    //private static final String[] LETRAS_DO_ALFABETO = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
-    //    "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " "};
+    private static final Integer NUMERO_MAXIMO_DE_HORAS_NO_DIA = 24;
+    private static final Integer NUMERO_MINIMO_DE_HORAS_NO_DIA = 0;
+    private static final Integer NUMERO_MAXIMO_DE_MINUTOS_NO_DIA = 60;
+    private static final Integer NUMERO_MINIMO_DE_MINUTOS_NO_DIA = 0;
+    private static final Integer NUMERO_DE_CARACTERES_DO_HORARIO_FORMATADO_PELA_MASCARA = 5;
     private static final String[] CARACTERES_INVALIDOS = {".", ",", "?", "!", "@", "#", "$", "%", "¨", "&", "*", "(", ")",
         "+", "=", "_", "~", "^", "]", "[", "{", "}", "º", "ª", "°", ";", ":", "<", ">", "/", "|", "´", "`"};
     private static final Integer JANEIRO = 1;
@@ -101,18 +100,37 @@ public class Validacoes {
 
     }
 
-    public static boolean validarHorario(String horario) {
+    public static boolean validarHorario(String horario, String periodoDeAtendimentoDoMedico) {
 
-        if (horario.length() != 5) {
+        if (horario.length() != NUMERO_DE_CARACTERES_DO_HORARIO_FORMATADO_PELA_MASCARA) {
             return false;
         }
 
         String[] horarioInformado = horario.split(":");
         int horasInformadas = Integer.parseInt(horarioInformado[0]);
         int minutosInformados = Integer.parseInt(horarioInformado[1]);
-        return ((horasInformadas <= NUMERO_MAXIMO_DE_HORAS_NO_DIA && horasInformadas >= NUMERO_MINIMO_DE_HORAS_NO_DIA)
-                && (minutosInformados <= NUMERO_MAXIMO_DE_MINUTOS_NO_DIA && minutosInformados >= NUMERO_MINIMO_DE_MINUTOS_NO_DIA));
 
+        Integer horarioInicialDeAtendimento = 0;
+        Integer horarioFinalDeAtendimento = 0;
+
+        if (periodoDeAtendimentoDoMedico.equalsIgnoreCase("MATUTINO")) {
+            horarioInicialDeAtendimento = 6;
+            horarioFinalDeAtendimento = 12;
+        } else if (periodoDeAtendimentoDoMedico.equalsIgnoreCase("VESPERTINO")) {
+            horarioInicialDeAtendimento = 13;
+            horarioFinalDeAtendimento = 19;
+        }
+
+        if ((horasInformadas > horarioFinalDeAtendimento) || ((horasInformadas == horarioFinalDeAtendimento)
+                && (minutosInformados != NUMERO_MINIMO_DE_MINUTOS_NO_DIA))
+                || (horasInformadas < horarioInicialDeAtendimento)) {
+            return false;
+        }
+
+        return ((horasInformadas <= NUMERO_MAXIMO_DE_HORAS_NO_DIA
+                && horasInformadas >= NUMERO_MINIMO_DE_HORAS_NO_DIA)
+                && (minutosInformados <= NUMERO_MAXIMO_DE_MINUTOS_NO_DIA
+                && minutosInformados >= NUMERO_MINIMO_DE_MINUTOS_NO_DIA));
     }
 
     public static boolean validarData(LocalDate data) {
@@ -131,7 +149,7 @@ public class Validacoes {
         return (((mesInformado == JANEIRO || mesInformado == MARCO || mesInformado == MAIO || mesInformado == JULHO
                 || mesInformado == AGOSTO || mesInformado == OUTUBRO || mesInformado == DEZEMBRO) && (diaInformado <= 31))
                 || ((mesInformado == ABRIL || mesInformado == JUNHO || mesInformado == SETEMBRO || mesInformado == NOVERMBRO) && (diaInformado <= 30))
-                || ((mesInformado == 2) && (diaInformado <= diasDeFevereiro)));
+                || ((mesInformado == FEVEREIRO) && (diaInformado <= diasDeFevereiro)));
     }
 
     public static boolean validarDataDeConsulta(LocalDate data) {

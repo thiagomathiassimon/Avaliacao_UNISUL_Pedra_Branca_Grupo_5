@@ -42,7 +42,6 @@ public class ConsultaControl {
 
     public ArrayList<String[]> buscarMedicos() throws SQLException {
         return CONSULTA.buscarMedicos();
-
     }
 
 }

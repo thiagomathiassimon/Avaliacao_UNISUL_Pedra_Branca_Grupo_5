@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MedicoDAO implements CrudInterface<Medico> {
 
@@ -212,4 +211,18 @@ public class MedicoDAO implements CrudInterface<Medico> {
             throw new RuntimeException("Ocorreu um erro!");
         }
     }
+
+    public String obterOHorarioDeAtendimentoDeUmMedico(Long id) throws SQLException {
+        String sql = "SELECT m.periodoDeAtendimento FROM medico m WHERE m.idMedico = ?";
+
+        PreparedStatement preparedStatement = this.conexao.getConexao().prepareStatement(sql);
+
+        preparedStatement.setLong(1, id);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+
+        return resultSet.getString("periodoDeAtendimento");
+    }
+
 }

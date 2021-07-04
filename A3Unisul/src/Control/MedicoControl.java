@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Control;
 
 import Model.Medico;
@@ -48,4 +43,9 @@ public class MedicoControl {
     public int buscarQuantidadeDeMedicosNoPeriodoVespertino() {
         return MEDICO.buscarQuantidadeDeMedicosNoPeriodoVespertino();
     }
+    
+    public String obterOHorarioDeAtendimentoDeUmMedico(Long id) {
+        return MEDICO.obterOHorarioDeAtendimentoDeUmMedico(id);
+    }
+    
 }

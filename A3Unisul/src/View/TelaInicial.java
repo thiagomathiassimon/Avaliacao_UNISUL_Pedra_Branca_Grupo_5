@@ -5,6 +5,10 @@
  */
 package View;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
+
 /**
  *
  * @author G-fire
@@ -26,6 +30,9 @@ public class TelaInicial extends javax.swing.JFrame {
         telaDeCadastroDeConsulta = new TelaDeCadastroDeConsulta();
         telaDeGerenciamentoDeConsultas = new TelaDeGerenciamentoDeConsultas();
         initComponents();       
+        URL imagem = this.getClass().getResource("/Assets/Assets.png");
+        Image icone = Toolkit.getDefaultToolkit().getImage(imagem);
+        this.setIconImage(icone);
     }
 
     /**
@@ -38,6 +45,8 @@ public class TelaInicial extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
@@ -52,9 +61,14 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
+        jButton1.setText("jButton1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clínica Bonzina");
         setResizable(false);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\mathiastsimon\\Downloads\\Clínica BONZINA.png")); // NOI18N
+        jLabel1.setText("jLabel1");
 
         jMenu3.setText("Sair");
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -135,11 +149,13 @@ public class TelaInicial extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 438, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 316, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 435, Short.MAX_VALUE)
         );
 
         pack();
@@ -222,6 +238,8 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem gerenciarAgendamento;
     private javax.swing.JMenuItem gerenciarMedico;
     private javax.swing.JMenuItem gerenciarPaciente;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

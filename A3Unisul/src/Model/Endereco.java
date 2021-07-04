@@ -94,7 +94,6 @@ public class Endereco {
         this.cep = cep;
     }
 
-    
     public boolean cadastrar(Endereco object) {
         return ENDERECO_DAO.cadastrar(object);
     }
@@ -108,9 +107,7 @@ public class Endereco {
         return "Endereco{" + "\nestado=" + estado + ", \nmunicipio=" + municipio + ", \nbairro=" + bairro + ", \nlogradouro=" + logradouro + ", \nnumero=" + numero + ", \ncomplemento=" + complemento + '}';
     }
 
-        public Endereco carregarEndereco(Long id) throws SQLException {
+    public Endereco carregarEndereco(Long id) throws SQLException {
         return ENDERECO_DAO.carregarEndereco(id);
     }
-
-    
 }
