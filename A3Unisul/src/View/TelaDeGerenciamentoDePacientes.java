@@ -19,6 +19,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import org.json.JSONObject;
@@ -37,6 +39,15 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         URL imagem = this.getClass().getResource("/Assets/Assets.png");
         Image icone = Toolkit.getDefaultToolkit().getImage(imagem);
         this.setIconImage(icone);
+
+        DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+
+        centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+
+        Integer numeoDeColunasDaTabela = this.tabelaPacientes.getColumnCount() - 1;
+        for (int i = 0; i <= numeoDeColunasDaTabela; i++) {
+            this.tabelaPacientes.getColumnModel().getColumn(i).setCellRenderer(centralizado);
+        }
     }
 
     @SuppressWarnings("unchecked")

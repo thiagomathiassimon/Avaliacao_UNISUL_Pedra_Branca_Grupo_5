@@ -8,6 +8,8 @@ import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
@@ -22,7 +24,15 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         getContentPane().setBackground(Color.getColor("282A36"));
         URL imagem = this.getClass().getResource("/Assets/Assets.png");
         Image icone = Toolkit.getDefaultToolkit().getImage(imagem);
-        this.setIconImage(icone);
+        
+        this.setIconImage(icone);   DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+
+        centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+
+        Integer numeoDeColunasDaTabela = this.tabelaMedico.getColumnCount() - 1;
+        for (int i = 0; i <= numeoDeColunasDaTabela; i++) {
+            this.tabelaMedico.getColumnModel().getColumn(i).setCellRenderer(centralizado);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -123,7 +133,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         });
 
         cancelar.setBackground(new java.awt.Color(94, 23, 203));
-        cancelar.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        cancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cancelar.setForeground(new java.awt.Color(245, 245, 245));
         cancelar.setText("Voltar");
         cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -140,7 +150,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         });
 
         atualizar.setBackground(new java.awt.Color(94, 23, 203));
-        atualizar.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        atualizar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         atualizar.setForeground(new java.awt.Color(245, 245, 245));
         atualizar.setText("Atualizar");
         atualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -159,7 +169,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         });
 
         limparDados.setBackground(new java.awt.Color(94, 23, 203));
-        limparDados.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        limparDados.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         limparDados.setForeground(new java.awt.Color(245, 245, 245));
         limparDados.setText("Limpar dados");
         limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -197,7 +207,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         jLabel6.setText("Gerenciamento de Médicos");
 
         exdcluir.setBackground(new java.awt.Color(94, 23, 203));
-        exdcluir.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        exdcluir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         exdcluir.setForeground(new java.awt.Color(245, 245, 245));
         exdcluir.setText("Excluir");
         exdcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -217,7 +227,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
                 .addComponent(jScrollPane1)
                 .addGap(15, 15, 15))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(162, Short.MAX_VALUE)
+                .addContainerGap(137, Short.MAX_VALUE)
                 .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(limparDados)
@@ -271,7 +281,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxPeriodoDeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelar)
                     .addComponent(limparDados)
