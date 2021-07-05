@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
-import javafx.scene.text.Font;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
@@ -230,17 +229,22 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         String nome = this.inputNome.getText();
         String telefone = this.inputTelefone.getText();
         String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
-
-        if ((Validacoes.validarNome(nome)) && (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() != 0)
-                && ((periodoDeAtendimento.equalsIgnoreCase("matutino"))
-                ? (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoMatutino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO)
-                : (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoVespertino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO))) {
-            MEDICO_CONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
-            JOptionPane.showMessageDialog(null, "Médico cadastrado com sucesso!");
-            this.limparDados();
-        } else {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro. \nVerifique os valores informados e tente novamente!");
+        try {
+            if ((Validacoes.validarNome(nome)) && (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() != 0)
+                    && ((periodoDeAtendimento.equalsIgnoreCase("matutino"))
+                    ? (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoMatutino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO)
+                    : (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoVespertino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO))) {
+                MEDICO_CONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
+                JOptionPane.showMessageDialog(null, "Médico cadastrado com sucesso!");
+                this.limparDados();
+            } else {
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro. \nVerifique os valores informados e tente novamente!");
+            }
+        } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Não foi possível concluir o cadastro.", "Erro", JOptionPane.ERROR);
         }
+
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void limparDados() {

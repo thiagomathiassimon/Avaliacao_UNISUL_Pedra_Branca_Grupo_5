@@ -174,11 +174,36 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
         try {
 
-            String sql = "select * from consulta c where dataDoExame = ? and horarioDoExame = ? and medico = ?";
+            String sql = "select * from consulta c where horarioDoExame between ? and ? and dataDoExame = ? and medico = ? or "
+                    + "horarioDoExame between ? and ? and dataDoExame = ? and paciente = ?";
+
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
-            stmt.setString(1, dataDoExame.toString());
-            stmt.setString(2, horarioDoExame);
-            stmt.setLong(3, objeto.getMedico().getIdMedico());
+
+            String[] horarioInformado = horarioDoExame.split(":");
+            Integer horaInformada = Integer.parseInt(horarioInformado[0]);
+            String minutoInformado = horarioInformado[1];
+            String horarioFinal = null;
+            String horarioMinimo = null;
+            
+            if (horaInformada < 9) {
+                horarioFinal = "0" + (horaInformada+1);
+                horarioMinimo = "0" + (horaInformada-1);
+            } else {
+                horarioFinal = (horaInformada+1) + "";
+                horarioMinimo = (horaInformada-1) + "";
+            }
+            
+            String horarioLimite = horarioFinal + ":" + minutoInformado;
+
+            stmt.setString(1, horarioMinimo);
+            stmt.setString(2, horarioLimite);
+            stmt.setString(3, dataDoExame.toString());
+            stmt.setLong(4, objeto.getMedico().getIdMedico());
+            stmt.setString(5, horarioMinimo);
+            stmt.setString(6, horarioLimite);
+            stmt.setString(7, dataDoExame.toString());
+            stmt.setString(8, objeto.getPaciente().getCpf());
+
             ResultSet res = stmt.executeQuery();
 
             if (res.next()) {
@@ -188,6 +213,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
             stmt.close();
 
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return true;
     }

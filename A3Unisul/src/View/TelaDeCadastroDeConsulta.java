@@ -265,23 +265,26 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
             if (cpfDoPaciente.isEmpty() || idMedico == null || descricao.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
-            } else if (validarDataDeConsulta(dataDaConsulta)
-                    || !validarHorario(horarioDoExame, MEDICO_CONTROL.obterOHorarioDeAtendimentoDeUmMedico(idMedico))) {
-                JOptionPane.showMessageDialog(null, "Alguns dados estão inválidos, por favor, verifique os campos.");
+            } else if (validarDataDeConsulta(dataDaConsulta)) {
+                JOptionPane.showMessageDialog(null, "A data está inválida.","Erro", JOptionPane.ERROR);
+            } else if (!validarHorario(horarioDoExame, MEDICO_CONTROL.obterOHorarioDeAtendimentoDeUmMedico(idMedico))) {
+                JOptionPane.showMessageDialog(null, "O Horario está inválido.","Erro", JOptionPane.ERROR);
             } else {
 
                 if (CONSULTA_CONTROL.cadastrar(PACIENTE_CONTROL.buscarPacientePorCPF(cpfDoPaciente),
                         MEDICO_CONTROL.obterMedicoEspecificadoPeloId(idMedico),
                         dataDaConsulta, horarioDoExame, descricao)) {
-                    JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!");
+                    JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!","Erro", JOptionPane.ERROR);
                     this.limparDados();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Esse horario já está reservado.","Erro", JOptionPane.ERROR);
                 }
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro!");
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro!","Erro", JOptionPane.ERROR);
         }
     }//GEN-LAST:event_cadastrarActionPerformed
     private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
