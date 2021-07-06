@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
+import static Util.MensagensDestinadasAoUsuario.*;
 
 public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
 
@@ -242,7 +243,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Não foi possível concluir o cadastro.", "Erro", JOptionPane.ERROR);
+        JOptionPane.showMessageDialog(null, "Não foi possível concluir o cadastro.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_cadastrarActionPerformed

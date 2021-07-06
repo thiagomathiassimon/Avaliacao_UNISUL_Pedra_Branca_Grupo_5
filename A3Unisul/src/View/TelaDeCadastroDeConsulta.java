@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
+import static Util.MensagensDestinadasAoUsuario.*;
 
 public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
@@ -264,27 +265,33 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
             String descricao = this.inputDescricao.getText();
 
             if (cpfDoPaciente.isEmpty() || idMedico == null || descricao.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
+                mensagemErro("Todos os campos são obrigatórios!\\nPor obséquio, preencha-os.", "Erro: Dados inválidos");
+                //JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
             } else if (validarDataDeConsulta(dataDaConsulta)) {
-                JOptionPane.showMessageDialog(null, "A data está inválida.","Erro", JOptionPane.ERROR);
+                mensagemErro("A data de consulta está inválida.", "Erro: Dados inválidos");
+                //JOptionPane.showMessageDialog(null, "A data está inválida.","Erro", JOptionPane.ERROR_MESSAGE);
             } else if (!validarHorario(horarioDoExame, MEDICO_CONTROL.obterOHorarioDeAtendimentoDeUmMedico(idMedico))) {
-                JOptionPane.showMessageDialog(null, "O Horario está inválido.","Erro", JOptionPane.ERROR);
+                mensagemErro("O Horario está inválido.");
+                // JOptionPane.showMessageDialog(null, "O Horario está inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
             } else {
 
                 if (CONSULTA_CONTROL.cadastrar(PACIENTE_CONTROL.buscarPacientePorCPF(cpfDoPaciente),
                         MEDICO_CONTROL.obterMedicoEspecificadoPeloId(idMedico),
                         dataDaConsulta, horarioDoExame, descricao)) {
-                    JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!","Erro", JOptionPane.ERROR);
+                    mensagemSucesso("Consulta agendada com sucesso!");
+                 //   JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!", "Erro", JOptionPane.ERROR_MESSAGE);
                     this.limparDados();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Esse horario já está reservado.","Erro", JOptionPane.ERROR);
+                    mensagemAlerta("Esse horario já  está reservado");
+                  //  JOptionPane.showMessageDialog(null, "Esse horario já está reservado.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro!","Erro", JOptionPane.ERROR);
+            mensagemErro("Ocorreu um Erro ");
+            //JOptionPane.showMessageDialog(null, "Ocorreu um erro!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_cadastrarActionPerformed
     private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
