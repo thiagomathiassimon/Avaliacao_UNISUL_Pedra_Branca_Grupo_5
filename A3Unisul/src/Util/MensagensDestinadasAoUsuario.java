@@ -1,61 +1,64 @@
-
 package Util;
 
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import static javax.swing.JOptionPane.PLAIN_MESSAGE;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
+import static javax.swing.JOptionPane.DEFAULT_OPTION;
 
 public class MensagensDestinadasAoUsuario {
 
-    
-    
     public static void mensagemSucesso(String message) {
-        URL imagem = MensagensDestinadasAoUsuario.class.getResource("/Assets/Check.jpeg");
+        URL imagem = MensagensDestinadasAoUsuario.class.getResource("/Assets/Sucess.png");
         Image icone = Toolkit.getDefaultToolkit().getImage(imagem);
-        JOptionPane.showMessageDialog(null, message, "Sucesso", JOptionPane.PLAIN_MESSAGE, new ImageIcon(icone));
+        JOptionPane.showMessageDialog(null, message, "Sucesso", PLAIN_MESSAGE, new ImageIcon(icone));
     }
 
-    /*public static void mensagemSucesso(String message, String title) {
-        JOptionPane.showMessageDialog(null, message, title,);
-    }*/
+    public static void mensagemSucesso(String message, String title) {
+        URL imagem = MensagensDestinadasAoUsuario.class.getResource("/Assets/Sucess.png");
+        Image icone = Toolkit.getDefaultToolkit().getImage(imagem);
+        JOptionPane.showMessageDialog(null, message, title, PLAIN_MESSAGE, new ImageIcon(icone));
+    }
+
     public static void mensagemErro(String message) {
-        JOptionPane.showMessageDialog(null, message, "Erro", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Erro", ERROR_MESSAGE);
     }
 
     public static void mensagemErro(String message, String title) {
-        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, title, ERROR_MESSAGE);
     }
 
     public static void mensagemAlerta(String message) {
-        JOptionPane.showMessageDialog(null, message, "Alerta", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Alerta", WARNING_MESSAGE);
     }
 
     public static void mensagemAlerta(String message, String title) {
-        JOptionPane.showMessageDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, title, WARNING_MESSAGE);
     }
 
     public static void mensagemInformacao(String message) {
-        JOptionPane.showMessageDialog(null, message, "Informação", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Informação", PLAIN_MESSAGE);
     }
 
     public static void mensagemInformacao(String message, String title) {
-        JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, title, PLAIN_MESSAGE);
     }
 
     public static void mensagemConfirmacao(String message) {
 
         Object[] options = {"Sim", "Não"};
-        JOptionPane.showOptionDialog(null, message, "Solicitação de confirmação", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+        JOptionPane.showOptionDialog(null, message, "Solicitação de confirmação", DEFAULT_OPTION, WARNING_MESSAGE,
                 null, options, options[0]);
     }
 
     public static void mensagemConfirmacao(String message, String title) {
         Object[] options = {"Sim", "Não"};
-        JOptionPane.showOptionDialog(null, message, title, JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+        JOptionPane.showOptionDialog(null, message, title, DEFAULT_OPTION, WARNING_MESSAGE,
                 null, options, options[0]);
     }
 

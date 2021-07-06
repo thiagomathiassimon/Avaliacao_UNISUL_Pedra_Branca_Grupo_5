@@ -110,4 +110,8 @@ public class Endereco {
     public Endereco carregarEndereco(Long id) throws SQLException {
         return ENDERECO_DAO.carregarEndereco(id);
     }
+
+    public Long buscarMaiorIdDeEndereco() {
+        return ENDERECO_DAO.buscarMaiorIdDeEndereco();
+    }
 }

@@ -183,11 +183,10 @@ public class MedicoDAO implements CrudInterface<Medico> {
             Statement stmt = this.conexao.getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT COUNT(m.idMedico) FROM medico m WHERE m.periodoDeAtendimento=\"matutino\"");
             if (res.next()) {
-
                 int quantidade = res.getInt("COUNT(m.idMedico)");
-                System.out.println(quantidade);
+                res.close();
+                stmt.close();
                 return quantidade;
-
             }
             return 0;
         } catch (SQLException ex) {
@@ -200,11 +199,10 @@ public class MedicoDAO implements CrudInterface<Medico> {
             Statement stmt = this.conexao.getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT COUNT(m.idMedico) FROM medico m WHERE m.periodoDeAtendimento=\"vespertino\" group by(m.periodoDeAtendimento)");
             if (res.next()) {
-
                 int quantidade = res.getInt("COUNT(m.idMedico)");
-                System.out.println(quantidade);
+                res.close();
+                stmt.close();
                 return quantidade;
-
             }
             return 0;
         } catch (SQLException ex) {
@@ -213,16 +211,26 @@ public class MedicoDAO implements CrudInterface<Medico> {
     }
 
     public String obterOHorarioDeAtendimentoDeUmMedico(Long id) throws SQLException {
-        String sql = "SELECT m.periodoDeAtendimento FROM medico m WHERE m.idMedico = ?";
+        try {
 
-        PreparedStatement preparedStatement = this.conexao.getConexao().prepareStatement(sql);
+            String sql = "SELECT m.periodoDeAtendimento FROM medico m WHERE m.idMedico = ?";
 
-        preparedStatement.setLong(1, id);
+            PreparedStatement preparedStatement = this.conexao.getConexao().prepareStatement(sql);
 
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
+            preparedStatement.setLong(1, id);
 
-        return resultSet.getString("periodoDeAtendimento");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            String periodoDeAtendimento = resultSet.getString("periodoDeAtendimento");
+
+            resultSet.close();
+            preparedStatement.close();
+            
+            return periodoDeAtendimento;
+        } catch (Exception e) {
+            throw new RuntimeException("Ocorreu um erro!");
+        }
     }
 
 }

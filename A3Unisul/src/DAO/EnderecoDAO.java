@@ -152,4 +152,21 @@ public class EnderecoDAO implements CrudInterface<Endereco> {
             throw new SQLException(erro.getMessage());
         }
     }
+
+    public Long buscarMaiorIdDeEndereco() {
+        Long id = 0L;
+        try {
+            Statement stmt = this.conexao.getConexao().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT MAX(idEndereco) id FROM endereco");
+            res.next();
+            id = res.getLong("id");
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+        }
+
+        return id;
+    }
+
 }

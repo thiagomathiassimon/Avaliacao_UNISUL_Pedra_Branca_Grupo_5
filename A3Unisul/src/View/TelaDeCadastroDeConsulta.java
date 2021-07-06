@@ -265,32 +265,32 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
             String descricao = this.inputDescricao.getText();
 
             if (cpfDoPaciente.isEmpty() || idMedico == null || descricao.isEmpty()) {
-                mensagemErro("Todos os campos são obrigatórios!\\nPor obséquio, preencha-os.", "Erro: Dados inválidos");
+                mensagemErro("Todos os campos são obrigatórios!\nPor obséquio, preencha-os.", "Erro: Dados inválidos informados");
                 //JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
             } else if (validarDataDeConsulta(dataDaConsulta)) {
-                mensagemErro("A data de consulta está inválida.", "Erro: Dados inválidos");
+                mensagemErro("A data de consulta está inválida.", "Erro: Dados inválidos informados");
                 //JOptionPane.showMessageDialog(null, "A data está inválida.","Erro", JOptionPane.ERROR_MESSAGE);
             } else if (!validarHorario(horarioDoExame, MEDICO_CONTROL.obterOHorarioDeAtendimentoDeUmMedico(idMedico))) {
-                mensagemErro("O Horario está inválido.");
+                mensagemErro("O Horario está inválido.", "Erro: Dados inválidos informados");
                 // JOptionPane.showMessageDialog(null, "O Horario está inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
             } else {
 
                 if (CONSULTA_CONTROL.cadastrar(PACIENTE_CONTROL.buscarPacientePorCPF(cpfDoPaciente),
                         MEDICO_CONTROL.obterMedicoEspecificadoPeloId(idMedico),
                         dataDaConsulta, horarioDoExame, descricao)) {
-                    mensagemSucesso("Consulta agendada com sucesso!");
-                 //   JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    mensagemSucesso("Consulta agendada com sucesso!", "Sucesso!");
+                    //   JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!", "Erro", JOptionPane.ERROR_MESSAGE);
                     this.limparDados();
                 } else {
-                    mensagemAlerta("Esse horario já  está reservado");
-                  //  JOptionPane.showMessageDialog(null, "Esse horario já está reservado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    mensagemErro("Esse horário já  está reservado.");
+                    //  JOptionPane.showMessageDialog(null, "Esse horario já está reservado.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            mensagemErro("Ocorreu um Erro ");
+            mensagemErro("Ocorreu um Erro.");
             //JOptionPane.showMessageDialog(null, "Ocorreu um erro!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_cadastrarActionPerformed

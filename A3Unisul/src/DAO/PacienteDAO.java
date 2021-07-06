@@ -13,9 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.locks.StampedLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class PacienteDAO implements CrudInterface<Paciente> {
@@ -143,22 +140,6 @@ public class PacienteDAO implements CrudInterface<Paciente> {
         try {
             Statement stmt = this.conexao.getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT MAX(idPaciente) id FROM paciente");
-            res.next();
-            id = res.getLong("id");
-
-            stmt.close();
-
-        } catch (SQLException ex) {
-        }
-
-        return id;
-    }
-
-    public Long buscarMaiorIdDeEndereco() {
-        Long id = 0L;
-        try {
-            Statement stmt = this.conexao.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT MAX(idEndereco) id FROM endereco");
             res.next();
             id = res.getLong("id");
 

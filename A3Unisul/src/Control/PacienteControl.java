@@ -13,20 +13,20 @@ public class PacienteControl {
 
     public boolean cadastrar(String nome, String telefone, LocalDate dataDeNascimento, String cpf) throws SQLException {
         return PACIENTE.cadastrar(new Paciente(
-                PACIENTE.obterMaiorId() + 1, ENDERECO.carregarEndereco(PACIENTE.obterMaiorIdDeEndereco()), dataDeNascimento, nome, telefone, cpf));
+                PACIENTE.obterMaiorId() + 1, ENDERECO.carregarEndereco(ENDERECO.buscarMaiorIdDeEndereco()), dataDeNascimento, nome, telefone, cpf));
     }
 
     public ArrayList<Paciente> buscar() {
         return PACIENTE.buscar();
     }
 
-    public boolean editar(Long id, String nome, String telefone, LocalDate dataDeNascimento, String cpf)  {
+    public boolean editar(Long id, String nome, String telefone, LocalDate dataDeNascimento, String cpf) {
         try {
             return PACIENTE.editar(id, new Paciente(id, ENDERECO.carregarEndereco(id), dataDeNascimento, nome, telefone, cpf));
         } catch (SQLException ex) {
-          throw new RuntimeException("Erro na linha 40 do paciente control");
+            throw new RuntimeException("Erro na linha 40 do paciente control");
         }
-        
+
     }
 
     public boolean excluir(Long id) {

@@ -377,6 +377,7 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_inputNome3ActionPerformed
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+            try {
 
         String nome = this.inputNome.getText();
         String telefone = this.inputTelefone.getText();
@@ -399,14 +400,13 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
                 || (cep.trim().length() != NUMEROS_DE_ELEMENTOS_DO_CEP_INFORMADO)) {
             JOptionPane.showMessageDialog(null, "Os campos possuem preenchimento obrigatório!");
         } else {
-            try {
                 ENDERECO_CONTROL.cadastrar(estado, municipio, bairro, logradouro, numero, complemento, cep);
                 PACIENTE_CONTROL.cadastrar(nome, telefone, dataDeNascimento, cpf);
                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
                 this.limparDados();
+        }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Não foi efetuar o cadastro. Por favor, tente novamente!");
-            }
+            JOptionPane.showMessageDialog(null, "Não foi efetuar o cadastro. Por favor, tente novamente!");
         }
     }//GEN-LAST:event_cadastrarActionPerformed
 

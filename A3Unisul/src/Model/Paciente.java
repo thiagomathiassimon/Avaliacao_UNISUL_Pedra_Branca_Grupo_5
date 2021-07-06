@@ -5,8 +5,6 @@ import Interface.CrudInterface;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Paciente extends Pessoa implements CrudInterface<Paciente> {
 
@@ -96,10 +94,6 @@ public class Paciente extends Pessoa implements CrudInterface<Paciente> {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro na consulta no Banco de Dados!");
         }
-    }
-
-    public Long obterMaiorIdDeEndereco() {
-        return PACIENTE_DAO.buscarMaiorIdDeEndereco();
     }
 
     public Paciente carregarPaciente(Long id) {
