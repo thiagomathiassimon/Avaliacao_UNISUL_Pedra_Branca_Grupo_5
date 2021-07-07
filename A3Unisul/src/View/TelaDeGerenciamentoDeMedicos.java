@@ -2,7 +2,9 @@ package View;
 
 import Control.MedicoControl;
 import Model.Medico;
+import Util.MensagensDestinadasAoUsuario;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
@@ -11,12 +13,18 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import static Util.MensagensDestinadasAoUsuario.mensagemAlerta;
+import static Util.MensagensDestinadasAoUsuario.mensagemConfirmacao;
+import static Util.MensagensDestinadasAoUsuario.mensagemErro;
+import static Util.MensagensDestinadasAoUsuario.mensagemSucesso;
 
 public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
 
     private static final MedicoControl MEDICO_CONTROL = new MedicoControl();
     private static final Integer NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO = 2;
     private static final Integer VALOR_DE_RETORNO_QUANDO_NAO_HOUVER_LINHA_SELECIONADA_NA_JTABLE = -1;
+    private static final Integer RETORNO_DE_CONFIRMACAO_DO_USUARIO = 0;
+    private String periodoDeAtendimentoOriginal = null;
 
     public TelaDeGerenciamentoDeMedicos() {
         initComponents();
@@ -24,8 +32,9 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         getContentPane().setBackground(Color.getColor("282A36"));
         URL imagem = this.getClass().getResource("/Assets/Assets.png");
         Image icone = Toolkit.getDefaultToolkit().getImage(imagem);
-        
-        this.setIconImage(icone);   DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+
+        this.setIconImage(icone);
+        DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
 
         centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -327,6 +336,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
             this.inputEspecialidade.setText(this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 3).toString());
             this.inputCRM.setText(this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 4).toString());
             this.comboBoxPeriodoDeAtendimento.setSelectedItem(this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 5));
+            this.periodoDeAtendimentoOriginal = this.tabelaMedico.getValueAt(this.tabelaMedico.getSelectedRow(), 5).toString();
 
         }
     }//GEN-LAST:event_tabelaMedicoMouseClicked
@@ -341,33 +351,33 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
             String crm = this.inputCRM.getText();
             String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
 
-            if (((periodoDeAtendimento.equalsIgnoreCase("matutino"))
+            if (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() == 0 || nome.isEmpty() || telefone.isEmpty() || especialidade.isEmpty() || crm.isEmpty()) {
+                mensagemErro("Todos os campos são obrigatórios.");
+            } else if (this.periodoDeAtendimentoOriginal.equals(periodoDeAtendimento)) {
+                efetuarAgendamentoDaConsulta(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
+            } else if (((periodoDeAtendimento.equalsIgnoreCase("matutino"))
                     ? (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoMatutino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO)
                     : (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoVespertino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO))) {
 
-                MEDICO_CONTROL.editar(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
-
-                JOptionPane.showMessageDialog(null, "Medico atualizado com sucesso!");
-
-                this.limparDados();
-                this.carregarMedicos();
+                efetuarAgendamentoDaConsulta(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
             } else {
-                JOptionPane.showMessageDialog(null, "Número máximo de médicos neste turno atingido.", "Ocorreu um problema", JOptionPane.WARNING_MESSAGE);
+                mensagemErro("Número máximo de médicos(as) neste turno atingido.", "Ocorreu um problema");
             }
         } catch (RuntimeException e) {
 
         }
     }//GEN-LAST:event_atualizarActionPerformed
+
     private void exdcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exdcluirActionPerformed
         try {
-            int escolhaDoUsuario = JOptionPane.showConfirmDialog(null, "Deseja, realmente, excluir esse médico? \nEssa ação não poderá ser desfeita!");
-            if (escolhaDoUsuario == 0) {
+            int escolhaDoUsuario = mensagemConfirmacao("Deseja, realmente, excluir esse(a) médico(a)? \nEssa ação não poderá ser desfeita!");
+            if (escolhaDoUsuario == RETORNO_DE_CONFIRMACAO_DO_USUARIO) {
                 MEDICO_CONTROL.excluir(this.obterIdMedico());
-                JOptionPane.showMessageDialog(null, "O médico foi removido com sucesso!");
+                mensagemSucesso("O(a) médico(a) foi removido(a) com sucesso!");
                 this.carregarMedicos();
                 this.limparDados();
             } else {
-                JOptionPane.showMessageDialog(null, "O médico será mantido!");
+                mensagemAlerta("O(a) médico(a) será mantido(a)!");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -388,7 +398,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
             return Long.parseLong(this.tabelaMedico.getValueAt(selectedRow, 0).toString());
         } else {
             String mensagem = "Nenhuma linha selecionada. Selecione uma linha para alterar seus dados";
-            JOptionPane.showMessageDialog(null, mensagem);
+            mensagemAlerta(mensagem);
             throw new RuntimeException(mensagem);
         }
     }
@@ -435,6 +445,14 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
 
     }
 
+    private void efetuarAgendamentoDaConsulta(Long id, String nome, String telefone, String especialidade, String crm, String periodoDeAtendimento) throws HeadlessException {
+        MEDICO_CONTROL.editar(id, nome, telefone, especialidade, crm, periodoDeAtendimento);
+
+        mensagemSucesso("Médico(a) atualizado(a) com sucesso!");
+
+        this.limparDados();
+        this.carregarMedicos();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton atualizar;

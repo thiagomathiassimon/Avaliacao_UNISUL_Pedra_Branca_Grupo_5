@@ -31,6 +31,7 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
     @Override
     public boolean cadastrar(Consulta object) {
 
+        System.out.println(verificarDataEHoraDisponiveis(object));
         if (!verificarDataEHoraDisponiveis(object)) {
             return false;
         }
@@ -174,8 +175,8 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
         try {
 
-            String sql = "select * from consulta c where horarioDoExame between ? and ? and dataDoExame = ? and medico = ? or "
-                    + "horarioDoExame between ? and ? and dataDoExame = ? and paciente = ?";
+            String sql = "select * from consulta c where c.horarioDoExame between ? and ? and c.dataDoExame = ? and c.medico = ? "
+                    + "or c.horarioDoExame between ? and ? and c.dataDoExame = ? and c.paciente = ?";
 
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
 
@@ -187,14 +188,23 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
             
             if (horaInformada < 9) {
                 horarioFinal = "0" + (horaInformada+1);
-                horarioMinimo = "0" + (horaInformada-1);
             } else {
                 horarioFinal = (horaInformada+1) + "";
+            }
+            
+            if (horaInformada < 11) {
+                horarioMinimo = "0" + (horaInformada-1);
+            } else {
                 horarioMinimo = (horaInformada-1) + "";
             }
             
             String horarioLimite = horarioFinal + ":" + minutoInformado;
+            horarioMinimo += ":" + minutoInformado;
 
+            System.out.println(horarioMinimo);
+            System.out.println(horarioFinal);
+            System.out.println(dataDoExame.toString());
+                    
             stmt.setString(1, horarioMinimo);
             stmt.setString(2, horarioLimite);
             stmt.setString(3, dataDoExame.toString());
@@ -202,18 +212,20 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
             stmt.setString(5, horarioMinimo);
             stmt.setString(6, horarioLimite);
             stmt.setString(7, dataDoExame.toString());
-            stmt.setString(8, objeto.getPaciente().getCpf());
+            stmt.setLong(8, objeto.getPaciente().getIdPaciente());
 
             ResultSet res = stmt.executeQuery();
 
+            System.err.println(res.next());
             if (res.next()) {
                 return false;
             }
 
             stmt.close();
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
         return true;
     }

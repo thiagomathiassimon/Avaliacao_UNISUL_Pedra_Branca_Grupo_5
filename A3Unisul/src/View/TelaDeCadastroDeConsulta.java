@@ -18,7 +18,9 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
-import static Util.MensagensDestinadasAoUsuario.*;
+import static Util.MensagensDestinadasAoUsuario.mensagemAlerta;
+import static Util.MensagensDestinadasAoUsuario.mensagemErro;
+import static Util.MensagensDestinadasAoUsuario.mensagemSucesso;
 
 public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
@@ -95,7 +97,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         cancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cancelar.setForeground(new java.awt.Color(245, 245, 245));
         cancelar.setText("Voltar");
-        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarActionPerformed(evt);
@@ -106,7 +108,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         cadastrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cadastrar.setForeground(new java.awt.Color(245, 245, 245));
         cadastrar.setText("Cadastrar");
-        cadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarActionPerformed(evt);
@@ -117,7 +119,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         limparDados.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         limparDados.setForeground(new java.awt.Color(245, 245, 245));
         limparDados.setText("Limpar dados");
-        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         limparDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limparDadosActionPerformed(evt);
@@ -134,7 +136,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(56, 182, 255));
-        jLabel4.setText("Data:");
+        jLabel4.setText("Data*:");
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(245, 245, 245));
@@ -149,11 +151,11 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(56, 182, 255));
-        jLabel5.setText("Horários:");
+        jLabel5.setText(" Horário*:");
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(56, 182, 255));
-        jLabel7.setText("Descrição da consulta:");
+        jLabel7.setText("Descrição da consulta*:");
 
         inputDescricao.setColumns(1);
         inputDescricao.setRows(20);
@@ -266,24 +268,21 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
             if (cpfDoPaciente.isEmpty() || idMedico == null || descricao.isEmpty()) {
                 mensagemErro("Todos os campos são obrigatórios!\nPor obséquio, preencha-os.", "Erro: Dados inválidos informados");
-                //JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
             } else if (validarDataDeConsulta(dataDaConsulta)) {
                 mensagemErro("A data de consulta está inválida.", "Erro: Dados inválidos informados");
-                //JOptionPane.showMessageDialog(null, "A data está inválida.","Erro", JOptionPane.ERROR_MESSAGE);
             } else if (!validarHorario(horarioDoExame, MEDICO_CONTROL.obterOHorarioDeAtendimentoDeUmMedico(idMedico))) {
                 mensagemErro("O Horario está inválido.", "Erro: Dados inválidos informados");
-                // JOptionPane.showMessageDialog(null, "O Horario está inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
             } else {
 
+                System.out.println(PACIENTE_CONTROL.buscarPacientePorCPF(cpfDoPaciente));
+                System.out.println(MEDICO_CONTROL.obterMedicoEspecificadoPeloId(idMedico));
                 if (CONSULTA_CONTROL.cadastrar(PACIENTE_CONTROL.buscarPacientePorCPF(cpfDoPaciente),
                         MEDICO_CONTROL.obterMedicoEspecificadoPeloId(idMedico),
                         dataDaConsulta, horarioDoExame, descricao)) {
                     mensagemSucesso("Consulta agendada com sucesso!", "Sucesso!");
-                    //   JOptionPane.showMessageDialog(null, "Consulta agendada com sucesso!", "Erro", JOptionPane.ERROR_MESSAGE);
                     this.limparDados();
                 } else {
                     mensagemErro("Esse horário já  está reservado.");
-                    //  JOptionPane.showMessageDialog(null, "Esse horario já está reservado.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
@@ -324,11 +323,11 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
     public String[] buscarMedicos() throws SQLException {
 
         ArrayList<String[]> list = CONSULTA_CONTROL.buscarMedicos();
-        String[] converterLista = {"Não há médicos."};
+        String[] converterLista = {"Não há médicos(as)."};
         if (!list.isEmpty()) {
             converterLista = new String[list.size() + 1];
             idDosMedicosRelacionadosAoSeuIndiceNoComboBox = new ArrayList<>();
-            converterLista[0] = "Selecione o Médico";
+            converterLista[0] = "Selecione o(a) Médico(a)";
             idDosMedicosRelacionadosAoSeuIndiceNoComboBox.add(null);
             for (int i = 0; i < list.size(); i++) {
                 converterLista[i + 1] = list.get(i)[0];
@@ -337,7 +336,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
 
             if (converterLista[1] == null) {
                 converterLista = new String[1];
-                converterLista[0] = "Não há médicos.";
+                converterLista[0] = "Não há médicos(as).";
             }
 
         }

@@ -20,6 +20,12 @@ public class EnderecoControl {
                 ENDERECO.obterMaiorId() + 1, estado, municipio, bairro, logradouro, numero, complemento, cep));
     }
 
+    public boolean editar(Long idEndereco, String estado, String municipio, String bairro, String logradouro, String numero, String complemento, String cep) {
+        return ENDERECO.editar(new Endereco(
+                idEndereco, estado, municipio, bairro, logradouro, numero, complemento, cep));
+    }
+            
+    
     public JSONObject bucarEnderecoPeloCEP(String cep) {
         JSONObject endereco = null;
 

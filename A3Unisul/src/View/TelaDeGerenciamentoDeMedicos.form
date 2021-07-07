@@ -59,10 +59,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="inputEspecialidade" alignment="0" min="-2" pref="207" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="inputTelefone" alignment="0" pref="206" max="32767" attributes="0"/>
-                      <Component id="inputNome" alignment="0" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="inputTelefone" alignment="0" pref="206" max="32767" attributes="0"/>
+                  <Component id="inputNome" alignment="0" max="32767" attributes="0"/>
                   <Component id="inputCRM" max="32767" attributes="0"/>
                   <Component id="comboBoxPeriodoDeAtendimento" alignment="0" pref="208" max="32767" attributes="0"/>
               </Group>
@@ -220,7 +218,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Voltar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor em Forma de M&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -245,7 +243,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Atualizar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor em Forma de M&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -283,7 +281,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Limpar dados"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor em Forma de M&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -364,7 +362,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Excluir"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor em Forma de M&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>

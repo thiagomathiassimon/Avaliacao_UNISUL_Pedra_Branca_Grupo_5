@@ -49,16 +49,16 @@ public class MensagensDestinadasAoUsuario {
         JOptionPane.showMessageDialog(null, message, title, PLAIN_MESSAGE);
     }
 
-    public static void mensagemConfirmacao(String message) {
+    public static int mensagemConfirmacao(String message) {
 
         Object[] options = {"Sim", "Não"};
-        JOptionPane.showOptionDialog(null, message, "Solicitação de confirmação", DEFAULT_OPTION, WARNING_MESSAGE,
+        return JOptionPane.showOptionDialog(null, message, "Solicitação de confirmação", DEFAULT_OPTION, WARNING_MESSAGE,
                 null, options, options[0]);
     }
 
-    public static void mensagemConfirmacao(String message, String title) {
+    public static int mensagemConfirmacao(String message, String title) {
         Object[] options = {"Sim", "Não"};
-        JOptionPane.showOptionDialog(null, message, title, DEFAULT_OPTION, WARNING_MESSAGE,
+        return JOptionPane.showOptionDialog(null, message, title, DEFAULT_OPTION, WARNING_MESSAGE,
                 null, options, options[0]);
     }
 

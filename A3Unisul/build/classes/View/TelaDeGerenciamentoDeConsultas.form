@@ -91,9 +91,9 @@
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="150" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="inputPaciente" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -111,7 +111,7 @@
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="inputHorario" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -124,10 +124,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="atualizar" min="-2" max="-2" attributes="0"/>
                   <Component id="excluir" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="limparDados" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="cancelar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="limparDados" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="cancelar" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -213,8 +211,6 @@
               </TableColumnModel>
             </Property>
             <Property name="columnSelectionAllowed" type="boolean" value="true"/>
-            <Property name="showHorizontalLines" type="boolean" value="true"/>
-            <Property name="showVerticalLines" type="boolean" value="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -246,7 +242,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="b6" red="38" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Hor&#xe1;rio:"/>
+        <Property name="text" type="java.lang.String" value="Hor&#xe1;rio*:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="cancelar">
@@ -262,7 +258,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Voltar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor em Forma de M&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -292,7 +288,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Atualizar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor em Forma de M&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -308,7 +304,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="b6" red="38" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o da consulta:"/>
+        <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o da consulta*:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="limparDados">
@@ -324,7 +320,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Limpar dados"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor em Forma de M&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -370,7 +366,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="b6" red="38" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Paciente:"/>
+        <Property name="text" type="java.lang.String" value="Paciente*:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -381,7 +377,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="b6" red="38" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="M&#xe9;dico:"/>
+        <Property name="text" type="java.lang.String" value="M&#xe9;dico*:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -392,7 +388,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="b6" red="38" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Data:"/>
+        <Property name="text" type="java.lang.String" value="Data*:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="inputData">
@@ -413,7 +409,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Excluir"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor em Forma de M&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -428,7 +424,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="b6" red="38" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="CPF:"/>
+        <Property name="text" type="java.lang.String" value="CPF*:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="inputCPF">

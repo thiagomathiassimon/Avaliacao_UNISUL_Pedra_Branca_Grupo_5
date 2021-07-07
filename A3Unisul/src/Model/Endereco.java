@@ -114,4 +114,10 @@ public class Endereco {
     public Long buscarMaiorIdDeEndereco() {
         return ENDERECO_DAO.buscarMaiorIdDeEndereco();
     }
+    
+    public boolean editar(Endereco object) {
+        return ENDERECO_DAO.editar(object.getIdEndereco(), object);
+    }
 }
+
+

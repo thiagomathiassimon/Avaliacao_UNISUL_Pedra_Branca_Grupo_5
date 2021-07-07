@@ -16,6 +16,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import org.json.JSONObject;
+import static Util.MensagensDestinadasAoUsuario.mensagemAlerta;
+import static Util.MensagensDestinadasAoUsuario.mensagemErro;
+import static Util.MensagensDestinadasAoUsuario.mensagemSucesso;
+import static Util.Validacoes.validarNome;
 
 public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
 
@@ -101,7 +105,7 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         cancelar.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         cancelar.setForeground(new java.awt.Color(245, 245, 245));
         cancelar.setText("Voltar");
-        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarActionPerformed(evt);
@@ -112,7 +116,7 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         cadastrar.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         cadastrar.setForeground(new java.awt.Color(245, 245, 245));
         cadastrar.setText("Cadastrar");
-        cadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarActionPerformed(evt);
@@ -123,7 +127,7 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         limparDados.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         limparDados.setForeground(new java.awt.Color(245, 245, 245));
         limparDados.setText("Limpar dados");
-        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         limparDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limparDadosActionPerformed(evt);
@@ -152,8 +156,6 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(245, 245, 245));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Endereço");
-        jLabel6.setMaximumSize(new java.awt.Dimension(109, 32));
-        jLabel6.setPreferredSize(new java.awt.Dimension(109, 32));
 
         jLabel5.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(56, 182, 255));
@@ -187,7 +189,7 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(56, 182, 255));
-        jLabel12.setText("Complemento:");
+        jLabel12.setText("Complemento*:");
 
         inputComplemento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,7 +235,7 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         buscarCEP.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         buscarCEP.setForeground(new java.awt.Color(245, 245, 245));
         buscarCEP.setText("Buscar");
-        buscarCEP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarCEP.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         buscarCEP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buscarCEPActionPerformed(evt);
@@ -377,36 +379,39 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_inputNome3ActionPerformed
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
-            try {
+        try {
 
-        String nome = this.inputNome.getText();
-        String telefone = this.inputTelefone.getText();
+            String nome = this.inputNome.getText();
+            String telefone = this.inputTelefone.getText();
 
-        String[] dataInformada = this.inputDataDeNascimento.getText().split("/");
-        LocalDate dataDeNascimento = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
+            String[] dataInformada = this.inputDataDeNascimento.getText().split("/");
+            LocalDate dataDeNascimento = LocalDate.parse(dataInformada[2] + "-" + dataInformada[1] + "-" + dataInformada[0]);
 
-        String cpf = this.inputCPF.getText().substring(0, 3) + this.inputCPF.getText().substring(4, 7)
-                + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
+            String cpf = this.inputCPF.getText().substring(0, 3) + this.inputCPF.getText().substring(4, 7)
+                    + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
 
-        String estado = this.inputEstado.getText();
-        String municipio = this.inputMunicipio.getText();
-        String bairro = this.inputBairro.getText();
-        String logradouro = this.inputLogradouro.getText();
-        String numero = this.inputNumero.getText();
-        String complemento = this.inputComplemento.getText();
-        String cep = this.inputCEP.getText();
+            String estado = this.inputEstado.getText();
+            String municipio = this.inputMunicipio.getText();
+            String bairro = this.inputBairro.getText();
+            String logradouro = this.inputLogradouro.getText();
+            String numero = this.inputNumero.getText();
+            String complemento = this.inputComplemento.getText();
+            String cep = this.inputCEP.getText();
 
-        if (estado.isEmpty() || municipio.isEmpty() || bairro.isEmpty() || logradouro.isEmpty() || numero.isEmpty() || complemento.isEmpty()
-                || (cep.trim().length() != NUMEROS_DE_ELEMENTOS_DO_CEP_INFORMADO)) {
-            JOptionPane.showMessageDialog(null, "Os campos possuem preenchimento obrigatório!");
-        } else {
+            if (!validarNome(nome)) {
+                mensagemErro("Nome informado inválido.");
+            } else if (estado.isEmpty() || municipio.isEmpty() || bairro.isEmpty() || logradouro.isEmpty()
+                    || numero.isEmpty() || complemento.isEmpty()
+                    || (cep.trim().length() != NUMEROS_DE_ELEMENTOS_DO_CEP_INFORMADO)) {
+                mensagemAlerta("Os campos possuem preenchimento obrigatório!");
+            } else {
                 ENDERECO_CONTROL.cadastrar(estado, municipio, bairro, logradouro, numero, complemento, cep);
                 PACIENTE_CONTROL.cadastrar(nome, telefone, dataDeNascimento, cpf);
-                JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
+                mensagemSucesso("Cadastro efetuado com sucesso!");
                 this.limparDados();
-        }
-            } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Não foi efetuar o cadastro. Por favor, tente novamente!");
+            }
+        } catch (Exception ex) {
+            mensagemErro("Não foi efetuar o cadastro. Por favor, tente novamente!");
         }
     }//GEN-LAST:event_cadastrarActionPerformed
 
@@ -477,11 +482,11 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
                 complemento.setEditable(complemento.getText().isEmpty());
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Este CEP não existe.");
+                mensagemAlerta("Este CEP não existe.");
                 this.inputCEP.setText("");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Informe um CEP completo!");
+            mensagemAlerta("Informe um CEP completo!");
         }
     }//GEN-LAST:event_buscarCEPActionPerformed
 
@@ -538,14 +543,14 @@ public class TelaDeCadastroDePaciente extends javax.swing.JFrame {
         this.verificarPermissaoDosCampos();
     }
 
-        private void verificarPermissaoDosCampos() {
+    private void verificarPermissaoDosCampos() {
 
         this.inputEstado.setEditable(this.inputEstado.getText().trim().isEmpty());
         this.inputMunicipio.setEditable(this.inputMunicipio.getText().isEmpty());
         this.inputBairro.setEditable(this.inputBairro.getText().isEmpty());
         this.inputLogradouro.setEditable(this.inputLogradouro.getText().isEmpty());
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscarCEP;

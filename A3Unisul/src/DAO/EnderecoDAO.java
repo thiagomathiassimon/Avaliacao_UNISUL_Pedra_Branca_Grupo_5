@@ -148,8 +148,8 @@ public class EnderecoDAO implements CrudInterface<Endereco> {
             stmt.close();
             return endereco;
 
-        } catch (SQLException erro) {
-            throw new SQLException(erro.getMessage());
+        } catch (Exception erro) {
+            throw new RuntimeException(erro.getMessage());
         }
     }
 

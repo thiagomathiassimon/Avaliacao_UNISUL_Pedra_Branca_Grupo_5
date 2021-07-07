@@ -21,6 +21,10 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import static Util.MensagensDestinadasAoUsuario.mensagemAlerta;
+import static Util.MensagensDestinadasAoUsuario.mensagemConfirmacao;
+import static Util.MensagensDestinadasAoUsuario.mensagemErro;
+import static Util.MensagensDestinadasAoUsuario.mensagemSucesso;
 
 public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
 
@@ -114,8 +118,6 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                     }
                 });
                 tabelaConsulta.setColumnSelectionAllowed(true);
-                tabelaConsulta.setShowHorizontalLines(true);
-                tabelaConsulta.setShowVerticalLines(true);
                 tabelaConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
                         tabelaConsultaMouseClicked(evt);
@@ -134,13 +136,13 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
 
                 jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
                 jLabel5.setForeground(new java.awt.Color(56, 182, 255));
-                jLabel5.setText("Horário:");
+                jLabel5.setText("Horário*:");
 
                 cancelar.setBackground(new java.awt.Color(94, 23, 203));
                 cancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
                 cancelar.setForeground(new java.awt.Color(245, 245, 245));
                 cancelar.setText("Voltar");
-                cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                 cancelar.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                         cancelarActionPerformed(evt);
@@ -158,7 +160,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
             atualizar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             atualizar.setForeground(new java.awt.Color(245, 245, 245));
             atualizar.setText("Atualizar");
-            atualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            atualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             atualizar.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     atualizarMouseClicked(evt);
@@ -172,13 +174,13 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
 
             jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             jLabel7.setForeground(new java.awt.Color(56, 182, 255));
-            jLabel7.setText("Descrição da consulta:");
+            jLabel7.setText("Descrição da consulta*:");
 
             limparDados.setBackground(new java.awt.Color(94, 23, 203));
             limparDados.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             limparDados.setForeground(new java.awt.Color(245, 245, 245));
             limparDados.setText("Limpar dados");
-            limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             limparDados.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     limparDadosActionPerformed(evt);
@@ -199,21 +201,21 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
 
             jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             jLabel1.setForeground(new java.awt.Color(56, 182, 255));
-            jLabel1.setText("Paciente:");
+            jLabel1.setText("Paciente*:");
 
             jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             jLabel2.setForeground(new java.awt.Color(56, 182, 255));
-            jLabel2.setText("Médico:");
+            jLabel2.setText("Médico*:");
 
             jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             jLabel4.setForeground(new java.awt.Color(56, 182, 255));
-            jLabel4.setText("Data:");
+            jLabel4.setText("Data*:");
 
             excluir.setBackground(new java.awt.Color(94, 23, 203));
             excluir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             excluir.setForeground(new java.awt.Color(245, 245, 245));
             excluir.setText("Excluir");
-            excluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            excluir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             excluir.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     excluirActionPerformed(evt);
@@ -222,7 +224,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
 
             label97.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             label97.setForeground(new java.awt.Color(56, 182, 255));
-            label97.setText("CPF:");
+            label97.setText("CPF*:");
 
         }catch(Exception e){e.printStackTrace();}
         inputCPF.addActionListener(new java.awt.event.ActionListener() {
@@ -283,9 +285,9 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(inputPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,7 +301,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                     .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -310,9 +312,8 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(atualizar)
                     .addComponent(excluir)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(limparDados)
-                        .addComponent(cancelar)))
+                    .addComponent(limparDados)
+                    .addComponent(cancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -353,14 +354,14 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaConsultaMouseClicked
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
         try {
-            int escolhaDoUsuario = JOptionPane.showConfirmDialog(null, "Deseja, realmente, excluir esta consulta? \nEssa ação não poderá ser desfeita!");
+            int escolhaDoUsuario = mensagemConfirmacao("Deseja, realmente, excluir esta consulta? \nEssa ação não poderá ser desfeita!");
             if (escolhaDoUsuario == RETORNO_DE_CONFIRMACAO_DO_JOPTIONPANE_SHOW_CONFIRM_DIALOG) {
                 CONSULTA_CONTROL.excluir(this.obterIdConsulta());
-                JOptionPane.showMessageDialog(null, "A consulta foi removida com sucesso!");
+                mensagemSucesso("A consulta foi removida com sucesso!");
                 this.carregarConsultas();
                 this.limparDados();
             } else {
-                JOptionPane.showMessageDialog(null, "A consulta será mantida!");
+                mensagemSucesso("A consulta será mantida!");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -381,17 +382,18 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
             String descricao = this.inputDescricao.getText();
 
             if (cpf.isEmpty() || idMedico == null || descricao.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
+                mensagemAlerta("Todo os campos são obrigatórios!\nPor obséquio, preencha-os.");
             } else if (validarDataDeConsulta(data)
                     || !validarHorario(horario, MEDICO_CONTROL.obterOHorarioDeAtendimentoDeUmMedico(idMedico))) {
-                JOptionPane.showMessageDialog(null, "Alguns dados estão inválidos, por favor, verifique os campos.");
+                mensagemAlerta("Alguns dados estão inválidos, por favor, verifique os campos.");
             } else {
                 CONSULTA_CONTROL.editar(id, cpf, idMedico, data, horario, descricao);
-                JOptionPane.showMessageDialog(null, "Consulta atualizado com sucesso!");
+                mensagemSucesso("Consulta atualizada com sucesso!");
                 this.limparDados();
                 this.carregarConsultas();
             }
         } catch (RuntimeException e) {
+            mensagemErro("Alguns dados estão inválidos, por favor, verifique os campos.");
             e.printStackTrace();
         }
     }//GEN-LAST:event_atualizarActionPerformed
@@ -484,7 +486,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
             return Long.parseLong(this.tabelaConsulta.getValueAt(selectedRow, 0).toString());
         } else {
             String mensagem = "Nenhuma linha selecionada. Selecione uma linha para alterar seus dados";
-            JOptionPane.showMessageDialog(null, mensagem);
+            mensagemAlerta(mensagem);
             throw new RuntimeException(mensagem);
         }
     }

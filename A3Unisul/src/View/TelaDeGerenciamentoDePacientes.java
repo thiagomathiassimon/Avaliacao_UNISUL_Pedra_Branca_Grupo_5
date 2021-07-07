@@ -24,6 +24,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import org.json.JSONObject;
+import static Util.MensagensDestinadasAoUsuario.mensagemAlerta;
+import static Util.MensagensDestinadasAoUsuario.mensagemConfirmacao;
+import static Util.MensagensDestinadasAoUsuario.mensagemErro;
+import static Util.MensagensDestinadasAoUsuario.mensagemSucesso;
+import static Util.Validacoes.validarNome;
 
 public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
 
@@ -166,7 +171,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         excluir.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         excluir.setForeground(new java.awt.Color(245, 245, 245));
         excluir.setText("Excluir");
-        excluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        excluir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         excluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 excluirActionPerformed(evt);
@@ -177,7 +182,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         atualizar.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         atualizar.setForeground(new java.awt.Color(245, 245, 245));
         atualizar.setText("Atualizar");
-        atualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        atualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         atualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 atualizarActionPerformed(evt);
@@ -188,7 +193,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         limparDados.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         limparDados.setForeground(new java.awt.Color(245, 245, 245));
         limparDados.setText("Limpar dados");
-        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         limparDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limparDadosActionPerformed(evt);
@@ -251,7 +256,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(56, 182, 246));
-        jLabel12.setText("Complemento:");
+        jLabel12.setText("Complemento*:");
 
         inputComplemento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,7 +280,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         cancelar.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         cancelar.setForeground(new java.awt.Color(245, 245, 245));
         cancelar.setText("Voltar");
-        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarActionPerformed(evt);
@@ -290,7 +295,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
         buscarCEP.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         buscarCEP.setForeground(new java.awt.Color(245, 245, 245));
         buscarCEP.setText("Buscar");
-        buscarCEP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarCEP.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         buscarCEP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buscarCEPActionPerformed(evt);
@@ -316,7 +321,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 18, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -439,14 +444,14 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
     }//GEN-LAST:event_inputNomeActionPerformed
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
         try {
-            int escolhaDoUsuario = JOptionPane.showConfirmDialog(null, "Deseja, realmente, excluir esse paciente? \nEssa ação não poderá ser desfeita!");
+            int escolhaDoUsuario = mensagemConfirmacao("Deseja, realmente, excluir esse paciente? \nEssa ação não poderá ser desfeita!");
             if (escolhaDoUsuario == RETORNO_DE_CONFIRMACAO_DO_JOPTIONPANE_SHOW_CONFIRM_DIALOG) {
                 PACIENTE_CONTROL.excluir(this.obterIdPaciente());
-                JOptionPane.showMessageDialog(null, "O paciente foi removido com sucesso!");
+                mensagemSucesso(null, "O paciente foi removido com sucesso!");
                 this.carregarPacientes();
                 this.limparDados();
             } else {
-                JOptionPane.showMessageDialog(null, "O paciente será mantido!");
+                mensagemAlerta(null, "O paciente será mantido!");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -485,20 +490,35 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                     + this.inputCPF.getText().substring(8, 11) + this.inputCPF.getText().substring(12, 14);
 
             String cep = this.inputCEP.getText();
-            if (!validarDtNascimento(dataDeNascimento)) {
-                JOptionPane.showMessageDialog(null, "Data de Nascimento Inválida");
+            String estado = this.inputEstado.getText();
+            String municipio = this.inputMunicipio.getText();
+            String bairro = this.inputBairro.getText();
+            String logradouro = this.inputLogradouro.getText();
+            String numero = this.inputNumero.getText();
+            String complemento = this.inputComplemento.getText();
+            
+            if (!validarNome(nome)) {
+                mensagemErro("Nome informado inválido.");
+            } else if (!validarDtNascimento(dataDeNascimento)) {
+                mensagemErro("Data de nascimento inválida");
             } else if (!validarCpf(cpf)) {
-                JOptionPane.showMessageDialog(null, "CPF Inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+                mensagemErro("CPF inválido", "Erro");
+            } else if (estado.isEmpty() || municipio.isEmpty() || bairro.isEmpty() || logradouro.isEmpty() || numero.isEmpty() || 
+                    complemento.isEmpty() || cep.isEmpty()){
+                mensagemErro("Todos os campos são obrigatórios.");
             } else {
                 System.out.println(cpf);
+                System.out.println(id);
+                ENDERECO_CONTROL.editar(id, estado, municipio, bairro, logradouro, numero, complemento, cep);
                 PACIENTE_CONTROL.editar(id, nome, telefone, dataDeNascimento, cpf);
 
-                JOptionPane.showMessageDialog(null, "Paciente atualizado com sucesso!");
+                mensagemSucesso("Paciente atualizado com sucesso!");
 
                 this.limparDados();
                 this.carregarPacientes();
             }
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
+           mensagemErro("Não foi possível concluir a operação. Por favor, verifique seus dados e tente novamente.");
             e.printStackTrace();
         }
     }//GEN-LAST:event_atualizarActionPerformed
@@ -572,10 +592,11 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
                 this.verificarPermissaoDosCampos();
 
             } catch (Exception e) {
+                mensagemErro("Não foi possível concluir a operação. Por favor, tente novamente.");
                 e.printStackTrace();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Informe um CEP completo!");
+            mensagemAlerta("Informe um CEP completo!");
         }
 
     }
@@ -645,7 +666,7 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             return Long.parseLong(this.tabelaPacientes.getValueAt(selectedRow, 0).toString());
         } else {
             String mensagem = "Nenhuma linha selecionada. Selecione uma linha para alterar seus dados";
-            JOptionPane.showMessageDialog(null, mensagem);
+            mensagemAlerta(mensagem);
             throw new RuntimeException(mensagem);
         }
     }

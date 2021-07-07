@@ -1,6 +1,7 @@
 package View;
 
 import Control.MedicoControl;
+import Util.MensagensDestinadasAoUsuario;
 import Util.Validacoes;
 import java.awt.Color;
 import java.awt.Image;
@@ -9,7 +10,9 @@ import java.net.URL;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
-import static Util.MensagensDestinadasAoUsuario.*;
+import static Util.MensagensDestinadasAoUsuario.mensagemAlerta;
+import static Util.MensagensDestinadasAoUsuario.mensagemErro;
+import static Util.MensagensDestinadasAoUsuario.mensagemSucesso;
 
 public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
 
@@ -61,7 +64,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         cancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cancelar.setForeground(new java.awt.Color(245, 245, 245));
         cancelar.setText("Voltar");
-        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarActionPerformed(evt);
@@ -72,7 +75,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         cadastrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cadastrar.setForeground(new java.awt.Color(245, 245, 245));
         cadastrar.setText("Cadastrar");
-        cadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarActionPerformed(evt);
@@ -83,7 +86,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         limparDados.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         limparDados.setForeground(new java.awt.Color(245, 245, 245));
         limparDados.setText("Limpar dados");
-        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         limparDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limparDadosActionPerformed(evt);
@@ -128,7 +131,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
             }
         });
 
-        comboBoxPeriodoDeAtendimento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Horário", "Matutino", "Vespertino" }));
+        comboBoxPeriodoDeAtendimento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Turno", "Matutino", "Vespertino" }));
         comboBoxPeriodoDeAtendimento.setToolTipText("");
         comboBoxPeriodoDeAtendimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,14 +239,14 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
                     ? (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoMatutino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO)
                     : (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoVespertino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO))) {
                 MEDICO_CONTROL.cadastrar(crm, especialidade, periodoDeAtendimento, nome, telefone);
-                JOptionPane.showMessageDialog(null, "Médico cadastrado com sucesso!");
+                MensagensDestinadasAoUsuario.mensagemSucesso("Médico(a) cadastrado(a) com sucesso!");
                 this.limparDados();
             } else {
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro. \nVerifique os valores informados e tente novamente!");
+                MensagensDestinadasAoUsuario.mensagemErro("Ocorreu um erro. \nVerifique os valores informados e tente novamente!");
             }
         } catch (Exception e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Não foi possível concluir o cadastro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        MensagensDestinadasAoUsuario.mensagemErro("Não foi possível concluir o cadastro.");
         }
 
     }//GEN-LAST:event_cadastrarActionPerformed
