@@ -2,14 +2,12 @@ package View;
 
 import Control.MedicoControl;
 import Model.Medico;
-import Util.MensagensDestinadasAoUsuario;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;

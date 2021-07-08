@@ -16,9 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
-import static Util.MensagensDestinadasAoUsuario.mensagemAlerta;
 import static Util.MensagensDestinadasAoUsuario.mensagemErro;
 import static Util.MensagensDestinadasAoUsuario.mensagemSucesso;
 
@@ -290,7 +288,7 @@ public class TelaDeCadastroDeConsulta extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
             mensagemErro("Ocorreu um Erro.");
-            //JOptionPane.showMessageDialog(null, "Ocorreu um erro!", "Erro", JOptionPane.ERROR_MESSAGE);
+
         }
     }//GEN-LAST:event_cadastrarActionPerformed
     private void inputCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCPFActionPerformed
