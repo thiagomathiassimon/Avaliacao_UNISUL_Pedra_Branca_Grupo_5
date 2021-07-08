@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -88,6 +87,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
 
                 setTitle("Gerenciamento");
                 setBackground(new java.awt.Color(40, 42, 54));
+                setResizable(false);
                 addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowActivated(java.awt.event.WindowEvent evt) {
                         formWindowActivated(evt);
@@ -106,7 +106,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
 
                     },
                     new String [] {
-                        "ID", "Paciente", "CPF", "Médico", "Data", "Horários", "Descrição"
+                        "ID", "Paciente", "CPF", "Médico(a)", "Data", "Horários", "Descrição"
                     }
                 ) {
                     boolean[] canEdit = new boolean [] {
@@ -117,7 +117,6 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                         return canEdit [columnIndex];
                     }
                 });
-                tabelaConsulta.setColumnSelectionAllowed(true);
                 tabelaConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
                         tabelaConsultaMouseClicked(evt);
@@ -205,7 +204,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
 
             jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             jLabel2.setForeground(new java.awt.Color(56, 182, 255));
-            jLabel2.setText("Médico*:");
+            jLabel2.setText("Médico(a)*:");
 
             jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
             jLabel4.setForeground(new java.awt.Color(56, 182, 255));
@@ -251,13 +250,6 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(inputPaciente)
-                                    .addComponent(comboBoxSelecionarMedico, 0, 296, Short.MAX_VALUE)
-                                    .addComponent(inputCPF)
-                                    .addComponent(inputData))
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
@@ -265,7 +257,14 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
                                         .addComponent(excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(inputHorario, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(303, 303, 303))))
+                                .addGap(303, 303, 303))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(inputCPF, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(inputPaciente, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboBoxSelecionarMedico, javax.swing.GroupLayout.Alignment.LEADING, 0, 287, Short.MAX_VALUE)
+                                    .addComponent(inputData))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -386,14 +385,14 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
             } else if (validarDataDeConsulta(data)
                     || !validarHorario(horario, MEDICO_CONTROL.obterOHorarioDeAtendimentoDeUmMedico(idMedico))) {
                 mensagemAlerta("Alguns dados estão inválidos, por favor, verifique os campos.");
-            } else {
-                CONSULTA_CONTROL.editar(id, cpf, idMedico, data, horario, descricao);
+            } else if (CONSULTA_CONTROL.editar(id, cpf, idMedico, data, horario, descricao)) {
                 mensagemSucesso("Consulta atualizada com sucesso!");
                 this.limparDados();
                 this.carregarConsultas();
+            } else {
+                mensagemErro("Alguns dados estão inválidos, por favor, verifique os campos.");
             }
         } catch (RuntimeException e) {
-            mensagemErro("Alguns dados estão inválidos, por favor, verifique os campos.");
             e.printStackTrace();
         }
     }//GEN-LAST:event_atualizarActionPerformed
@@ -453,7 +452,7 @@ public class TelaDeGerenciamentoDeConsultas extends javax.swing.JFrame {
         if (!list.isEmpty()) {
             converterLista = new String[list.size() + 1];
             idDosMedicosRelacionadosAoSeuIndiceNoComboBox = new ArrayList<>();
-            converterLista[0] = "Selecione o Médico";
+            converterLista[0] = "Selecione o(a) Médico(a)";
             idDosMedicosRelacionadosAoSeuIndiceNoComboBox.add(null);
             for (int i = 0; i < list.size(); i++) {
                 converterLista[i + 1] = list.get(i)[0];

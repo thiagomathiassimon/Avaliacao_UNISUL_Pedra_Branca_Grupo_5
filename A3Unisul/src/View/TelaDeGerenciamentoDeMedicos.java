@@ -145,7 +145,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         cancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cancelar.setForeground(new java.awt.Color(245, 245, 245));
         cancelar.setText("Voltar");
-        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarActionPerformed(evt);
@@ -162,7 +162,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         atualizar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         atualizar.setForeground(new java.awt.Color(245, 245, 245));
         atualizar.setText("Atualizar");
-        atualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        atualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         atualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 atualizarActionPerformed(evt);
@@ -181,7 +181,7 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         limparDados.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         limparDados.setForeground(new java.awt.Color(245, 245, 245));
         limparDados.setText("Limpar dados");
-        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        limparDados.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         limparDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limparDadosActionPerformed(evt);
@@ -213,13 +213,13 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(245, 245, 245));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Gerenciamento de Médicos");
+        jLabel6.setText("Gerenciamento de Médicos(as)");
 
         exdcluir.setBackground(new java.awt.Color(94, 23, 203));
         exdcluir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         exdcluir.setForeground(new java.awt.Color(245, 245, 245));
         exdcluir.setText("Excluir");
-        exdcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        exdcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         exdcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exdcluirActionPerformed(evt);
@@ -256,9 +256,8 @@ public class TelaDeGerenciamentoDeMedicos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(inputEspecialidade, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(inputTelefone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                        .addComponent(inputNome, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(inputTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                    .addComponent(inputNome)
                     .addComponent(inputCRM)
                     .addComponent(comboBoxPeriodoDeAtendimento, 0, 208, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

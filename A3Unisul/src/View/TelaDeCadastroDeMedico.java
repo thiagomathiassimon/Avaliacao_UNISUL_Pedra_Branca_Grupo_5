@@ -8,11 +8,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 import static Util.MensagensDestinadasAoUsuario.mensagemAlerta;
-import static Util.MensagensDestinadasAoUsuario.mensagemErro;
-import static Util.MensagensDestinadasAoUsuario.mensagemSucesso;
 
 public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
 
@@ -142,7 +139,7 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(245, 245, 245));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText(" Cadastramento de Médico");
+        jLabel6.setText(" Cadastramento de Médico(a)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -234,7 +231,14 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
         String telefone = this.inputTelefone.getText();
         String periodoDeAtendimento = this.comboBoxPeriodoDeAtendimento.getItemAt(this.comboBoxPeriodoDeAtendimento.getSelectedIndex());
         try {
-            if ((Validacoes.validarNome(nome)) && (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() != 0)
+           if(this.comboBoxPeriodoDeAtendimento.getSelectedIndex() == 0){
+               mensagemAlerta("O turno selecionado é inválido.");
+           }
+           else if (!((periodoDeAtendimento.equalsIgnoreCase("matutino"))
+                    ? (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoMatutino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO)
+                    : (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoVespertino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO))) {
+                mensagemAlerta("Número máximo de médicos nesse turno atingido. ","Erro limite atingido");
+            } else if ((Validacoes.validarNome(nome)) && (this.comboBoxPeriodoDeAtendimento.getSelectedIndex() != 0)
                     && ((periodoDeAtendimento.equalsIgnoreCase("matutino"))
                     ? (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoMatutino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO)
                     : (MEDICO_CONTROL.buscarQuantidadeDeMedicosNoPeriodoVespertino() < NUMERO_MAXIMO_DE_MEDICOS_POR_PERIODO_DE_ATENDIMENTO))) {
@@ -245,8 +249,8 @@ public class TelaDeCadastroDeMedico extends javax.swing.JFrame {
                 MensagensDestinadasAoUsuario.mensagemErro("Ocorreu um erro. \nVerifique os valores informados e tente novamente!");
             }
         } catch (Exception e) {
-        e.printStackTrace();
-        MensagensDestinadasAoUsuario.mensagemErro("Não foi possível concluir o cadastro.");
+            e.printStackTrace();
+            MensagensDestinadasAoUsuario.mensagemErro("Não foi possível concluir o cadastro.");
         }
 
     }//GEN-LAST:event_cadastrarActionPerformed

@@ -447,11 +447,11 @@ public class TelaDeGerenciamentoDePacientes extends javax.swing.JFrame {
             int escolhaDoUsuario = mensagemConfirmacao("Deseja, realmente, excluir esse paciente? \nEssa ação não poderá ser desfeita!");
             if (escolhaDoUsuario == RETORNO_DE_CONFIRMACAO_DO_JOPTIONPANE_SHOW_CONFIRM_DIALOG) {
                 PACIENTE_CONTROL.excluir(this.obterIdPaciente());
-                mensagemSucesso(null, "O paciente foi removido com sucesso!");
+                mensagemSucesso("O paciente foi removido com sucesso! ");
                 this.carregarPacientes();
                 this.limparDados();
             } else {
-                mensagemAlerta(null, "O paciente será mantido!");
+                mensagemAlerta("O paciente será mantido! ");
             }
         } catch (Exception e) {
             e.printStackTrace();

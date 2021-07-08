@@ -58,7 +58,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
 
         jMenu1.setText("Paciente");
-        jMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         cadastrarPaciente.setText("Cadastrar");
         cadastrarPaciente.addActionListener(new java.awt.event.ActionListener() {
@@ -79,7 +79,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Médico");
-        jMenu2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenu2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         cadastrarMedico.setText("Cadastrar");
         cadastrarMedico.addActionListener(new java.awt.event.ActionListener() {
@@ -100,7 +100,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu4.setText("Consulta");
-        jMenu4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenu4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         cadastrarAgendamento.setText("Cadastrar");
         cadastrarAgendamento.addActionListener(new java.awt.event.ActionListener() {
@@ -126,7 +126,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jMenuBar1.add(jMenu5);
 
         jMenu3.setText("Sair");
-        jMenu3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenu3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu3MouseClicked(evt);

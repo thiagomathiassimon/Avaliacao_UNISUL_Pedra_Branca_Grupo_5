@@ -1,7 +1,6 @@
 package DAO;
 
-import static DAO.MedicoDAO.buscarMedicoPorCRM;
-import DTO.ConsultaDTO;
+
 import Interface.CrudInterface;
 import Model.Consulta;
 import Model.Endereco;
@@ -15,8 +14,6 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static Util.Validacoes.validarHorario;
-import static Util.Validacoes.validarData;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,11 +27,6 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
 
     @Override
     public boolean cadastrar(Consulta object) {
-
-        System.out.println(verificarDataEHoraDisponiveis(object));
-        if (!verificarDataEHoraDisponiveis(object)) {
-            return false;
-        }
 
         String sql = "INSERT INTO consulta (idConsulta, dataDoExame, horarioDoExame, descricao, paciente, medico) VALUES (?, ?, ?, ?, ?, ?);";
 
@@ -105,35 +97,19 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
         return true;
     }
 
-    @Override
     public boolean editar(Long id, Consulta object) {
 
-        try {
-            Consulta c = carregarConsulta(id);
-            if (!c.getDataDoExame().isEqual(object.getDataDoExame()) || !c.getHorarioDeExame().equals(object.getHorarioDeExame())) {
-
-                if (!verificarDataEHoraDisponiveis(object)) {
-                    return false;
-                }
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        ConsultaDTO toDTO = toDTO(object);
-        String sql = "update consulta set medico = (select m.idMedico from medico m where crm = ?), "
-                + "paciente = (select p.idPaciente from paciente p where cpf = ?), "
-                + "dataDoExame = ?, horarioDoExame = ?, descricao = ? where idConsulta = ?";
+        String sql = "UPDATE consulta c set dataDoExame = ?, horarioDoExame = ?, descricao = ?, paciente = ?, medico = ? where c.idConsulta = ?";
 
         try {
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
 
-            stmt.setString(1, toDTO.getCrm());
-            stmt.setString(2, toDTO.getCpf());
-            stmt.setString(3, object.getDataDoExame().toString());
-            stmt.setString(4, object.getHorarioDeExame());
-            stmt.setString(5, object.getDescricao());
+            stmt.setString(1, object.getDataDoExame().toString());
+            stmt.setString(2, object.getHorarioDeExame());
+            stmt.setString(3, object.getDescricao());
+            stmt.setLong(4, object.getPaciente().getIdPaciente());
+            stmt.setLong(5, object.getMedico().getIdMedico());
+
             stmt.setLong(6, id);
 
             stmt.execute();
@@ -144,7 +120,6 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
         }
-
     }
 
     public Long buscarMaiorId() {
@@ -162,72 +137,6 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
         }
 
         return idMedico;
-    }
-
-    public boolean verificarDataEHoraDisponiveis(Consulta objeto) {
-
-        LocalDate dataDoExame = objeto.getDataDoExame();
-        String horarioDoExame = objeto.getHorarioDeExame();
-        String periodoDeAtendimento = objeto.getMedico().getPeriodoDeAtendimento();
-        if (!validarHorario(horarioDoExame, periodoDeAtendimento) || !validarData(dataDoExame)) {
-            return false;
-        }
-
-        try {
-
-            String sql = "select * from consulta c where c.horarioDoExame between ? and ? and c.dataDoExame = ? and c.medico = ? "
-                    + "or c.horarioDoExame between ? and ? and c.dataDoExame = ? and c.paciente = ?";
-
-            PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
-
-            String[] horarioInformado = horarioDoExame.split(":");
-            Integer horaInformada = Integer.parseInt(horarioInformado[0]);
-            String minutoInformado = horarioInformado[1];
-            String horarioFinal = null;
-            String horarioMinimo = null;
-            
-            if (horaInformada < 9) {
-                horarioFinal = "0" + (horaInformada+1);
-            } else {
-                horarioFinal = (horaInformada+1) + "";
-            }
-            
-            if (horaInformada < 11) {
-                horarioMinimo = "0" + (horaInformada-1);
-            } else {
-                horarioMinimo = (horaInformada-1) + "";
-            }
-            
-            String horarioLimite = horarioFinal + ":" + minutoInformado;
-            horarioMinimo += ":" + minutoInformado;
-
-            System.out.println(horarioMinimo);
-            System.out.println(horarioFinal);
-            System.out.println(dataDoExame.toString());
-                    
-            stmt.setString(1, horarioMinimo);
-            stmt.setString(2, horarioLimite);
-            stmt.setString(3, dataDoExame.toString());
-            stmt.setLong(4, objeto.getMedico().getIdMedico());
-            stmt.setString(5, horarioMinimo);
-            stmt.setString(6, horarioLimite);
-            stmt.setString(7, dataDoExame.toString());
-            stmt.setLong(8, objeto.getPaciente().getIdPaciente());
-
-            ResultSet res = stmt.executeQuery();
-
-            System.err.println(res.next());
-            if (res.next()) {
-                return false;
-            }
-
-            stmt.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-        return true;
     }
 
     public Consulta carregarConsulta(Long id) throws SQLException {
@@ -256,30 +165,6 @@ public class ConsultaDAO implements CrudInterface<Consulta> {
         }
     }
 
-    public static ConsultaDTO toDTO(Consulta consulta) {
-        return (new ConsultaDTO(
-                consulta.getIdConsulta(),
-                consulta.getPaciente().getCpf(),
-                consulta.getMedico().getCrm(),
-                consulta.getDataDoExame(),
-                consulta.getHorarioDeExame(),
-                consulta.getDescricao()
-        ));
-
-    }
-
-    public static Consulta toConsulta(ConsultaDTO consultaDTO) throws SQLException {
-        Paciente paciente = new Paciente();
-        return (new Consulta(
-                consultaDTO.getIdConsulta(),
-                paciente.buscarPacientePorCPF(consultaDTO.getCpf()),
-                buscarMedicoPorCRM(consultaDTO.getCrm()),
-                consultaDTO.getDataDoExame(),
-                consultaDTO.getHorarioDeExame(),
-                consultaDTO.getDescricao()
-        ));
-
-    }
 
     public ArrayList<String[]> buscarMedicos() throws SQLException {
 

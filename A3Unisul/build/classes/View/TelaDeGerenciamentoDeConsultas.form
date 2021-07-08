@@ -6,6 +6,7 @@
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="36" green="2a" red="28" type="rgb"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -44,15 +45,6 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="inputPaciente" max="32767" attributes="0"/>
-                                  <Component id="comboBoxSelecionarMedico" alignment="0" pref="296" max="32767" attributes="0"/>
-                                  <Component id="inputCPF" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="inputData" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
@@ -63,6 +55,15 @@
                                   <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="303" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="inputCPF" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="inputPaciente" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="comboBoxSelecionarMedico" alignment="0" pref="287" max="32767" attributes="0"/>
+                                  <Component id="inputData" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -165,7 +166,7 @@
                 <Column editable="false" title="ID" type="java.lang.Object"/>
                 <Column editable="false" title="Paciente" type="java.lang.Object"/>
                 <Column editable="false" title="CPF" type="java.lang.Object"/>
-                <Column editable="false" title="M&#xe9;dico" type="java.lang.Object"/>
+                <Column editable="false" title="M&#xe9;dico(a)" type="java.lang.Object"/>
                 <Column editable="false" title="Data" type="java.lang.Object"/>
                 <Column editable="false" title="Hor&#xe1;rios" type="java.lang.Object"/>
                 <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
@@ -210,7 +211,6 @@
                 </Column>
               </TableColumnModel>
             </Property>
-            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -377,7 +377,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="b6" red="38" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="M&#xe9;dico*:"/>
+        <Property name="text" type="java.lang.String" value="M&#xe9;dico(a)*:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">

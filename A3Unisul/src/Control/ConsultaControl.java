@@ -26,7 +26,7 @@ public class ConsultaControl {
                 new Consulta(CONSULTA.obterMaiorIdDeConsultaDisponivel() + 1, new Paciente(), new Medico(), dataDaConsulta, horarioDaConsulta, descricao)
         );
     }
-    //     public Consulta(Long idConsulta, Paciente paciente, Medico medico, LocalDate dataDoExame, String horarioDeExame, String descricao) {
+    
 
     public ArrayList<Consulta> buscar() {
         return CONSULTA.buscar();

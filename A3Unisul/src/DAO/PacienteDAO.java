@@ -80,7 +80,7 @@ public class PacienteDAO implements CrudInterface<Paciente> {
 
     @Override
     public boolean editar(Long id, Paciente object) {
-        System.out.println(object.getCpf());
+      
         if (!validarCpf(object.getCpf())) {
             throw new InvalidCPFException("CPF informado não é válido.");
         } else if (!validarDtNascimento(object.getDataDeNascimento())) {
